@@ -226,7 +226,7 @@
     <Compile Include="Repositories\CollaboratorRepository.cs" />
     <Compile Include="Repositories\FileRepository.cs" />
     <Compile Include="Repositories\FolderRepository.cs" />
-    <Compile Include="Repositories\ProjectRepository.cs" />
+    <Compile Include="Repositories\ProjectsRepository.cs" />
     <Compile Include="Repositories\UserRepository.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
@@ -326,7 +326,7 @@
     <VisualStudio>
       <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
         <WebProjectProperties>
-          <UseIIS>True</UseIIS>
+          <UseIIS>False</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>49875</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
@@ -354,4 +354,3 @@
   <Target Name="AfterBuild">
   </Target> -->
 </Project>
-
