@@ -9,11 +9,11 @@ namespace CodeKingdom.Repositories
 {
     public class CollaboratorRepository
     {
-        private ApplicationDbContext db;
+        private readonly IAppDataContext db;
 
-        public CollaboratorRepository()
+        public CollaboratorRepository(IAppDataContext context = null)
         {
-            db = new ApplicationDbContext();
+            db = context ?? new ApplicationDbContext();
         }
 
     }

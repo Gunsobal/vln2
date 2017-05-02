@@ -9,7 +9,12 @@ namespace CodeKingdom.Repositories
 {
 	public class ProjectRepository
 	{
-        private ApplicationDbContext db = new ApplicationDbContext();
+        private readonly IAppDataContext db;
+            
+        public ProjectRepository(IAppDataContext context = null)
+        {
+            db = context ?? new ApplicationDbContext();
+        }
 
         public List<Project> getAll(string userID)
         {
