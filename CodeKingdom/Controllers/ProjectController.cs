@@ -13,7 +13,7 @@ using Microsoft.AspNet.Identity;
 
 namespace CodeKingdom.Controllers
 {
-    public class ProjectsController : Controller
+    public class ProjectController : Controller
     {
 
         private ApplicationDbContext db = new ApplicationDbContext();
