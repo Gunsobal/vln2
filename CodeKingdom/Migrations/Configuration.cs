@@ -1,5 +1,6 @@
 namespace CodeKingdom.Migrations
 {
+    using Models.Entities;
     using System;
     using System.Data.Entity;
     using System.Data.Entity.Migrations;
@@ -26,6 +27,47 @@ namespace CodeKingdom.Migrations
             //      new Person { FullName = "Rowan Miller" }
             //    );
             //
+
+            Folder folder = new Folder
+            {
+                Name = "RootFolder"
+            };
+
+            context.Folders.AddOrUpdate(
+                f => f.Name,
+                folder
+            );
+
+            context.SaveChanges();
+
+            Project pro = new Project
+            {
+                Name = "Project",
+                Root = folder,
+                Frozen = false
+            };
+
+            context.Projects.AddOrUpdate(
+                p => p.Name,
+                pro
+            );
+
+            context.SaveChanges();
+
+            Collaborator borabora = new Collaborator
+            {
+                User = context.Users.First(),
+
+                Project = context.Projects.First()
+            };
+
+            context.Collaborators.AddOrUpdate(
+                c => c.ID,
+                borabora
+                );
+            
+            context.SaveChanges();
+            
         }
     }
 }

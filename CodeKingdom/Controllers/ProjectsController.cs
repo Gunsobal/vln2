@@ -8,26 +8,36 @@ using System.Web;
 using System.Web.Mvc;
 using CodeKingdom.Models;
 using CodeKingdom.Models.Entities;
+using CodeKingdom.Repositories;
+using Microsoft.AspNet.Identity;
 
 namespace CodeKingdom.Controllers
 {
     public class ProjectsController : Controller
     {
+
         private ApplicationDbContext db = new ApplicationDbContext();
+   
+        public CollaboratorRepository collaboratorRepo = new CollaboratorRepository();
+        public ProjectRepository projectRepo = new ProjectRepository();
+
 
         // GET: Projects
         public ActionResult Index()
-        {
-            return View(db.Projects.ToList());
-        }
-
-        // GET: Projects/Details/5
-        public ActionResult Details(int? id)
         {
             // TODO: Birta lista af projectum
             // Taka öll project sem notanda ID er tengt við 
             // Setja í lista og birta í töflu
 
+            var userID = User.Identity.GetUserId();
+
+            return View(projectRepo.getAll(userID));
+        }
+
+        // GET: Projects/Details/5
+        public ActionResult Details(int? id)
+        {
+           // Birtir editor á verkefnis id 
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -43,6 +53,11 @@ namespace CodeKingdom.Controllers
         // GET: Projects/Create
         public ActionResult Create()
         {
+            // birtist ný mappa í listanum
+            // bendir auto í nafni á möppuni, þar sem verkefni er nefnt
+
+            // bæta í lista af verkefnum sem þessi user á 
+
             return View();
         }
 

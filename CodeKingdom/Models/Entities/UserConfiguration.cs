@@ -8,8 +8,8 @@ namespace CodeKingdom.Models.Entities
     public class UserConfiguration
     {
         public int ID { get; set; }
-        public string keybinding { get; set; }
-        public string colorscheme { get; set; }
+        public string KeyBinding { get; set; }
+        public string ColorScheme { get; set; }
 
         virtual public ApplicationUser User { get; set; }
     }

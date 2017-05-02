@@ -7,6 +7,8 @@ namespace CodeKingdom.Models.Entities
 {
     public class Collaborator
     {
+
+
         public int ID { get; set; }
 
         virtual public ApplicationUser User { get; set; }
