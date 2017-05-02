@@ -7,11 +7,11 @@ using System.Web;
 
 namespace CodeKingdom.Repositories
 {
-	public class ProjectRepository
+	public class ProjectsRepository
 	{
         private readonly IAppDataContext db;
             
-        public ProjectRepository(IAppDataContext context = null)
+        public ProjectsRepository(IAppDataContext context = null)
         {
             db = context ?? new ApplicationDbContext();
         }
