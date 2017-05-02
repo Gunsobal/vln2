@@ -8,7 +8,7 @@ namespace CodeKingdomTests.Repositories
     [TestClass]
     public class TestProjectsRepository
     {
-        private ProjectRepository repo;
+        private ProjectsRepository _repo;
 
         [TestInitialize]
         public void Initialize()
