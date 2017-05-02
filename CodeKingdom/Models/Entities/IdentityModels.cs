@@ -3,6 +3,7 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
+using CodeKingdom.Models.Entities;
 
 namespace CodeKingdom.Models
 {
@@ -20,6 +21,14 @@ namespace CodeKingdom.Models
 
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
+        public DbSet<Chat> Chats { get; set; }
+        public DbSet<Collaborator> Collaborators { get; set; }
+        public DbSet<CollaboratorRole>  CollaboratorRoles { get; set; }
+        public DbSet<File> Files { get; set; }
+        public DbSet<Folder> Folders { get; set; }
+        public DbSet<Project> Projects { get; set; }
+        public DbSet<UserConfiguration> UserConfigurations { get; set; }
+
         public ApplicationDbContext()
             : base("DefaultConnection", throwIfV1Schema: false)
         {
