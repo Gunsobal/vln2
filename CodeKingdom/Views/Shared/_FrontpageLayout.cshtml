@@ -1,0 +1,66 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - Code Kingdom</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+</head>
+<body>
+    <div class="navbar navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                @Html.ActionLink("Code Kingdom", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    
+                </ul>
+                @Html.Partial("_LoginPartial")
+            </div>
+        </div>
+    </div>
+    <div class="container body-content">
+        <div class="jumbotron">
+            <h1 class="text-center">Welcome to Code Kingdom</h1>
+            <p class="text-center">Real-time code sharing made easy</p>
+        </div>
+        @RenderBody()
+        <div class="row">
+            <div class="col-md-4">
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum pulvinar neque ac ante ornare lobortis. Donec a magna felis. Ut eu semper lorem. Quisque fringilla lectus eget arcu varius, sed pellentesque leo condimentum. Duis eget arcu nec leo scelerisque tempor a sed libero. Aenean aliquam porta arcu, id pellentesque erat vehicula eu. Pellentesque bibendum diam sollicitudin tellus bibendum, a condimentum mauris congue. In posuere sapien eget libero vulputate molestie. Nunc porttitor maximus lorem, id pellentesque nisi. Pellentesque fringilla maximus ante id lacinia. Duis vel tincidunt velit.
+            </div>
+            <div class="col-md-4">
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum pulvinar neque ac ante ornare lobortis. Donec a magna felis. Ut eu semper lorem. Quisque fringilla lectus eget arcu varius, sed pellentesque leo condimentum. Duis eget arcu nec leo scelerisque tempor a sed libero. Aenean aliquam porta arcu, id pellentesque erat vehicula eu. Pellentesque bibendum diam sollicitudin tellus bibendum, a condimentum mauris congue. In posuere sapien eget libero vulputate molestie. Nunc porttitor maximus lorem, id pellentesque nisi. Pellentesque fringilla maximus ante id lacinia. Duis vel tincidunt velit.
+            </div>
+            <div class="col-md-4">
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum pulvinar neque ac ante ornare lobortis. Donec a magna felis. Ut eu semper lorem. Quisque fringilla lectus eget arcu varius, sed pellentesque leo condimentum. Duis eget arcu nec leo scelerisque tempor a sed libero. Aenean aliquam porta arcu, id pellentesque erat vehicula eu. Pellentesque bibendum diam sollicitudin tellus bibendum, a condimentum mauris congue. In posuere sapien eget libero vulputate molestie. Nunc porttitor maximus lorem, id pellentesque nisi. Pellentesque fringilla maximus ante id lacinia. Duis vel tincidunt velit.
+            </div>
+            <div class="col-md-6">
+                <div class="thumbnail">
+                    <img src="http://loremflickr.com/600/500" class="img-responsive" />
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="thumbnail">
+                    <img src="http://loremflickr.com/600/500" class="img-responsive" />
+                </div>
+            </div>
+        </div>
+        <hr />
+        <footer>
+            <p>&copy; @DateTime.Now.Year - Code Kingdom</p>
+        </footer>
+    </div>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+</body>
+</html>
