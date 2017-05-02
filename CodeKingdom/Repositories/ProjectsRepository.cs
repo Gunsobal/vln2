@@ -7,9 +7,14 @@ using System.Web;
 
 namespace CodeKingdom.Repositories
 {
-	public class ProjectRepository
+	public class ProjectsRepository
 	{
-        private ApplicationDbContext db = new ApplicationDbContext();
+        private readonly IAppDataContext db;
+            
+        public ProjectsRepository(IAppDataContext context = null)
+        {
+            db = context ?? new ApplicationDbContext();
+        }
 
         public List<Project> getAll(string userID)
         {
