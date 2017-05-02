@@ -19,15 +19,27 @@ namespace CodeKingdom.Models
         }
     }
 
-    public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
+    public interface IAppDataContext
     {
-        public DbSet<Chat> Chats { get; set; }
-        public DbSet<Collaborator> Collaborators { get; set; }
-        public DbSet<CollaboratorRole>  CollaboratorRoles { get; set; }
-        public DbSet<File> Files { get; set; }
-        public DbSet<Folder> Folders { get; set; }
-        public DbSet<Project> Projects { get; set; }
-        public DbSet<UserConfiguration> UserConfigurations { get; set; }
+        IDbSet<Chat> Chats { get; set; }
+        IDbSet<Collaborator> Collaborators { get; set; }
+        IDbSet<CollaboratorRole> CollaboratorRoles { get; set; }
+        IDbSet<File> Files { get; set; }
+        IDbSet<Folder> Folders { get; set; }
+        IDbSet<Project> Projects { get; set; }
+        IDbSet<UserConfiguration> UserConfigurations { get; set; }
+        int SaveChanges();
+    }
+
+    public class ApplicationDbContext : IdentityDbContext<ApplicationUser>, IAppDataContext
+    {
+        public IDbSet<Chat> Chats { get; set; }
+        public IDbSet<Collaborator> Collaborators { get; set; }
+        public IDbSet<CollaboratorRole>  CollaboratorRoles { get; set; }
+        public IDbSet<File> Files { get; set; }
+        public IDbSet<Folder> Folders { get; set; }
+        public IDbSet<Project> Projects { get; set; }
+        public IDbSet<UserConfiguration> UserConfigurations { get; set; }
 
         public ApplicationDbContext()
             : base("DefaultConnection", throwIfV1Schema: false)

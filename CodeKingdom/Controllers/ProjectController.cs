@@ -19,7 +19,7 @@ namespace CodeKingdom.Controllers
         private ApplicationDbContext db = new ApplicationDbContext();
    
         public CollaboratorRepository collaboratorRepo = new CollaboratorRepository();
-        public ProjectRepository projectRepo = new ProjectRepository();
+        public ProjectsRepository projectRepo = new ProjectsRepository();
 
 
         // GET: Projects
