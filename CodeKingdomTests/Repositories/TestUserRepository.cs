@@ -2,32 +2,36 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using CodeKingdom.Repositories;
 using CodeKingdom.Models.Entities;
+using CodeKingdom.Models;
 
 namespace CodeKingdomTests.Repositories
 {
     [TestClass]
-    public class TestProjectRepository
+    public class TestUserRepository
     {
-        private ProjectRepository repo;
+
+        private UserRepository repo;
 
         [TestInitialize]
         public void Initialize()
         {
             var mockDb = new MockDataContext();
             TestSeed.All(mockDb);
-            repo = new ProjectRepository(mockDb);
+            repo = new UserRepository(mockDb);
         }
 
         [TestMethod]
-        public void TestGetAll()
+        public void TestGetById()
         {
-            //Arrange
-            string id = "7";
-            //Act
-            var result = repo.getAll(id);
+            // Arrange
+            const string id = "5";
 
-            //Assert
-            Assert.AreEqual(5, result);
+            // Act
+            var result = repo.GetById(id);
+
+            // Assert
+            Assert.IsNotNull(result);
+
         }
     }
 }
