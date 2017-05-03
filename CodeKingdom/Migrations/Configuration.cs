@@ -1,5 +1,9 @@
+using CodeKingdom.Models;
+
 namespace CodeKingdom.Migrations
 {
+    using Microsoft.AspNet.Identity;
+    using Microsoft.AspNet.Identity.EntityFramework;
     using Models.Entities;
     using System;
     using System.Data.Entity;
@@ -13,7 +17,7 @@ namespace CodeKingdom.Migrations
             AutomaticMigrationsEnabled = false;
         }
 
-        protected override void Seed(CodeKingdom.Models.ApplicationDbContext context)
+        protected override void Seed(ApplicationDbContext context)
         {
             //  This method will be called after migrating to the latest version.
 
@@ -27,6 +31,7 @@ namespace CodeKingdom.Migrations
             //      new Person { FullName = "Rowan Miller" }
             //    );
             //
+            
 
             Folder folder = new Folder
             {
@@ -67,7 +72,27 @@ namespace CodeKingdom.Migrations
                 );
             
             context.SaveChanges();
-            
+        }
+
+        private void seedUser(ApplicationDbContext context, string username, string email)
+        {
+            if (!context.Roles.Any(r => r.Name == "Normal"))
+            {
+                var store = new RoleStore<IdentityRole>(context);
+                var manager = new RoleManager<IdentityRole>(store);
+                var role = new IdentityRole { Name = "Normal" };
+
+                manager.Create(role);
+            }
+            if (!context.Users.Any(u => u.UserName == username))
+            {
+                var store = new UserStore<ApplicationUser>(context);
+                var manager = new UserManager<ApplicationUser>(store);
+                var user = new ApplicationUser { UserName = username, Email = email };
+
+                manager.Create(user, "P@ssword123");
+                manager.AddToRole(user.Id, "Normal");
+            }
         }
     }
 }

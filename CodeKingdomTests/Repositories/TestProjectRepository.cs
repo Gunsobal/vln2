@@ -17,8 +17,15 @@ namespace CodeKingdomTests.Repositories
         }
 
         [TestMethod]
-        public void TestMethod1()
+        public void TestGetAll()
         {
+            //Arrange
+            string id = "7";
+            //Act
+            var res = repo.getAll(id);
+
+            //Assert
+            Assert.AreEqual(5, res);
         }
     }
 }
