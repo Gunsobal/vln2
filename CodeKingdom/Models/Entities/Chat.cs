@@ -12,6 +12,6 @@ namespace CodeKingdom.Models.Entities
 
         virtual public ApplicationUser User { get; set; }
         virtual public Project Project { get; set; }
-        virtual public DateTime DateTime { get; set; }
+        public DateTime DateTime { get; set; }
     }
 }

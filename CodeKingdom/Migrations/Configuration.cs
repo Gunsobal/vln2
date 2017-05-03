@@ -72,6 +72,8 @@ namespace CodeKingdom.Migrations
             seedCollaborators(context, 1, "Gunso2@mail.com", 1);
             seedCollaborators(context, 2, "Gunso@mail.com", 2);
             seedCollaborators(context, 3, "Gunso2@mail.com", 2);
+            seedChats(context, "Hi", 1, "unnsteinng@gmail.com");
+            seedChats(context, "Hi 2", 1, "Gunso@mail.com");
         }
 
         private void seedUser(ApplicationDbContext context, string email)
@@ -157,6 +159,24 @@ namespace CodeKingdom.Migrations
                 }
             }
             context.SaveChanges();
+        }
+
+        private void seedChats(ApplicationDbContext context, string message, int project_id, string username)
+        {
+            var store = new UserStore<ApplicationUser>(context);
+            var manager = new UserManager<ApplicationUser>(store);
+            var user = manager.FindByName(username);
+            var project = context.Projects.Find(project_id);
+
+            if (user != null && project != null)
+            {
+                IEnumerable<Chat> chats = context.Chats.Where(c => c.User.UserName == username && c.Project.ID == project_id);
+                if (chats.Count() == 0)
+                {
+                    context.Chats.Add(new Chat { Message = message, Project = project, User = user, DateTime = DateTime.Now });
+                }
+                context.SaveChanges();
+            }
         }
     }
 }

@@ -211,6 +211,10 @@
     <Compile Include="Migrations\201705021112305_EntityClasses.Designer.cs">
       <DependentUpon>201705021112305_EntityClasses.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201705031306133_fixed_virtual_on_datetime.cs" />
+    <Compile Include="Migrations\201705031306133_fixed_virtual_on_datetime.Designer.cs">
+      <DependentUpon>201705031306133_fixed_virtual_on_datetime.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Entities\Chat.cs" />
     <Compile Include="Models\Entities\Collaborator.cs" />
@@ -318,6 +322,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201705021112305_EntityClasses.resx">
       <DependentUpon>201705021112305_EntityClasses.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201705031306133_fixed_virtual_on_datetime.resx">
+      <DependentUpon>201705031306133_fixed_virtual_on_datetime.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
