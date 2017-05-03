@@ -33,21 +33,47 @@ namespace CodeKingdom.Migrations
             //
 
 
-            seedUser(context, "Gunso", "Gunso@mail.com");
-            seedUser(context, "Gunso1", "Gunso1@mail.com");
-            seedUser(context, "Gunso2", "Gunso2@mail.com");
-            seedUser(context, "Gunso3", "Gunso3@mail.com");
+            seedUser(context, "Gunso@mail.com");
+            seedUser(context, "Gunso1@mail.com");
+            seedUser(context, "Gunso2@mail.com");
+            seedUser(context, "Gunso3@mail.com");
+            seedUser(context, "unnsteinng@gmail.com");
             seedCollaboratorRoles(context);
-            seedFolder(context, "controllers", 4);
-            seedFolder(context, "models", 4);
-            seedFolder(context, "views", 4);
-            seedFolder(context, "images", 5);
-            seedFolder(context, "docs", 6);
-            seedFolder(context, "bin", 6);
-
+            seedFolder(context, "Root1");
+            seedFolder(context, "Root2");
+            seedFolder(context, "Root3");
+            seedFolder(context, "controllers", 1);
+            seedFolder(context, "models", 1);
+            seedFolder(context, "views", 1);
+            seedFolder(context, "images", 2);
+            seedFolder(context, "docs", 3);
+            seedFolder(context, "bin", 3);
+            seedFile(context, "index.html", 1, "unnsteinng@gmail.com");
+            seedFile(context, "script.js", 1, "unnsteinng@gmail.com");
+            seedFile(context, "style.css", 1, "unnsteinng@gmail.com");
+            seedFile(context, "bubbiController.cs", 4, "unnsteinng@gmail.com");
+            seedFile(context, "model.cs", 5, "unnsteinng@gmail.com");
+            seedFile(context, "bubbi.html", 6, "unnsteinng@gmail.com");
+            seedFile(context, "lame.html", 6, "unnsteinng@gmail.com");
+            seedFile(context, "image.png", 7, "Gunso2@mail.com");
+            seedFile(context, "image2.png", 7, "Gunso2@mail.com");
+            seedFile(context, "image3.png", 7, "Gunso2@mail.com");
+            seedFile(context, "image4.png", 7, "Gunso2@mail.com");
+            seedFile(context, "doc.txt", 8, "Gunso3@mail.com");
+            seedFile(context, "doc2.txt", 8, "Gunso3@mail.com");
+            seedFile(context, "doc3.txt", 8, "Gunso3@mail.com");
+            seedFile(context, "bin.obj", 9, "Gunso3@mail.com");
+            seedProject(context, "projectNron", 1);
+            seedProject(context, "projectNrond", 2);
+            seedProject(context, "projectNron3", 3);
+            seedCollaborators(context, 1, "unnsteinng@gmail.com", 1);
+            seedCollaborators(context, 1, "Gunso@mail.com", 2);
+            seedCollaborators(context, 1, "Gunso2@mail.com", 2);
+            seedCollaborators(context, 2, "Gunso@mail.com", 1);
+            seedCollaborators(context, 3, "Gunso@mail.com", 1);
         }
 
-        private void seedUser(ApplicationDbContext context, string username, string email)
+        private void seedUser(ApplicationDbContext context, string email)
         {
             if (!context.Roles.Any(r => r.Name == "Normal"))
             {
@@ -57,11 +83,11 @@ namespace CodeKingdom.Migrations
 
                 manager.Create(role);
             }
-            if (!context.Users.Any(u => u.UserName == username))
+            if (!context.Users.Any(u => u.UserName == email))
             {
                 var store = new UserStore<ApplicationUser>(context);
                 var manager = new UserManager<ApplicationUser>(store);
-                var user = new ApplicationUser { UserName = username, Email = email };
+                var user = new ApplicationUser { UserName = email, Email = email };
 
                 manager.Create(user, "P@ssword123");
                 manager.AddToRole(user.Id, "Normal");
@@ -69,41 +95,64 @@ namespace CodeKingdom.Migrations
         }
         private void seedCollaboratorRoles(ApplicationDbContext context)
         {
-            CollaboratorRole role1 = new CollaboratorRole { Name = "Owner" };
-            CollaboratorRole role2 = new CollaboratorRole { Name = "Reader" };
-            CollaboratorRole role3 = new CollaboratorRole { Name = "Member" };
-            context.CollaboratorRoles.AddOrUpdate(role1);
-            context.CollaboratorRoles.AddOrUpdate(role2);
-            context.CollaboratorRoles.AddOrUpdate(role3);
+            context.CollaboratorRoles.AddOrUpdate(r => r.Name,
+                new CollaboratorRole { Name = "Owner" },
+                new CollaboratorRole { Name = "Reader" },
+                new CollaboratorRole { Name = "Member" });
             context.SaveChanges();
         }
         private void seedFolder(ApplicationDbContext context, string name, int? parent_id = null)
         {
-            Folder folder = new Folder { Name = name };
-            if (parent_id.HasValue)
-            {
-                folder.Parent = context.Folders.Find(parent_id);
-            }
-            context.Folders.Add(folder);
+            context.Folders.AddOrUpdate(f => f.Name,
+                new Folder { Name = name, Parent = parent_id.HasValue ? context.Folders.Find(parent_id) : null });
             context.SaveChanges();
         }
-        private void seedFile(ApplicationDbContext context, string name, string content, int folder_id, int user_id)
+        private void seedFile(ApplicationDbContext context, string name, int folder_id, string username)
         {
             Folder folder = context.Folders.Find(folder_id);
-            ApplicationUser user = context.Users.Find(user_id);
+
+            var store = new UserStore<ApplicationUser>(context);
+            var manager = new UserManager<ApplicationUser>(store);
+            var user = manager.FindByName(username);
 
             if (folder != null && user != null)
             {
-                File file = new File
+                
+                context.Files.AddOrUpdate(file => file.Name, new File
                 {
                     Name = name,
-                    Content = content,
-                    Folder = context.Folders.Find(folder_id),
-                    Owner = context.Users.Find(user_id)
-                };
-                context.Files.Add(file);
+                    Content = "Lorem Ipsum",
+                    Type = name.Substring(name.IndexOf('.') + 1),
+                    Folder = folder,
+                    Owner = context.Users.Find(user.Id)
+                });
                 context.SaveChanges();
             }
+        }
+        private void seedProject(ApplicationDbContext context, string name, int root_id)
+        {
+            Folder folder = context.Folders.Find(root_id);
+
+            if (folder != null)
+            {
+                context.Projects.AddOrUpdate(p => p.Name,
+                    new Project { Name = name, Root = folder, Frozen = false });
+                context.SaveChanges();
+            }
+        }
+        private void seedCollaborators(ApplicationDbContext context, int project_id, string username, int role_id)
+        {
+            var store = new UserStore<ApplicationUser>(context);
+            var manager = new UserManager<ApplicationUser>(store);
+            var user = manager.FindByName(username);
+            var project = context.Projects.Find(project_id);
+            var role = context.CollaboratorRoles.Find(role_id);
+            if (user != null && project != null && role != null)
+            {
+                context.Collaborators.AddOrUpdate(c => new { c.Project.ID, c.User.Id },
+                    new Collaborator { Project = project, Role = role, User = user });
+            }
+            context.SaveChanges();
         }
     }
 }
