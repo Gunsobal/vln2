@@ -6,6 +6,7 @@ namespace CodeKingdom.Migrations
     using Microsoft.AspNet.Identity.EntityFramework;
     using Models.Entities;
     using System;
+    using System.Collections.Generic;
     using System.Data.Entity;
     using System.Data.Entity.Migrations;
     using System.Linq;
@@ -67,10 +68,10 @@ namespace CodeKingdom.Migrations
             seedProject(context, "projectNrond", 2);
             seedProject(context, "projectNron3", 3);
             seedCollaborators(context, 1, "unnsteinng@gmail.com", 1);
-            seedCollaborators(context, 1, "Gunso@mail.com", 2);
-            seedCollaborators(context, 1, "Gunso2@mail.com", 2);
-            seedCollaborators(context, 2, "Gunso@mail.com", 1);
-            seedCollaborators(context, 3, "Gunso@mail.com", 1);
+            seedCollaborators(context, 1, "Gunso@mail.com", 1);
+            seedCollaborators(context, 1, "Gunso2@mail.com", 1);
+            seedCollaborators(context, 2, "Gunso@mail.com", 2);
+            seedCollaborators(context, 3, "Gunso2@mail.com", 2);
         }
 
         private void seedUser(ApplicationDbContext context, string email)
@@ -149,8 +150,11 @@ namespace CodeKingdom.Migrations
             var role = context.CollaboratorRoles.Find(role_id);
             if (user != null && project != null && role != null)
             {
-                context.Collaborators.AddOrUpdate(c => new { c.Project.ID, c.User.Id },
-                    new Collaborator { Project = project, Role = role, User = user });
+                IEnumerable<Collaborator> collabs = context.Collaborators.Where(c => c.User.UserName == username && c.Project.ID == project_id);
+                if (collabs.Count() == 0)
+                {
+                    context.Collaborators.Add(new Collaborator { Project = project, User = user, Role = role });
+                }
             }
             context.SaveChanges();
         }
