@@ -6,7 +6,7 @@ using CodeKingdom.Models.Entities;
 namespace CodeKingdomTests.Repositories
 {
     [TestClass]
-    public class TestProjectsRepository
+    public class TestProjectRepository
     {
         private ProjectRepository repo;
 
@@ -14,6 +14,7 @@ namespace CodeKingdomTests.Repositories
         public void Initialize()
         {
             var mockDb = new MockDataContext();
+            repo = new ProjectRepository(mockDb);
         }
 
         [TestMethod]
