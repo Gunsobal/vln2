@@ -25,5 +25,20 @@ namespace CodeKingdom.Repositories
         {
             return db.Files.Where(x => x.Folder.ID == id).ToList();
         }
+
+        public bool DeleteById(int id)
+        {
+            File file = db.Files.Find(id);
+
+            if (file == null)
+            {
+                return false;
+            }
+
+            db.Files.Remove(file);
+            db.SaveChanges();
+
+            return true;
+        }
     }
 }
