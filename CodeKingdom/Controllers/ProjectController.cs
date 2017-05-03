@@ -10,6 +10,8 @@ using CodeKingdom.Models;
 using CodeKingdom.Models.Entities;
 using CodeKingdom.Repositories;
 using Microsoft.AspNet.Identity;
+using CodeKingdom.Models.ViewModels;
+using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace CodeKingdom.Controllers
 {
@@ -18,120 +20,139 @@ namespace CodeKingdom.Controllers
 
         private ApplicationDbContext db = new ApplicationDbContext();
    
-        public CollaboratorRepository collaboratorRepo = new CollaboratorRepository();
-        public ProjectRepository projectRepo = new ProjectRepository();
-
-
-        // GET: Projects
+        private ProjectRepository repository = new ProjectRepository();
+        
         public ActionResult Index()
         {
-            // TODO: Birta lista af projectum
-            // Taka öll project sem notanda ID er tengt við 
-            // Setja í lista og birta í töflu
+            string userID = User.Identity.GetUserId();
+            List<Project> projects = repository.getByUserId(userID);
+            List<ProjectViewModel> viewModels = new List<ProjectViewModel>();
 
-            var userID = User.Identity.GetUserId();
-
-            return View(projectRepo.getAll(userID));
+            foreach(var project in projects)
+            {
+                viewModels.Add(
+                    new ProjectViewModel
+                    {
+                        ID = project.ID,
+                        Name = project.Name,
+                        Collaborators = project.Collaborators
+                    }
+                );
+            }
+            
+            return View(viewModels);
         }
 
         // GET: Projects/Details/5
         public ActionResult Details(int? id)
         {
-           // Birtir editor á verkefnis id 
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Project project = db.Projects.Find(id);
+            Project project = repository.getById(id.Value);
             if (project == null)
             {
                 return HttpNotFound();
             }
-            return View(project);
+
+            ProjectViewModel viewModel = new ProjectViewModel
+            {
+                ID = project.ID,
+                Name = project.Name,
+                Collaborators = project.Collaborators
+            };
+
+            return View(viewModel);
         }
 
-        // GET: Projects/Create
         public ActionResult Create()
         {
-            // birtist ný mappa í listanum
-            // bendir auto í nafni á möppuni, þar sem verkefni er nefnt
-
-            // bæta í lista af verkefnum sem þessi user á 
-
             return View();
         }
 
-        // POST: Projects/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "ID,Name,Frozen")] Project project)
+        public ActionResult Create([Bind(Include = "Name")] ProjectViewModel project)
         {
             if (ModelState.IsValid)
             {
-                db.Projects.Add(project);
-                db.SaveChanges();
+                string userID = User.Identity.GetUserId();
+                repository.Create(project, userID);
                 return RedirectToAction("Index");
             }
 
             return View(project);
         }
 
-        // GET: Projects/Edit/5
         public ActionResult Edit(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Project project = db.Projects.Find(id);
+
+            Project project = repository.getById(id.Value);
+
             if (project == null)
             {
                 return HttpNotFound();
             }
-            return View(project);
+
+            ProjectViewModel viewModel = new ProjectViewModel
+            {
+                ID = project.ID,
+                Name = project.Name,
+                Collaborators = project.Collaborators
+            };
+
+            return View(viewModel);
         }
 
-        // POST: Projects/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "ID,Name,Frozen")] Project project)
+        public ActionResult Edit([Bind(Include = "ID,Name")] ProjectViewModel project)
         {
+            // TODO
             if (ModelState.IsValid)
             {
-                db.Entry(project).State = EntityState.Modified;
-                db.SaveChanges();
+                //db.Entry(project).State = EntityState.Modified;
+                //db.SaveChanges();
+                repository.Update(project);
                 return RedirectToAction("Index");
             }
             return View(project);
         }
 
-        // GET: Projects/Delete/5
         public ActionResult Delete(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Project project = db.Projects.Find(id);
+
+            Project project = repository.getById(id.Value);
+
             if (project == null)
             {
                 return HttpNotFound();
             }
-            return View(project);
+
+            ProjectViewModel viewModel = new ProjectViewModel
+            {
+                ID = project.ID,
+                Name = project.Name,
+                Collaborators = project.Collaborators
+            };
+
+            return View(viewModel);
         }
 
-        // POST: Projects/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Project project = db.Projects.Find(id);
-            db.Projects.Remove(project);
-            db.SaveChanges();
+            repository.DeleteById(id);
             return RedirectToAction("Index");
         }
 

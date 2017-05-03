@@ -10,6 +10,9 @@ namespace CodeKingdom.Models.Entities
 
 
         public int ID { get; set; }
+        public string ApplicationUserID { get; set; }
+        public int ProjectID { get; set; }
+        public int CollaboratorRoleID { get; set; }
 
         virtual public ApplicationUser User { get; set; }
         virtual public Project Project{ get; set; }

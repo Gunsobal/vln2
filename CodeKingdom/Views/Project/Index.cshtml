@@ -1,4 +1,4 @@
-﻿@model IEnumerable<CodeKingdom.Models.Entities.Project>
+﻿@model IEnumerable<CodeKingdom.Models.ViewModels.ProjectViewModel>
 
 @{
     ViewBag.Title = "Index";
@@ -15,9 +15,6 @@
         <th>
             @Html.DisplayNameFor(model => model.Name)
         </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Frozen)
-        </th>
         <th></th>
     </tr>
 
@@ -25,9 +22,6 @@
     <tr>
         <td>
             @Html.DisplayFor(modelItem => item.Name)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Frozen)
         </td>
         <td>
             @Html.ActionLink("Edit", "Edit", new { id=item.ID }) |

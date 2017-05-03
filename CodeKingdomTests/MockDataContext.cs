@@ -19,6 +19,7 @@ namespace CodeKingdomTests
             this.Folders = new InMemoryDbSet<Folder>();
             this.Projects = new InMemoryDbSet<Project>();
             this.UserConfigurations = new InMemoryDbSet<UserConfiguration>();
+            this.Users = new InMemoryDbSet<ApplicationUser>();
         }
 
         public IDbSet<Chat> Chats { get; set; }
@@ -28,6 +29,7 @@ namespace CodeKingdomTests
         public IDbSet<Folder> Folders { get; set; }
         public IDbSet<Project> Projects { get; set; }
         public IDbSet<UserConfiguration> UserConfigurations { get; set; }
+        public IDbSet<ApplicationUser> Users { get; set; }
 
         public int SaveChanges()
         {

@@ -1,4 +1,4 @@
-﻿@model CodeKingdom.Models.Entities.Project
+﻿@model CodeKingdom.Models.ViewModels.ProjectViewModel
 
 @{
     ViewBag.Title = "Delete";
@@ -21,13 +21,14 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Frozen)
+            @Html.DisplayNameFor(model => model.Collaborators)
         </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Frozen)
-        </dd>
-
+        @foreach (var collaborator in Model.Collaborators)
+        {
+            <dd>
+                @Html.DisplayFor(name => collaborator.User.UserName)
+            </dd>
+        }
     </dl>
 
     @using (Html.BeginForm()) {

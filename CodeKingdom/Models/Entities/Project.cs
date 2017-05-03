@@ -9,8 +9,9 @@ namespace CodeKingdom.Models.Entities
     {
         public int ID { get; set; }
         public string  Name { get; set; }
-        
         public bool Frozen { get; set; }
+        public int FolderID { get; set; }
+        
         virtual public Folder Root { get; set; }
         virtual public List<Collaborator> Collaborators { get; set; }
     }

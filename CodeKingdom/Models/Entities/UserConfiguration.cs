@@ -10,6 +10,7 @@ namespace CodeKingdom.Models.Entities
         public int ID { get; set; }
         public string KeyBinding { get; set; }
         public string ColorScheme { get; set; }
+        public string AppicationUserID { get; set; }
 
         virtual public ApplicationUser User { get; set; }
     }

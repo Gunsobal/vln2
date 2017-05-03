@@ -23,7 +23,7 @@ namespace CodeKingdomTests.Repositories
             //Arrange
             string id = "7";
             //Act
-            var res = repo.getAll(id);
+            var res = repo.getByUserId(id);
 
             //Assert
             Assert.AreEqual(5, res);

@@ -9,6 +9,7 @@ namespace CodeKingdom.Models.Entities
     {
         public int ID { get; set; }
         public string Name { get; set; }
+        public int? FolderID { get; set; }
 
         virtual public Folder Parent { get; set; }
         virtual public List<Folder> Folders { get; set; }
