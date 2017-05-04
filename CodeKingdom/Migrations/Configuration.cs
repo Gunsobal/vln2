@@ -33,7 +33,11 @@ namespace CodeKingdom.Migrations
             //    );
             //
 
-
+            //CodeKingdomTest User Seeds
+            seedUser(context, "test_user_one@test.com");
+            seedUser(context, "test_user_two@test.com");
+            
+            //CodeKingdom Seeds
             seedUser(context, "Gunso@mail.com");
             seedUser(context, "Gunso1@mail.com");
             seedUser(context, "Gunso2@mail.com");
@@ -48,7 +52,7 @@ namespace CodeKingdom.Migrations
             seedFolder(context, "views", 1);
             seedFolder(context, "images", 2);
             seedFolder(context, "docs", 3);
-            seedFolder(context, "bin", 3);/*
+            seedFolder(context, "bin", 3);
             seedFile(context, "index.html", 1, "unnsteinng@gmail.com");
             seedFile(context, "script.js", 1, "unnsteinng@gmail.com");
             seedFile(context, "style.css", 1, "unnsteinng@gmail.com");
@@ -72,9 +76,8 @@ namespace CodeKingdom.Migrations
             seedCollaborators(context, 1, "Gunso2@mail.com", 1);
             seedCollaborators(context, 2, "Gunso@mail.com", 2);
             seedCollaborators(context, 3, "Gunso2@mail.com", 2);
-            //seedChats(context, "Hi", 1, "unnsteinng@gmail.com");
-            //seedChats(context, "Hi 2", 1, "Gunso@mail.com");
-        */
+            seedChats(context, "Hi", 1, "unnsteinng@gmail.com");
+            seedChats(context, "Hi 2", 1, "Gunso@mail.com");
         }
 
         private void seedUser(ApplicationDbContext context, string email)
@@ -113,7 +116,7 @@ namespace CodeKingdom.Migrations
         }
         private void seedFile(ApplicationDbContext context, string name, int folder_id, string username)
         {
-            Folder folder = context.Folders.Find(folder_id);
+            Folder folder = context.Folders.Where(x => x.ID == folder_id).FirstOrDefault();
 
             var store = new UserStore<ApplicationUser>(context);
             var manager = new UserManager<ApplicationUser>(store);
@@ -126,8 +129,8 @@ namespace CodeKingdom.Migrations
                     Name = name,
                     Content = "Lorem Ipsum",
                     Type = name.Substring(name.IndexOf('.') + 1),
-                    Folder = folder,
-                    Owner = context.Users.Find(user.Id)
+                    FolderID = folder.ID,
+                    ApplicationUserID = user.Id
                 });
                 context.SaveChanges();
             }
@@ -139,7 +142,7 @@ namespace CodeKingdom.Migrations
             if (folder != null)
             {
                 context.Projects.AddOrUpdate(p => p.Name,
-                    new Project { Name = name, Root = folder, Frozen = false });
+                    new Project { Name = name, FolderID = folder.ID, Frozen = false });
                 context.SaveChanges();
             }
         }
@@ -160,7 +163,6 @@ namespace CodeKingdom.Migrations
             }
             context.SaveChanges();
         }
-
         private void seedChats(ApplicationDbContext context, string message, int project_id, string username)
         {
             var store = new UserStore<ApplicationUser>(context);
@@ -173,7 +175,7 @@ namespace CodeKingdom.Migrations
                 IEnumerable<Chat> chats = context.Chats.Where(c => c.User.UserName == username && c.Project.ID == project_id);
                 if (chats.Count() == 0)
                 {
-                    context.Chats.Add(new Chat { Message = message, Project = project, User = user, DateTime = DateTime.Now });
+                    context.Chats.Add(new Chat { Message = message, ProjectID = project.ID, ApplicationUserID = user.Id, DateTime = DateTime.Now });
                 }
                 context.SaveChanges();
             }

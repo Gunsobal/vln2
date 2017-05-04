@@ -13,6 +13,16 @@ namespace CodeKingdomTests
     /// </summary>
     static class TestSeed
     {
+        static public void All(MockDataContext context)
+        {
+            Folders(context);
+            Projects(context);
+            Files(context);
+            CollaboratorRoles(context);
+            Collaborators(context);
+            Chats(context);
+        }
+
         static public void CollaboratorRoles(MockDataContext context)
         {
             context.CollaboratorRoles.Add(new CollaboratorRole
@@ -175,6 +185,14 @@ namespace CodeKingdomTests
             {
                 ID = 1,
                 ProjectID = 1,
+                // TODO:    Add ApplicationUserId
+            });
+
+            context.Chats.Add(new Chat
+            {
+                ID = 1,
+                ProjectID = 1,
+                // TODO:    Add ApplicationUserId
             });
         }
 

@@ -21,6 +21,10 @@ namespace CodeKingdom.Controllers
         private ApplicationDbContext db = new ApplicationDbContext();
    
         private ProjectRepository repository = new ProjectRepository();
+
+        private FolderRepository folderRepo = new FolderRepository();
+
+        private FileRepository fileRepo = new FileRepository();
         
         public ActionResult Index()
         {
@@ -50,17 +54,29 @@ namespace CodeKingdom.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
+
             Project project = repository.getById(id.Value);
+            int folderID = project.FolderID;     
+
             if (project == null)
             {
                 return HttpNotFound();
             }
 
-            ProjectViewModel viewModel = new ProjectViewModel
+            /* ProjectViewModel viewModel = new ProjectViewModel
+             {
+                 ID = project.ID,
+                 Name = project.Name,
+                 Collaborators = project.Collaborators
+             };*/
+
+            EditorViewModel viewModel = new EditorViewModel
             {
-                ID = project.ID,
                 Name = project.Name,
-                Collaborators = project.Collaborators
+                ProjectID = project.ID,
+                Collaborators = project.Collaborators,
+                Folders = folderRepo.GetChildrenById(folderID),
+                Files = fileRepo.GetByFolderId(folderID),
             };
 
             return View(viewModel);

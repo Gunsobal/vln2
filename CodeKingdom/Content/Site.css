@@ -1,10 +1,14 @@
 ﻿body {
     padding-top: 50px;
     padding-bottom: 20px;
+    /*Dísí changes*/
 }
 
 /* Set padding to keep content from hitting the edges */
 .body-content {
+    /* Changes Dísí made*/
+    margin-left: 0px;
+
     padding-left: 15px;
     padding-right: 15px;
 }
@@ -21,4 +25,13 @@ input,
 select,
 textarea {
     max-width: 280px;
+}
+
+#editor { 
+    position: absolute;
+    top: 50px;
+    right: 0;
+    bottom: 0;
+    left: 350px;
+
 }
