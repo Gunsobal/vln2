@@ -13,6 +13,16 @@ namespace CodeKingdomTests
     /// </summary>
     static class TestSeed
     {
+        static public void All(MockDataContext context)
+        {
+            Folders(context);
+            Projects(context);
+            Files(context);
+            CollaboratorRoles(context);
+            Collaborators(context);
+            Chats(context);
+        }
+
         static public void CollaboratorRoles(MockDataContext context)
         {
             context.CollaboratorRoles.Add(new CollaboratorRole

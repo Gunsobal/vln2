@@ -19,16 +19,21 @@ namespace CodeKingdomTests.Repositories
         }
 
         [TestMethod]
-        public void TestGetById()
+        public void TestGetFolderById()
         {
             // Arrange
-            const int id = 1;
+            const int successID = 1;
+            const int failID = 30;
+            const string expectedName = "root1";
 
             // Act
-            var result = repo.GetChildrenById(id);
+            var success = repo.GetById(successID);
+            var fail = repo.GetById(failID);
 
             // Assert
-            Assert.AreEqual(2, result.Count);
+            Assert.IsNull(fail);
+            Assert.IsNotNull(success);
+            Assert.AreEqual(expectedName, success.Name);
         }
     }
 }

@@ -18,18 +18,17 @@ namespace CodeKingdomTests.Repositories
         }
 
         [TestMethod]
-        public void TestGetById()
+        public void TestGetFileById()
         {
             // Arrange
-
-            const int id = 1;
+            const int successID = 1;
+            const int failID = 90;
+            const string expectedName = "";
 
             // Act
 
-            var result = repo.GetById(id);
 
             // Assert
-            Assert.IsNotNull(id);
         }
     }
 }
