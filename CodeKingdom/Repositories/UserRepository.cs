@@ -26,5 +26,10 @@ namespace CodeKingdom.Repositories
             var user = manager.Users.Where(u => u.Id == id).FirstOrDefault();
             return user;
         }
+
+        public ApplicationUser GetByUserName(string userName)
+        {
+            return manager.Users.Where(u => u.UserName == userName).FirstOrDefault();
+        }
     }
 }

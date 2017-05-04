@@ -13,10 +13,13 @@ namespace CodeKingdom.Models.ViewModels
         public int ID { get; set; }
         [Required]
         public string UserName { get; set; }
-        [Required]
+        
         public string RoleName { get; set; }
+
         [Required]
         public int RoleID { get; set; }
+
+        public int ProjectID { get; set; }
 
         public IEnumerable<SelectListItem> Roles { get; set; }
     }

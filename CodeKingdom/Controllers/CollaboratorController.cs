@@ -42,6 +42,7 @@ namespace CodeKingdom.Controllers
                         UserName = collaborator.User.UserName,
                         RoleName = collaborator.Role.Name,
                         RoleID = collaborator.CollaboratorRoleID,
+                        ProjectID = id.Value
                     }
                 );
             }
@@ -49,39 +50,38 @@ namespace CodeKingdom.Controllers
             return View(models);
         }
 
-        // GET: Collaborators/Details/5
-        public ActionResult Details(int? id)
+        public ActionResult Create(int? id)
         {
-            if (id == null)
+            if (!id.HasValue)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Collaborator collaborator = db.Collaborators.Find(id);
-            if (collaborator == null)
+
+            CollaboratorViewModel model = new CollaboratorViewModel();
+            model.ProjectID = id.Value;
+
+            List<CollaboratorRole> roles = repository.GetAllRoles();
+            List<SelectListItem> roleList = new List<SelectListItem>();
+
+            foreach (var role in roles)
             {
-                return HttpNotFound();
+                roleList.Add(new SelectListItem() { Value = role.ID.ToString(), Text = role.Name });
             }
-            return View(collaborator);
+            model.Roles = roleList;
+
+            return View(model);
         }
 
-        // GET: Collaborators/Create
-        public ActionResult Create()
-        {
-            return View();
-        }
-
-        // POST: Collaborators/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "ID")] Collaborator collaborator)
+        public ActionResult Create([Bind(Include = "ID,UserName,RoleID,ProjectID")] CollaboratorViewModel collaborator)
         {
             if (ModelState.IsValid)
             {
-                db.Collaborators.Add(collaborator);
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                if (repository.Create(collaborator))
+                {
+                    return RedirectToAction("Index", new { id = collaborator.ProjectID });
+                }
             }
 
             return View(collaborator);
@@ -123,27 +123,30 @@ namespace CodeKingdom.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "ID")] Collaborator collaborator)
+        public ActionResult Edit([Bind(Include = "ID,UserName,RoleID,ProjectID")] CollaboratorViewModel collaborator)
         {
             if (ModelState.IsValid)
             {
-                //repository.Update(collaborator);
-                return RedirectToAction("Index");
+                repository.Update(collaborator);
+                return RedirectToAction("Index", new { id = collaborator.ProjectID });
             }
             return View(collaborator);
         }
 
         public ActionResult Delete(int? id)
         {
-            if (id == null)
+            if (!id.HasValue)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Collaborator collaborator = db.Collaborators.Find(id);
+
+            Collaborator collaborator = repository.GetById(id.Value);
+
             if (collaborator == null)
             {
                 return HttpNotFound();
             }
+
             return View(collaborator);
         }
 
@@ -151,9 +154,7 @@ namespace CodeKingdom.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Collaborator collaborator = db.Collaborators.Find(id);
-            db.Collaborators.Remove(collaborator);
-            db.SaveChanges();
+            repository.Delete(id);
             return RedirectToAction("Index");
         }
 
