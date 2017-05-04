@@ -25,12 +25,12 @@ namespace CodeKingdom.Repositories
 
         public List<Collaborator> GetByProjectId(int id)
         {
-            return db.Collaborators.Where(x => x.Project.ID == id).ToList();
+            return db.Collaborators.Where(x => x.ProjectID == id).ToList();
         }
 
         public List<Collaborator> GetByUserId(string id)
         {
-            return db.Collaborators.Where(x => x.User.Id == id).ToList();
+            return db.Collaborators.Where(x => x.ApplicationUserID == id).ToList();
         }
 
         public bool Update(CollaboratorViewModel model)

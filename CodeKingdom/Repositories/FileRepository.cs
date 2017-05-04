@@ -18,17 +18,17 @@ namespace CodeKingdom.Repositories
 
         public File GetById(int id)
         {
-            return db.Files.Find(id);
+            return db.Files.Where(x => x.ID == id).FirstOrDefault();
         }
 
         public List<File> GetByFolderId(int id)
         {
-            return db.Files.Where(x => x.Folder.ID == id).ToList();
+            return db.Files.Where(x => x.FolderID == id).ToList();
         }
 
         public bool DeleteById(int id)
         {
-            File file = db.Files.Find(id);
+            File file = GetById(id);
 
             if (file == null)
             {

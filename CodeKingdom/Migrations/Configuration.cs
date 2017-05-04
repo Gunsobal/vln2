@@ -48,7 +48,7 @@ namespace CodeKingdom.Migrations
             seedFolder(context, "views", 1);
             seedFolder(context, "images", 2);
             seedFolder(context, "docs", 3);
-            seedFolder(context, "bin", 3);
+            seedFolder(context, "bin", 3);/*
             seedFile(context, "index.html", 1, "unnsteinng@gmail.com");
             seedFile(context, "script.js", 1, "unnsteinng@gmail.com");
             seedFile(context, "style.css", 1, "unnsteinng@gmail.com");
@@ -72,8 +72,9 @@ namespace CodeKingdom.Migrations
             seedCollaborators(context, 1, "Gunso2@mail.com", 1);
             seedCollaborators(context, 2, "Gunso@mail.com", 2);
             seedCollaborators(context, 3, "Gunso2@mail.com", 2);
-            seedChats(context, "Hi", 1, "unnsteinng@gmail.com");
-            seedChats(context, "Hi 2", 1, "Gunso@mail.com");
+            //seedChats(context, "Hi", 1, "unnsteinng@gmail.com");
+            //seedChats(context, "Hi 2", 1, "Gunso@mail.com");
+        */
         }
 
         private void seedUser(ApplicationDbContext context, string email)
@@ -120,7 +121,6 @@ namespace CodeKingdom.Migrations
 
             if (folder != null && user != null)
             {
-                
                 context.Files.AddOrUpdate(file => file.Name, new File
                 {
                     Name = name,
