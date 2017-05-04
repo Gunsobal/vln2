@@ -1,38 +1,60 @@
-﻿@model CodeKingdom.Models.ViewModels.ProjectViewModel
+﻿@model CodeKingdom.Models.ViewModels.EditorViewModel
 
 @{
     ViewBag.Title = Model.Name;
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+<link rel="stylesheet" type="text/css" href="css/jPushMenu.css" />
+
+<!--load jQuery, required-->
+<script src="js/jquery-1.10.2.min.js"></script>
+<!--load jPushMenu, required-->
+<script src="~/Scripts/jPushMenu.js"></script>
+
+<!--call jPushMenu, required-->
+<script>
+jQuery(document).ready(function($) {
+	$('.toggle-menu').jPushMenu();
+});
+</script>
+
 <h2>Details</h2>
 
 <div>
     <h4>Project</h4>
     <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Name)
-        </dt>
+    <button class="toggle-menu menu-left push-body">Toggle Left Menu Push</button>
+    <nav class="cbp-spmenu cbp-spmenu-vertical cbp-spmenu-right">
 
-        <dd>
-            @Html.DisplayFor(model => model.Name)
-        </dd>
+        <ul>
+            <li>@Html.DisplayFor(model => model.Name)</li>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Collaborators)
-        </dt>
-       
-        @foreach(var collaborator in Model.Collaborators)
-        {
-            <dd>
-                @Html.DisplayFor(name => collaborator.User.UserName)
-            </dd>
+            @foreach (var folder in Model.Folders)
+            {
+                <li>@Html.DisplayFor(name => folder.Name)</li>
+
+                foreach (var file in Model.Files)
+                {
+                    <li>@Html.DisplayFor(name => file.Name)</li>
+                }
+            }
+        </ul>
+    </nav>
+    <div id="editor">
+        function foo(items) {
+        var x = "All this is syntax highlighted";
+        return x;
         }
- 
-    </dl>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.2.6/ace.js" type="text/javascript" charset="utf-8"></script>
+    <script>
+        var editor = ace.edit("editor");
+        editor.setTheme("ace/theme/monokai");
+        editor.getSession().setMode("ace/mode/javascript");
+    </script>
 </div>
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.ID }) |
+    @Html.ActionLink("Edit", "Edit", new { id = Model.ProjectID }) |
     @Html.ActionLink("Back to List", "Index")
 </p>
