@@ -33,7 +33,11 @@ namespace CodeKingdom.Migrations
             //    );
             //
 
-
+            //CodeKingdomTest User Seeds
+            seedUser(context, "test_user_one@test.com");
+            seedUser(context, "test_user_two@test.com");
+            
+            //CodeKingdom Seeds
             seedUser(context, "Gunso@mail.com");
             seedUser(context, "Gunso1@mail.com");
             seedUser(context, "Gunso2@mail.com");

@@ -175,6 +175,14 @@ namespace CodeKingdomTests
             {
                 ID = 1,
                 ProjectID = 1,
+                // TODO:    Add ApplicationUserId
+            });
+
+            context.Chats.Add(new Chat
+            {
+                ID = 1,
+                ProjectID = 1,
+                // TODO:    Add ApplicationUserId
             });
         }
 
