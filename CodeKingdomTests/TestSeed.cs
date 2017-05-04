@@ -8,11 +8,28 @@ using CodeKingdom.Models.Entities;
 
 namespace CodeKingdomTests
 {
+    /// <summary>
+    /// Test Seed class to seet the Mock Database with data
+    /// </summary>
     static class TestSeed
     {
-        static public void All(MockDataContext context)
+        static public void CollaboratorRoles(MockDataContext context)
         {
-
+            context.CollaboratorRoles.Add(new CollaboratorRole
+            {
+                ID = 1,
+                Name = "Owner"
+            });
+            context.CollaboratorRoles.Add(new CollaboratorRole
+            {
+                ID = 2,
+                Name = "Member"
+            });
+            context.CollaboratorRoles.Add(new CollaboratorRole
+            {
+                ID = 3,
+                Name = "Reader"
+            });
         }
         
         static public void Folders(MockDataContext context)
@@ -28,7 +45,7 @@ namespace CodeKingdomTests
                 ID = 2,
                 Name = "root2"
             });
-            /// Folders
+            /// Normal Folders
             context.Folders.Add(new Folder
             {
                 ID = 3,
@@ -116,7 +133,6 @@ namespace CodeKingdomTests
                 FolderID = 1,
                 Frozen = false
             });
-
             context.Projects.Add(new Project
             {
                 ID = 2,
@@ -124,7 +140,42 @@ namespace CodeKingdomTests
                 FolderID = 2,
                 Frozen = false
             });
+        }
 
+        static public void Collaborators(MockDataContext context)
+        {
+            context.Collaborators.Add(new Collaborator
+            {
+                ID = 1,
+                ProjectID = 1,
+                ApplicationUserID = "test1",
+                CollaboratorRoleID = 1
+            });
+
+            context.Collaborators.Add(new Collaborator
+            {
+                ID = 2,
+                ProjectID = 1,
+                ApplicationUserID = "test2",
+                CollaboratorRoleID = 2
+            });
+
+            context.Collaborators.Add(new Collaborator
+            {
+                ID = 3,
+                ProjectID = 1,
+                ApplicationUserID = "test3",
+                CollaboratorRoleID = 3
+            });
+        }
+
+        static public void Chats(MockDataContext context)
+        {
+            context.Chats.Add(new Chat
+            {
+                ID = 1,
+                ProjectID = 1,
+            });
         }
 
     }

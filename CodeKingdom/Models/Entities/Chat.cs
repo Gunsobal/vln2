@@ -10,7 +10,7 @@ namespace CodeKingdom.Models.Entities
         public int ID { get; set; }        
         public string Message { get; set; }
         public DateTime DateTime { get; set; }
-        public int ApplicationUserID { get; set; }
+        public string ApplicationUserID { get; set; }
         public int ProjectID { get; set; }
 
         virtual public ApplicationUser User { get; set; }

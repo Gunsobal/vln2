@@ -219,6 +219,10 @@
     <Compile Include="Migrations\201705031512372_ForeignKeys.Designer.cs">
       <DependentUpon>201705031512372_ForeignKeys.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201705041258223_ForeignKeyOnChatUser.cs" />
+    <Compile Include="Migrations\201705041258223_ForeignKeyOnChatUser.Designer.cs">
+      <DependentUpon>201705041258223_ForeignKeyOnChatUser.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Entities\Chat.cs" />
     <Compile Include="Models\Entities\Collaborator.cs" />
@@ -333,6 +337,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201705031512372_ForeignKeys.resx">
       <DependentUpon>201705031512372_ForeignKeys.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201705041258223_ForeignKeyOnChatUser.resx">
+      <DependentUpon>201705041258223_ForeignKeyOnChatUser.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

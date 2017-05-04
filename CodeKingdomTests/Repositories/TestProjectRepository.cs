@@ -14,7 +14,7 @@ namespace CodeKingdomTests.Repositories
         public void Initialize()
         {
             var mockDb = new MockDataContext();
-            TestSeed.All(mockDb);
+            TestSeed.Projects(mockDb);
             repo = new ProjectRepository(mockDb);
         }
     }
