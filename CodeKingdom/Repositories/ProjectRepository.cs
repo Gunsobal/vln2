@@ -71,7 +71,7 @@ namespace CodeKingdom.Repositories
 
         public bool DeleteById(int id)
         {
-            Project project = db.Projects.Find(id);
+            Project project = getById(id);
 
             if (project == null)
             {
@@ -86,7 +86,7 @@ namespace CodeKingdom.Repositories
 
         public bool Update(ProjectViewModel model)
         {
-            Project project = db.Projects.Find(model.ID);
+            Project project = getById(model.ID);
             
             if (project == null)
             {

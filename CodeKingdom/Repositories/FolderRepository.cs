@@ -18,12 +18,12 @@ namespace CodeKingdom.Repositories
 
         public Folder GetById(int id)
         {
-            return db.Folders.Find(id);
+            return db.Folders.Where(x => x.ID == id).FirstOrDefault();
         }
 
         public List<Folder> GetChildrenById(int id)
         {
-            return db.Folders.Where(x => x.Parent.ID == id).ToList();
+            return db.Folders.Where(x => x.FolderID == id).ToList();
         }
 
         //Create

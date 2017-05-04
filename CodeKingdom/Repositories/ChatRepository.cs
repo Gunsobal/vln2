@@ -18,7 +18,7 @@ namespace CodeKingdom.Repositories
 
         public List<Chat> GetByProjectId(int id)
         {
-            return db.Chats.Where(x => x.Project.ID == id).ToList();
+            return db.Chats.Where(x => x.ProjectID == id).ToList();
         } 
     }
 }

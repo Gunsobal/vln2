@@ -10,21 +10,15 @@ namespace CodeKingdom.Repositories
 {
     public class UserRepository
     {
-        private readonly IAppDataContext db;
+        private readonly ApplicationDbContext db;
         private UserManager<ApplicationUser> manager;
 
-        public UserRepository(IAppDataContext context = null)
+        public UserRepository()
         {
-            if (context == null)
-            {
-                db = new ApplicationDbContext();
-                var store = new UserStore<ApplicationUser>(db as ApplicationDbContext);
-                manager = new UserManager<ApplicationUser>(store);
-            }
-            else
-            {
-                db = context;
-            }
+
+            db = new ApplicationDbContext();
+            var store = new UserStore<ApplicationUser>(db);
+            manager = new UserManager<ApplicationUser>(store);
         }
 
         public ApplicationUser GetById(string id)
