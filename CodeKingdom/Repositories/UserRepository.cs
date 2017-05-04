@@ -12,9 +12,9 @@ namespace CodeKingdom.Repositories
     {
         private readonly ApplicationDbContext db;
 
-        public UserRepository(ApplicationDbContext context = null)
+        public UserRepository()
         {
-            db = context ?? new ApplicationDbContext();
+            db = new ApplicationDbContext();
         }
 
         public ApplicationUser GetById(string id)
@@ -29,7 +29,7 @@ namespace CodeKingdom.Repositories
 
         public ApplicationUser GetByUserName(string userName)
         {
-            return manager.Users.Where(u => u.UserName == userName).FirstOrDefault();
+            return db.Users.Where(u => u.UserName == userName).FirstOrDefault();
         }
     }
 }
