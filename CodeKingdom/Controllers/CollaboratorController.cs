@@ -7,15 +7,17 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using CodeKingdom.Models;
+using Microsoft.AspNet.Identity;
 using CodeKingdom.Models.Entities;
 using CodeKingdom.Repositories;
 using CodeKingdom.Models.ViewModels;
+using CodeKingdom.Access;
 
 namespace CodeKingdom.Controllers
 {
+    [Authorize]
     public class CollaboratorController : Controller
     {
-        private ApplicationDbContext db = new ApplicationDbContext();
         private CollaboratorRepository repository = new CollaboratorRepository();
 
         public ActionResult Create(int? id)
@@ -25,8 +27,13 @@ namespace CodeKingdom.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            CollaboratorViewModel model = new CollaboratorViewModel();
+            CollaboratorViewModel model = new CollaboratorViewModel(); 
             model.ProjectID = id.Value;
+
+            if (!isOwner(model))
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.Forbidden);
+            }
 
             List<CollaboratorRole> roles = repository.GetAllRoles();
             List<SelectListItem> roleList = new List<SelectListItem>();
@@ -46,6 +53,11 @@ namespace CodeKingdom.Controllers
         {
             if (ModelState.IsValid)
             {
+                if (!isOwner(collaborator))
+                {
+                    return new HttpStatusCodeResult(HttpStatusCode.Forbidden);
+                }
+
                 if (repository.Create(collaborator))
                 {
                     return RedirectToAction("Index", "Project", new { id = collaborator.ProjectID });
@@ -62,11 +74,16 @@ namespace CodeKingdom.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            Collaborator collaborator = repository.GetById(id.Value);
 
+            Collaborator collaborator = repository.GetById(id.Value);
             if (collaborator == null)
             {
                 return HttpNotFound();
+            }
+
+            if (!isOwner(collaborator))
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.Forbidden);
             }
 
             List<CollaboratorRole> roles = repository.GetAllRoles();
@@ -94,6 +111,11 @@ namespace CodeKingdom.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "ID,UserName,RoleID,ProjectID")] CollaboratorViewModel collaborator)
         {
+            if (!isOwner(collaborator))
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.Forbidden);
+            }
+
             if (ModelState.IsValid)
             {
                 repository.Update(collaborator);
@@ -110,6 +132,10 @@ namespace CodeKingdom.Controllers
             }
 
             Collaborator collaborator = repository.GetById(id.Value);
+            if (!isOwner(collaborator))
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.Forbidden);
+            }
 
             if (collaborator == null)
             {
@@ -123,17 +149,40 @@ namespace CodeKingdom.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
+            if (!isOwner(repository.GetById(id)))
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.Forbidden);
+            }
+
             repository.Delete(id);
             return RedirectToAction("Index");
         }
 
-        protected override void Dispose(bool disposing)
+        protected bool isOwner(Collaborator collaborator)
         {
-            if (disposing)
+            string userID = User.Identity.GetUserId();
+            ProjectAccess access = new ProjectAccess(collaborator.ProjectID);
+
+            if (!access.IsOwner(userID))
             {
-                db.Dispose();
+                return false;
             }
-            base.Dispose(disposing);
+
+            return true;
         }
+
+        protected bool isOwner(CollaboratorViewModel collaborator)
+        {
+            string userID = User.Identity.GetUserId();
+            ProjectAccess access = new ProjectAccess(collaborator.ProjectID);
+
+            if (!access.IsOwner(userID))
+            {
+                return false;
+            }
+
+            return true;
+        }
+
     }
 }
