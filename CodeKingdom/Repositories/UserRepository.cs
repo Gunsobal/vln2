@@ -11,20 +11,25 @@ namespace CodeKingdom.Repositories
     public class UserRepository
     {
         private readonly ApplicationDbContext db;
-        private UserManager<ApplicationUser> manager;
 
         public UserRepository()
         {
-
             db = new ApplicationDbContext();
-            var store = new UserStore<ApplicationUser>(db);
-            manager = new UserManager<ApplicationUser>(store);
         }
 
         public ApplicationUser GetById(string id)
         {
-            var user = manager.Users.Where(u => u.Id == id).FirstOrDefault();
-            return user;
+            return db.Users.Where(u => u.Id == id).FirstOrDefault();
+        }
+
+        public ApplicationUser GetByEmail(string email)
+        {
+            return db.Users.Where(u => u.Email == email).FirstOrDefault();
+        }
+
+        public ApplicationUser GetByUserName(string userName)
+        {
+            return db.Users.Where(u => u.UserName == userName).FirstOrDefault();
         }
     }
 }

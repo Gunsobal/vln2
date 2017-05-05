@@ -170,6 +170,7 @@ namespace CodeKingdom.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
+            ViewBag.LeftButton = true;
             repository.DeleteById(id);
             return RedirectToAction("Index");
         }
