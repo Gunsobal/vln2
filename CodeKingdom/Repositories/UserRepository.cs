@@ -29,7 +29,7 @@ namespace CodeKingdom.Repositories
 
         public ApplicationUser GetByUserName(string userName)
         {
-            return manager.Users.Where(u => u.UserName == userName).FirstOrDefault();
+            return db.Users.Where(u => u.UserName == userName).FirstOrDefault();
         }
     }
 }
