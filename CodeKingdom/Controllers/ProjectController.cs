@@ -78,6 +78,8 @@ namespace CodeKingdom.Controllers
                 Files = fileRepo.GetByFolderId(folderID),
             };
 
+            ViewBag.leftMenuButton = true;
+
             return View(viewModel);
         }
 
@@ -169,7 +171,7 @@ namespace CodeKingdom.Controllers
             ProjectViewModel viewModel = new ProjectViewModel
             {
                 ID = project.ID,
-                Name = project.Name,
+                Name = project.Name
             };
 
             return View(viewModel);
