@@ -32,7 +32,6 @@ namespace CodeKingdom.Business
             List<SelectListItem> roleList = CreateRoleSelectListForViewModel(viewModel);
             viewModel.Roles = roleList;
             return viewModel;
-
         }
 
         public Collaborator GetCollaboratorById(int id)
