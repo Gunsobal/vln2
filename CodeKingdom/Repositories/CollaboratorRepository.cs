@@ -35,6 +35,14 @@ namespace CodeKingdom.Repositories
             return db.Collaborators.Where(x => x.ApplicationUserID == id).ToList();
         }
 
+        public Collaborator GetByUserIdAndProjectId(string userID, int projectID)
+        {
+
+            return db.Collaborators.Where(collaborator => 
+                collaborator.ApplicationUserID == userID && collaborator.ProjectID == projectID
+            ).FirstOrDefault();
+        }
+
         public bool IsInProject(string userID, int projectID)
         {
             return (GetByUserId(userID).Where(collaborator => collaborator.ProjectID == projectID).FirstOrDefault() != null);
