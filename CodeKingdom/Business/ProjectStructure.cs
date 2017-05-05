@@ -104,10 +104,11 @@ namespace CodeKingdom.Business
 
         public void CreateProject(ProjectViewModel viewModel)
         {
-            projectRepository.Create(viewModel, GetUserId());
+            viewModel.ApplicationUserID = GetUserId();
+            projectRepository.Create(viewModel);
         }
         
-        public ProjectViewModel CreateProjectViewModelIdNameCollaborators(Project project)
+        public ProjectViewModel CreateProjectViewModel(Project project)
         {
             List<CollaboratorViewModel> collaborators = GetListOfCollaboratorViewModels(project);
             ProjectViewModel viewModel = new ProjectViewModel
@@ -119,19 +120,9 @@ namespace CodeKingdom.Business
             return viewModel;
         }
 
-        public ProjectViewModel CreateProjectViewModelIdName(Project project)
-        {
-            List<CollaboratorViewModel> collaborators = GetListOfCollaboratorViewModels(project);
-            ProjectViewModel viewModel = new ProjectViewModel
-            {
-                ID = project.ID,
-                Name = project.Name,
-            };
-            return viewModel;
-        }
-
         public void Update(ProjectViewModel viewModel)
         {
+            viewModel.ApplicationUserID = GetUserId();
             projectRepository.Update(viewModel);
         }
 

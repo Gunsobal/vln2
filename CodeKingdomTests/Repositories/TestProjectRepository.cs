@@ -13,6 +13,7 @@ namespace CodeKingdomTests.Repositories
     {
         private ProjectRepository repo;
 
+        #region Test Initialize
         [TestInitialize]
         public void Initialize()
         {
@@ -20,7 +21,9 @@ namespace CodeKingdomTests.Repositories
             TestSeed.All(mockDb);
             repo = new ProjectRepository(mockDb);
         }
+        #endregion
 
+        #region Test project repo get methods
         [TestMethod]
         public void TestGetProjectById()
         {
@@ -45,7 +48,7 @@ namespace CodeKingdomTests.Repositories
             // Arrange
             const string successID = "test1";
             const string failID = "fail";
-            const int expectedCount = 1;
+            const int expectedCount = 3;
 
             // Act
             var success = repo.getByUserId(successID);
@@ -55,22 +58,24 @@ namespace CodeKingdomTests.Repositories
             Assert.AreEqual(0, fail.Count);
             Assert.AreEqual(expectedCount, success.Count);
         }
+        #endregion
 
+        #region Test project repo create method
         [TestMethod]
         public void TestCreateNewProject()
         {
             // Arrange
             const string projectName = "NewProject";
-            const string userID = "test1";
             ProjectViewModel newProject = new ProjectViewModel
             {
                 ID = 999,
                 Name = projectName,
-                Collaborators = null
+                Collaborators = null,
+                ApplicationUserID = "test1"
             };
 
             // Act
-            var result = repo.Create(newProject, userID);
+            var result = repo.Create(newProject);
             var project = repo.getById(0);
 
             // Assert
@@ -82,17 +87,17 @@ namespace CodeKingdomTests.Repositories
         public void TestCreateDuplicateProject()
         {
             // Arrange
-            const string userID = "test1";
             const int existingProjectID = 1;
             ProjectViewModel duplicateProject = new ProjectViewModel
             {
                 ID = 999,
                 Name = "SpaceX",
-                Collaborators = null
+                Collaborators = null,
+                ApplicationUserID = "test1"
             };
 
             // Act
-            var result = repo.Create(duplicateProject, userID);
+            var result = repo.Create(duplicateProject);
             var existing = repo.getById(existingProjectID);
             var duplicate = repo.getById(0);
 
@@ -105,18 +110,19 @@ namespace CodeKingdomTests.Repositories
         public void TestCreateMultipleDuplicateProjects()
         {
             // Arrange
-            const string userID = "test1";
             const string duplicateName = "SpaceX";
+            const string userID = "test1";
             ProjectViewModel duplicateProject = new ProjectViewModel
             {
                 ID = 999,
                 Name = duplicateName,
-                Collaborators = null
+                Collaborators = null,
+                ApplicationUserID = userID
             };
 
             // Act
-            var result1 = repo.Create(duplicateProject, userID);
-            var result2 = repo.Create(duplicateProject, userID);
+            var result1 = repo.Create(duplicateProject);
+            var result2 = repo.Create(duplicateProject);
             var projects = repo.getByUserId(userID).Where(x => x.Name == duplicateName).ToList();
             
             // Assert
@@ -124,7 +130,9 @@ namespace CodeKingdomTests.Repositories
             Assert.IsTrue(result1);
             Assert.AreEqual(1, projects.Count);
         }
+        #endregion
 
+        #region Test project repo delete method
         [TestMethod]
         public void TestDeleteProjectById()
         {
@@ -142,7 +150,9 @@ namespace CodeKingdomTests.Repositories
             Assert.IsNull(project);
             Assert.IsFalse(fail);
         }
+        #endregion
 
+        #region Test project repo update method
         [TestMethod]
         public void TestUpdateProjectWithNewName()
         {
@@ -175,7 +185,8 @@ namespace CodeKingdomTests.Repositories
             {
                 Name = newName,
                 ID = projectID,
-                Collaborators = null
+                Collaborators = null,
+                ApplicationUserID = "test1"
             };
 
             // Act
@@ -186,5 +197,41 @@ namespace CodeKingdomTests.Repositories
             Assert.IsTrue(success);
             Assert.AreNotEqual(newName, result.Name);
         }
+
+        [TestMethod]
+        public void TestUpdateProjectWithMultipleDuplicateNames()
+        {
+            // Arrange
+            const string newName = "The new Enron";
+            const int firstID = 1;
+            const int secondID = 3;
+            ProjectViewModel duplicate1 = new ProjectViewModel
+            {
+                ID = firstID,
+                Collaborators = null,
+                Name = newName,
+                ApplicationUserID = "test1"
+            };
+            ProjectViewModel duplicate2 = new ProjectViewModel
+            {
+                ID = secondID,
+                Collaborators = null,
+                Name = newName,
+                ApplicationUserID = "test1"
+            };
+
+            // Act
+            var success1 = repo.Update(duplicate1);
+            var success2 = repo.Update(duplicate2);
+            var result1 = repo.getById(firstID);
+            var result2 = repo.getById(secondID);
+
+            // Assert
+            Assert.IsTrue(success1);
+            Assert.IsTrue(success2);
+            Assert.AreNotEqual(newName, result1.Name);
+            Assert.AreNotEqual(newName, result2.Name);
+        }
+        #endregion
     }
 }
