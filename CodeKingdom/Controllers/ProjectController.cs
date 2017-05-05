@@ -1,18 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Data.Entity;
-using System.Linq;
-using System.Net;
-using System.Web;
-using System.Web.Mvc;
+﻿using CodeKingdom.Business;
 using CodeKingdom.Models;
 using CodeKingdom.Models.Entities;
-using CodeKingdom.Repositories;
-using Microsoft.AspNet.Identity;
 using CodeKingdom.Models.ViewModels;
-using Microsoft.AspNet.Identity.EntityFramework;
-using CodeKingdom.Business;
+using System.Collections.Generic;
+using System.Net;
+using System.Web.Mvc;
 
 namespace CodeKingdom.Controllers
 {
@@ -73,7 +65,7 @@ namespace CodeKingdom.Controllers
                 return HttpNotFound();
             }
 
-            ProjectViewModel viewModel = projectStructure.CreateProjectViewModelIdNameCollaborators(project);
+            ProjectViewModel viewModel = projectStructure.CreateProjectViewModel(project);
             return View(viewModel);
         }
 
@@ -103,7 +95,7 @@ namespace CodeKingdom.Controllers
                 return HttpNotFound();
             }
 
-            ProjectViewModel viewModel = projectStructure.CreateProjectViewModelIdName(project);
+            ProjectViewModel viewModel = projectStructure.CreateProjectViewModel(project);
             return View(viewModel);
         }
 
