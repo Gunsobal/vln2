@@ -195,6 +195,7 @@
     <Compile Include="App_Start\IdentityConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
+    <Compile Include="Business\ProjectStructure.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\CollaboratorController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -249,7 +250,6 @@
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
-    <Content Include="Content\jPushMenu.css" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
@@ -311,13 +311,11 @@
     <Content Include="Views\Project\Details.cshtml" />
     <Content Include="Views\Project\Edit.cshtml" />
     <Content Include="Views\Project\Index.cshtml" />
-    <Content Include="Views\Collaborators\Create.cshtml" />
-    <Content Include="Views\Collaborators\Delete.cshtml" />
-    <Content Include="Views\Collaborators\Details.cshtml" />
-    <Content Include="Views\Collaborators\Edit.cshtml" />
-    <Content Include="Views\Collaborators\Index.cshtml" />
-    <Content Include="Views\Shared\_FrontpageLayout.cshtml" />
-
+    <Content Include="Views\Collaborator\Create.cshtml" />
+    <Content Include="Views\Collaborator\Delete.cshtml" />
+    <Content Include="Views\Collaborator\Details.cshtml" />
+    <Content Include="Views\Collaborator\Edit.cshtml" />
+    <Content Include="Views\Collaborator\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

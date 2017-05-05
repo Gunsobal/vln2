@@ -95,7 +95,6 @@
     <Compile Include="MockDataContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\TestProjectRepository.cs" />
-    <Compile Include="Repositories\TestUserRepository.cs" />
     <Compile Include="Repositories\TestFolderRepository.cs" />
     <Compile Include="Repositories\TestFileRepository.cs" />
     <Compile Include="TestSeed.cs" />
