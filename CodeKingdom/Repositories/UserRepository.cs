@@ -12,9 +12,9 @@ namespace CodeKingdom.Repositories
     {
         private readonly ApplicationDbContext db;
 
-        public UserRepository(ApplicationDbContext context = null)
+        public UserRepository()
         {
-            db = context ?? new ApplicationDbContext();
+            db = new ApplicationDbContext();
         }
 
         public ApplicationUser GetById(string id)
