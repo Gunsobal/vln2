@@ -40,10 +40,12 @@ namespace CodeKingdom.Repositories
 
         public bool Create(ProjectViewModel model, string userID)
         {
-            var res = getByUserId(userID).Where(x => x.Name == model.Name).ToList();
-            if (res.Count != 0)
+            // Check for duplicate names
+            if (getByUserId(userID).Where(x => x.Name == model.Name).ToList().Count != 0)
             {
-                model.Name = model.Name + "_" + res.Count.ToString();
+                model.Name += "Copy";
+                Create(model, userID);
+                return true;
             }
 
             CollaboratorRole role = db.CollaboratorRoles.Where(cr => cr.Name == "Owner").FirstOrDefault();
