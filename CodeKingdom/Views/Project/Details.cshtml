@@ -5,6 +5,8 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+<!---Push-menu styles and script-->
+
 <link rel="stylesheet" type="text/css" href="~/Content/jPushMenu.css" />
 
 <!--load jQuery, required-->
@@ -12,7 +14,17 @@
 <!--load jPushMenu, required-->
 <script src="~/Scripts/jPushMenu.js"></script>
 
-<!--call jPushMenu, required-->
+<!--Editor-->
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.2.6/ace.js" type="text/javascript" charset="utf-8"></script>
+
+<script>
+    var editor = ace.edit("editor");
+    editor.setTheme("ace/theme/twilight");
+    editor.getSession().setMode("ace/mode/javascript");
+
+    editor.getValue();
+</script>
 
 <!--JS for right-click override-->
 <script>
@@ -20,9 +32,9 @@ jQuery(document).ready(function($) {
 	$('.toggle-menu').jPushMenu();
 });
 
-    /* JS for right click override*/
+/* JS for right click override*/
 
-$(document).bind("contextmenu", function (e) {
+$(document).on("contextmenu", ".menu-list", function (e) {
     e.preventDefault();
     console.log(e.pageX + "," + e.pageY);
     $("#cntnr").css("left", e.pageX);
@@ -36,48 +48,45 @@ function startFocusOut() {
         $("#cntnr").hide();
         $(document).off("click");
     });
-}
+};
+
 
 </script>
 
 <div>
     <nav class="cbp-spmenu cbp-spmenu-vertical cbp-spmenu-left">
-        <ul>
-            <li><a href="#">@Html.DisplayFor(model => model.Name) </a></li>
+        <ul class="menu-list">
+            <li><a class="tree-item" href="#">@Html.DisplayFor(model => model.Name) </a></li>
             
             <!--TODO: Fix structure - only showing files and then folders -->
             @foreach (var file in Model.Files)
             {
-                <li><a href="#">@Html.DisplayFor(name => file.Name) </a></li>
+                <li><a class="tree-item" href="#">@Html.DisplayFor(name => file.Name) </a></li>
             }
 
             @foreach (var folder in Model.Folders)
             {
-                <li><a href="#">@Html.DisplayFor(name => folder.Name)</a></li>              
+                <li><a class="tree-item" href="#">@Html.DisplayFor(name => folder.Name)</a></li>              
             }
         </ul>
 
+        <!--TODO Implement the right click dude -->
         <div id="cntnr">
             <ul class="right-click-items">
-                <li class="menu-item">Open in new tab</li>
+                <li class="menu-item"><a href="#">Open in new tab</a></li>
                 <hr id="right-menu-line" />
-                <li class="menu-item">Rename</li>
-                <li class="menu-item">Delete</li>
-                <li class="menu-item">Download</li>
+                <li class="menu-item">@Html.ActionLink("Edit", "Edit", new { id = Model.ProjectID })</li>
+                <li class="menu-item" >@Html.ActionLink("Delete", "Delete", new { id = Model.ProjectID })</li>
+                <li class="menu-item" ><a id="download" href="#">Download</a></li>
             </ul>
         </div>
-
     </nav>
+
     <div id="editor">
         function foo(items) {
         var x = "All this is syntax highlighted";
         return x;
         }
     </div>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.2.6/ace.js" type="text/javascript" charset="utf-8"></script>
-    <script>
-        var editor = ace.edit("editor");
-        editor.setTheme("ace/theme/monokai");
-        editor.getSession().setMode("ace/mode/javascript");
-    </script>
+    
 </div>
