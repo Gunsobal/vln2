@@ -185,14 +185,18 @@ namespace CodeKingdomTests
             {
                 ID = 1,
                 ProjectID = 1,
-                // TODO:    Add ApplicationUserId
+                ApplicationUserID = "test1",
+                Message = "Hi",
+                DateTime = DateTime.Now
             });
 
             context.Chats.Add(new Chat
             {
                 ID = 1,
                 ProjectID = 1,
-                // TODO:    Add ApplicationUserId
+                ApplicationUserID = "test2",
+                Message = "Test Message",
+                DateTime = DateTime.Now
             });
         }
 
