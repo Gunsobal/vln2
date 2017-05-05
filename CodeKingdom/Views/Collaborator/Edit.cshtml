@@ -17,6 +17,7 @@
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         @Html.HiddenFor(model => model.ID)
+        @Html.HiddenFor(model => model.ProjectID)
         @Html.HiddenFor(model => model.UserName)
 
         <div class="form-group">
@@ -43,7 +44,7 @@
 }
 
 <div>
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink("Back to List", "Index", "Project", new { id = Model.ProjectID }, null)
 </div>
 
 @section Scripts {

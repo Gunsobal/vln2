@@ -39,7 +39,6 @@ namespace CodeKingdom.Controllers
                     {
                         ID = project.ID,
                         Name = project.Name,
-                        Collaborators = project.Collaborators
                     }
                 );
             }
@@ -115,11 +114,27 @@ namespace CodeKingdom.Controllers
                 return HttpNotFound();
             }
 
+            List<CollaboratorViewModel> collaborators = new List<CollaboratorViewModel>();
+
+            foreach (var collaborator in project.Collaborators)
+            {
+                collaborators.Add(
+                    new CollaboratorViewModel
+                    {
+                        ID = collaborator.ID,
+                        UserName = collaborator.User.UserName,
+                        RoleName = collaborator.Role.Name,
+                        RoleID = collaborator.CollaboratorRoleID,
+                        ProjectID = id.Value
+                    }
+                );
+            }
+
             ProjectViewModel viewModel = new ProjectViewModel
             {
                 ID = project.ID,
                 Name = project.Name,
-                Collaborators = project.Collaborators
+                Collaborators = collaborators
             };
 
             return View(viewModel);
@@ -158,7 +173,6 @@ namespace CodeKingdom.Controllers
             {
                 ID = project.ID,
                 Name = project.Name,
-                Collaborators = project.Collaborators
             };
 
             return View(viewModel);

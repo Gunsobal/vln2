@@ -11,6 +11,6 @@ namespace CodeKingdom.Models.ViewModels
         public int ID { get; set; }
         public string Name { get; set; }
 
-        public List<Collaborator> Collaborators { get; set; }
+        public List<CollaboratorViewModel> Collaborators { get; set; }
     }
 }
