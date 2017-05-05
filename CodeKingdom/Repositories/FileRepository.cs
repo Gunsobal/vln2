@@ -1,5 +1,6 @@
 ﻿using CodeKingdom.Models;
 using CodeKingdom.Models.Entities;
+using CodeKingdom.Models.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,6 +27,23 @@ namespace CodeKingdom.Repositories
             return db.Files.Where(x => x.FolderID == id).ToList();
         }
 
+        public bool Create(FileViewModel model)
+        {
+            /*File file = new File
+            {
+                Name = model.Name,
+                Type = model.Type,
+                FolderID = model.FolderID,
+                ApplicationUserID = model.ApplicationUserID,
+                Content = "",
+            };
+
+            db.Files.Add(file);
+            db.SaveChanges();
+            */
+            return true;
+        }
+
         public bool DeleteById(int id)
         {
             File file = GetById(id);
@@ -38,6 +56,26 @@ namespace CodeKingdom.Repositories
             db.Files.Remove(file);
             db.SaveChanges();
 
+            return true;
+        }
+
+        public bool Update(FileViewModel model)
+        {
+            /*
+            File file = GetById(model.ID);
+
+            if(file == null)
+            {
+                return false;
+            }
+
+            file.Name = model.Name;
+            file.Type = model.Type;
+            file.Content = model.Content;
+            file.FolderID = model.FolderID;
+
+            db.SaveChanges();
+            */
             return true;
         }
     }

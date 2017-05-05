@@ -38,6 +38,9 @@ namespace CodeKingdom.Controllers
             }
 
             EditorViewModel viewModel = projectStructure.GetEditorViewModel(id.Value);
+
+            ViewBag.leftMenuButton = true;
+
             return View(viewModel);
         }
 
