@@ -7,6 +7,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using CodeKingdom.Models;
+using CodeKingdom.Models.Entities;
 
 namespace CodeKingdom.Controllers
 {
@@ -382,6 +383,25 @@ namespace CodeKingdom.Controllers
             RemoveLoginSuccess,
             RemovePhoneSuccess,
             Error
+        }
+        /// <summary>
+        /// Get the selected background color and show what colors are available.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public ActionResult BackgroundColor(int? id)
+        {
+            //todo
+            return null;
+        }/// <summary>
+         /// Get what Syntax highlighting scemas are available.
+         /// </summary>
+         /// <param name="id"></param>
+         /// <returns></returns>
+        public ActionResult SyntaxHighlighting(int? id)
+        {
+            //todo
+            return null;
         }
 
 #endregion
