@@ -195,6 +195,7 @@
     <Compile Include="App_Start\IdentityConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
+    <Compile Include="Business\ProjectStructure.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\CollaboratorController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -250,7 +251,6 @@
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
-    <Content Include="Content\jPushMenu.css" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
