@@ -40,7 +40,7 @@ namespace CodeKingdom.Business
             return projectRepository.getByUserId(GetUserId());
         }
         
-        public List<CollaboratorViewModel> getListOfCollaboratorViewModels(Project project)
+        public List<CollaboratorViewModel> GetListOfCollaboratorViewModels(Project project)
         {
             List<CollaboratorViewModel> collabViewModels = new List<CollaboratorViewModel>();
             foreach (var collaborator in project.Collaborators)
@@ -73,7 +73,7 @@ namespace CodeKingdom.Business
 
             foreach (var project in projects)
             {
-                List<CollaboratorViewModel> collabViewModels = getListOfCollaboratorViewModels(project); 
+                List<CollaboratorViewModel> collabViewModels = GetListOfCollaboratorViewModels(project); 
                 viewModels.Add(
                     new ProjectViewModel
                     {
@@ -109,7 +109,7 @@ namespace CodeKingdom.Business
         
         public ProjectViewModel CreateProjectViewModelIdNameCollaborators(Project project)
         {
-            List<CollaboratorViewModel> collaborators = getListOfCollaboratorViewModels(project);
+            List<CollaboratorViewModel> collaborators = GetListOfCollaboratorViewModels(project);
             ProjectViewModel viewModel = new ProjectViewModel
             {
                 ID = project.ID,
@@ -121,7 +121,7 @@ namespace CodeKingdom.Business
 
         public ProjectViewModel CreateProjectViewModelIdName(Project project)
         {
-            List<CollaboratorViewModel> collaborators = getListOfCollaboratorViewModels(project);
+            List<CollaboratorViewModel> collaborators = GetListOfCollaboratorViewModels(project);
             ProjectViewModel viewModel = new ProjectViewModel
             {
                 ID = project.ID,
