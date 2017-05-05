@@ -18,38 +18,6 @@ namespace CodeKingdom.Controllers
         private ApplicationDbContext db = new ApplicationDbContext();
         private CollaboratorRepository repository = new CollaboratorRepository();
 
-        /// <summary>
-        /// Takes in id of the project end returns all collaborators for that project
-        /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
-        public ActionResult Index(int? id)
-        {
-            if (!id.HasValue)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-
-            List<Collaborator> collaborators = repository.GetByProjectId(id.Value);
-            List<CollaboratorViewModel> models = new List<CollaboratorViewModel>();
-
-            foreach (var collaborator in collaborators)
-            {
-                models.Add(
-                    new CollaboratorViewModel
-                    {
-                        ID = collaborator.ID,
-                        UserName = collaborator.User.UserName,
-                        RoleName = collaborator.Role.Name,
-                        RoleID = collaborator.CollaboratorRoleID,
-                        ProjectID = id.Value
-                    }
-                );
-            }
-            
-            return View(models);
-        }
-
         public ActionResult Create(int? id)
         {
             if (!id.HasValue)
@@ -80,7 +48,7 @@ namespace CodeKingdom.Controllers
             {
                 if (repository.Create(collaborator))
                 {
-                    return RedirectToAction("Index", new { id = collaborator.ProjectID });
+                    return RedirectToAction("Index", "Project", new { id = collaborator.ProjectID });
                 }
             }
 
@@ -115,6 +83,7 @@ namespace CodeKingdom.Controllers
                 UserName = collaborator.User.UserName,
                 RoleName = collaborator.Role.Name,
                 RoleID = collaborator.CollaboratorRoleID,
+                ProjectID = collaborator.ProjectID,
                 Roles = roleList
             };
 
@@ -128,7 +97,7 @@ namespace CodeKingdom.Controllers
             if (ModelState.IsValid)
             {
                 repository.Update(collaborator);
-                return RedirectToAction("Index", new { id = collaborator.ProjectID });
+                return RedirectToAction("Edit", "Project", new { id = collaborator.ProjectID });
             }
             return View(collaborator);
         }

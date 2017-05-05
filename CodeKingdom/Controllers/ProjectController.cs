@@ -15,6 +15,7 @@ using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace CodeKingdom.Controllers
 {
+    [Authorize]
     public class ProjectController : Controller
     {
 
@@ -39,7 +40,6 @@ namespace CodeKingdom.Controllers
                     {
                         ID = project.ID,
                         Name = project.Name,
-                        Collaborators = project.Collaborators
                     }
                 );
             }
@@ -47,7 +47,6 @@ namespace CodeKingdom.Controllers
             return View(viewModels);
         }
 
-        // GET: Projects/Details/5
         public ActionResult Details(int? id)
         {
             if (id == null)
@@ -78,6 +77,8 @@ namespace CodeKingdom.Controllers
                 Folders = folderRepo.GetChildrenById(folderID),
                 Files = fileRepo.GetByFolderId(folderID),
             };
+
+            ViewBag.leftMenuButton = true;
 
             return View(viewModel);
         }
@@ -115,11 +116,27 @@ namespace CodeKingdom.Controllers
                 return HttpNotFound();
             }
 
+            List<CollaboratorViewModel> collaborators = new List<CollaboratorViewModel>();
+
+            foreach (var collaborator in project.Collaborators)
+            {
+                collaborators.Add(
+                    new CollaboratorViewModel
+                    {
+                        ID = collaborator.ID,
+                        UserName = collaborator.User.UserName,
+                        RoleName = collaborator.Role.Name,
+                        RoleID = collaborator.CollaboratorRoleID,
+                        ProjectID = id.Value
+                    }
+                );
+            }
+
             ProjectViewModel viewModel = new ProjectViewModel
             {
                 ID = project.ID,
                 Name = project.Name,
-                Collaborators = project.Collaborators
+                Collaborators = collaborators
             };
 
             return View(viewModel);
@@ -129,11 +146,8 @@ namespace CodeKingdom.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "ID,Name")] ProjectViewModel project)
         {
-            // TODO
             if (ModelState.IsValid)
             {
-                //db.Entry(project).State = EntityState.Modified;
-                //db.SaveChanges();
                 repository.Update(project);
                 return RedirectToAction("Index");
             }
@@ -157,8 +171,7 @@ namespace CodeKingdom.Controllers
             ProjectViewModel viewModel = new ProjectViewModel
             {
                 ID = project.ID,
-                Name = project.Name,
-                Collaborators = project.Collaborators
+                Name = project.Name
             };
 
             return View(viewModel);

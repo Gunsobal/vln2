@@ -19,16 +19,6 @@
         <dd>
             @Html.DisplayFor(model => model.Name)
         </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Collaborators)
-        </dt>
-        @foreach (var collaborator in Model.Collaborators)
-        {
-            <dd>
-                @Html.DisplayFor(name => collaborator.User.UserName)
-            </dd>
-        }
     </dl>
 
     @using (Html.BeginForm()) {
