@@ -38,13 +38,13 @@ namespace CodeKingdom.Repositories
             return ret.ToList();
         }
 
-        public bool Create(ProjectViewModel model, string userID)
+        public bool Create(ProjectViewModel model)
         {
             // Check for duplicate names
-            if (getByUserId(userID).Where(x => x.Name == model.Name).ToList().Count != 0)
+            if (getByUserId(model.ApplicationUserID).Where(x => x.Name == model.Name).ToList().Count != 0)
             {
                 model.Name += "Copy";
-                Create(model, userID);
+                Create(model);
                 return true;
             }
 
@@ -64,7 +64,7 @@ namespace CodeKingdom.Repositories
 
             Collaborator collaborator = new Collaborator
             {
-                ApplicationUserID = userID,
+                ApplicationUserID = model.ApplicationUserID,
                 Project = project,
                 Role = role
             };
@@ -99,6 +99,14 @@ namespace CodeKingdom.Repositories
             if (project == null)
             {
                 return false;
+            }
+
+            // Check for duplicate name
+            if (getByUserId(model.ApplicationUserID).Where(x => x.Name == model.Name).ToList().Count != 0)
+            {
+                model.Name += "Copy";
+                Update(model);
+                return true;
             }
 
             project.Name = model.Name;

@@ -104,7 +104,7 @@ namespace CodeKingdom.Business
 
         public void CreateProject(ProjectViewModel viewModel)
         {
-            projectRepository.Create(viewModel, GetUserId());
+            projectRepository.Create(viewModel);
         }
         
         public ProjectViewModel CreateProjectViewModelIdNameCollaborators(Project project)
