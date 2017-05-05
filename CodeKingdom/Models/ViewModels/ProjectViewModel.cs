@@ -10,6 +10,7 @@ namespace CodeKingdom.Models.ViewModels
     {
         public int ID { get; set; }
         public string Name { get; set; }
+        public string ApplicationUserID { get; set; }
 
         public List<CollaboratorViewModel> Collaborators { get; set; }
     }

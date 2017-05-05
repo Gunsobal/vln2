@@ -55,6 +55,11 @@ namespace CodeKingdomTests
                 ID = 2,
                 Name = "root2"
             });
+            context.Folders.Add(new Folder
+            {
+                ID = 6,
+                Name = "root3"
+            });
             /// Normal Folders
             context.Folders.Add(new Folder
             {
@@ -150,6 +155,13 @@ namespace CodeKingdomTests
                 FolderID = 2,
                 Frozen = false
             });
+            context.Projects.Add(new Project
+            {
+                ID = 3,
+                Name = "Thest",
+                FolderID = 6,
+                Frozen = true
+            });
         }
 
         static public void Collaborators(MockDataContext context)
@@ -158,6 +170,22 @@ namespace CodeKingdomTests
             {
                 ID = 1,
                 ProjectID = 1,
+                ApplicationUserID = "test1",
+                CollaboratorRoleID = 1
+            });
+
+            context.Collaborators.Add(new Collaborator
+            {
+                ID = 4,
+                ProjectID = 2,
+                ApplicationUserID = "test1",
+                CollaboratorRoleID = 1
+            });
+
+            context.Collaborators.Add(new Collaborator
+            {
+                ID = 5,
+                ProjectID = 3,
                 ApplicationUserID = "test1",
                 CollaboratorRoleID = 1
             });
@@ -185,14 +213,18 @@ namespace CodeKingdomTests
             {
                 ID = 1,
                 ProjectID = 1,
-                // TODO:    Add ApplicationUserId
+                ApplicationUserID = "test1",
+                Message = "Hi",
+                DateTime = DateTime.Now
             });
 
             context.Chats.Add(new Chat
             {
                 ID = 1,
                 ProjectID = 1,
-                // TODO:    Add ApplicationUserId
+                ApplicationUserID = "test2",
+                Message = "Test Message",
+                DateTime = DateTime.Now
             });
         }
 
