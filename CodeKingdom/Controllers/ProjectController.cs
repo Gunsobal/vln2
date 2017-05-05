@@ -15,6 +15,7 @@ using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace CodeKingdom.Controllers
 {
+    [Authorize]
     public class ProjectController : Controller
     {
 
@@ -46,7 +47,6 @@ namespace CodeKingdom.Controllers
             return View(viewModels);
         }
 
-        // GET: Projects/Details/5
         public ActionResult Details(int? id)
         {
             if (id == null)
@@ -144,11 +144,8 @@ namespace CodeKingdom.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "ID,Name")] ProjectViewModel project)
         {
-            // TODO
             if (ModelState.IsValid)
             {
-                //db.Entry(project).State = EntityState.Modified;
-                //db.SaveChanges();
                 repository.Update(project);
                 return RedirectToAction("Index");
             }
