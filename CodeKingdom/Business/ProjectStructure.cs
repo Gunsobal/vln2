@@ -104,6 +104,7 @@ namespace CodeKingdom.Business
 
         public void CreateProject(ProjectViewModel viewModel)
         {
+            viewModel.ApplicationUserID = GetUserId();
             projectRepository.Create(viewModel);
         }
         
@@ -121,6 +122,7 @@ namespace CodeKingdom.Business
 
         public void Update(ProjectViewModel viewModel)
         {
+            viewModel.ApplicationUserID = GetUserId();
             projectRepository.Update(viewModel);
         }
 
