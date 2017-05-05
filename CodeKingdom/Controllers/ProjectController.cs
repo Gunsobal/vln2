@@ -79,6 +79,8 @@ namespace CodeKingdom.Controllers
                 Files = fileRepo.GetByFolderId(folderID),
             };
 
+            ViewBag.leftMenuButton = true;
+
             return View(viewModel);
         }
 

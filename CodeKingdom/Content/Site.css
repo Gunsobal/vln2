@@ -1,14 +1,11 @@
 ﻿body {
     padding-top: 50px;
     padding-bottom: 20px;
-    /*Dísí changes*/
+    height: 100vh;
 }
 
 /* Set padding to keep content from hitting the edges */
 .body-content {
-    /* Changes Dísí made*/
-    margin-left: 0px;
-
     padding-left: 15px;
     padding-right: 15px;
 }
@@ -27,11 +24,64 @@ textarea {
     max-width: 280px;
 }
 
+.navbar
+{
+    background: #0E0B16;
+    color: #999999;
+}
+
 #editor { 
     position: absolute;
     top: 50px;
     right: 0;
     bottom: 0;
-    left: 350px;
+    left: 0;
+}
 
+.nav, navbar-nav ul
+{
+    list-style: none;
+}
+
+/* Style for right-clikc menu*/
+.right-click-items
+{
+  list-style:none;
+  margin:0px;
+  margin-top:4px;
+  padding-left:10px;
+  padding-right:10px;
+  padding-bottom:3px;
+  font-size:15px;
+  color: #333333;
+}
+#cntnr{
+  display:none;
+  position:fixed;
+  border:1px solid #B2B2B2;
+  width:150px;
+  height: 180px;      
+  background:#F9F9F9;
+  box-shadow: 3px 3px 2px #E9E9E9;
+  border-radius:4px;
+}
+
+#right-menu-line { 
+    width: 85%; 
+    background-color:#E4E4E4;
+    border-color:#E4E4E4;
+    color:#E4E4E4;
+}
+ 
+.menu-item{
+  
+  padding: 3px;
+  padding-left:10px;
+}
+
+
+#items :hover{
+   color: white;
+  background:#284570;
+  border-radius:2px;
 }
