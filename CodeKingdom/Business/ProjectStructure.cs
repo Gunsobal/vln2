@@ -107,7 +107,7 @@ namespace CodeKingdom.Business
             projectRepository.Create(viewModel, GetUserId());
         }
         
-        public ProjectViewModel CreateProjectViewModelIdNameCollaborators(Project project)
+        public ProjectViewModel CreateProjectViewModel(Project project)
         {
             List<CollaboratorViewModel> collaborators = GetListOfCollaboratorViewModels(project);
             ProjectViewModel viewModel = new ProjectViewModel
@@ -115,17 +115,6 @@ namespace CodeKingdom.Business
                 ID = project.ID,
                 Name = project.Name,
                 Collaborators = collaborators
-            };
-            return viewModel;
-        }
-
-        public ProjectViewModel CreateProjectViewModelIdName(Project project)
-        {
-            List<CollaboratorViewModel> collaborators = GetListOfCollaboratorViewModels(project);
-            ProjectViewModel viewModel = new ProjectViewModel
-            {
-                ID = project.ID,
-                Name = project.Name,
             };
             return viewModel;
         }

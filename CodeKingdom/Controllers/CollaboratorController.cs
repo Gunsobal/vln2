@@ -12,12 +12,15 @@ using CodeKingdom.Models.Entities;
 using CodeKingdom.Repositories;
 using CodeKingdom.Models.ViewModels;
 using CodeKingdom.Access;
+using CodeKingdom.Business;
 
 namespace CodeKingdom.Controllers
 {
     [Authorize]
     public class CollaboratorController : Controller
     {
+        private CollaboratorStructure collaboratorStructure = new CollaboratorStructure();
+        // todo: delete
         private CollaboratorRepository repository = new CollaboratorRepository();
 
         public ActionResult Create(int? id)
@@ -27,24 +30,14 @@ namespace CodeKingdom.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            CollaboratorViewModel model = new CollaboratorViewModel(); 
-            model.ProjectID = id.Value;
+            CollaboratorViewModel viewModel = collaboratorStructure.CreateCollaboratorViewModelFromID(id.Value);
 
-            if (!isOwner(model))
+            if (!isOwner(viewModel))
             {
                 return new HttpStatusCodeResult(HttpStatusCode.Forbidden);
             }
-
-            List<CollaboratorRole> roles = repository.GetAllRoles();
-            List<SelectListItem> roleList = new List<SelectListItem>();
-
-            foreach (var role in roles)
-            {
-                roleList.Add(new SelectListItem() { Value = role.ID.ToString(), Text = role.Name });
-            }
-            model.Roles = roleList;
-
-            return View(model);
+            collaboratorStructure.CreateRoleSelectListForViewModel(viewModel);
+            return View(viewModel);
         }
 
         [HttpPost]
@@ -74,8 +67,8 @@ namespace CodeKingdom.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
+            Collaborator collaborator = collaboratorStructure.GetCollaboratorById(id.Value);
 
-            Collaborator collaborator = repository.GetById(id.Value);
             if (collaborator == null)
             {
                 return HttpNotFound();
@@ -86,27 +79,10 @@ namespace CodeKingdom.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.Forbidden);
             }
 
-            List<CollaboratorRole> roles = repository.GetAllRoles();
-            List<SelectListItem> roleList = new List<SelectListItem>();
-
-            foreach (var role in roles)
-            {
-                roleList.Add(new SelectListItem() { Value = role.ID.ToString(), Text = role.Name });
-            }
-
-            CollaboratorViewModel model = new CollaboratorViewModel
-            {
-                ID = collaborator.ID,
-                UserName = collaborator.User.UserName,
-                RoleName = collaborator.Role.Name,
-                RoleID = collaborator.CollaboratorRoleID,
-                ProjectID = collaborator.ProjectID,
-                Roles = roleList
-            };
-
-            return View(model);
+            CollaboratorViewModel viewModel = collaboratorStructure.CreateCollaboratorViewModelFromID(collaborator.ID);
+            return View(viewModel);
         }
-
+        // ////////////////////////////////////
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "ID,UserName,RoleID,ProjectID")] CollaboratorViewModel collaborator)
@@ -118,7 +94,7 @@ namespace CodeKingdom.Controllers
 
             if (ModelState.IsValid)
             {
-                repository.Update(collaborator);
+                collaboratorStructure.Update(collaborator);
                 return RedirectToAction("Edit", "Project", new { id = collaborator.ProjectID });
             }
             return View(collaborator);
@@ -131,7 +107,7 @@ namespace CodeKingdom.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            Collaborator collaborator = repository.GetById(id.Value);
+            Collaborator collaborator = collaboratorStructure.GetCollaboratorById(id.Value);
             if (!isOwner(collaborator))
             {
                 return new HttpStatusCodeResult(HttpStatusCode.Forbidden);
@@ -154,7 +130,7 @@ namespace CodeKingdom.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.Forbidden);
             }
 
-            repository.Delete(id);
+            collaboratorStructure.Delete(id);
             return RedirectToAction("Index");
         }
 
