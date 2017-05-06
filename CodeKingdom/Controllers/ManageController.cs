@@ -8,6 +8,7 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using CodeKingdom.Models;
 using CodeKingdom.Models.Entities;
+using CodeKingdom.Repositories;
 
 namespace CodeKingdom.Controllers
 {
@@ -33,9 +34,9 @@ namespace CodeKingdom.Controllers
             {
                 return _signInManager ?? HttpContext.GetOwinContext().Get<ApplicationSignInManager>();
             }
-            private set 
-            { 
-                _signInManager = value; 
+            private set
+            {
+                _signInManager = value;
             }
         }
 
@@ -334,7 +335,7 @@ namespace CodeKingdom.Controllers
             base.Dispose(disposing);
         }
 
-#region Helpers
+        #region Helpers
         // Used for XSRF protection when adding external logins
         private const string XsrfKey = "XsrfId";
 
@@ -384,26 +385,42 @@ namespace CodeKingdom.Controllers
             RemovePhoneSuccess,
             Error
         }
-        /// <summary>
-        /// Get the selected background color and show what colors are available.
-        /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
+        /*
+        UsersFullName functions are to get and set currently loged on users
+        full name
+        */
+
+        public ActionResult UsersFullName(int? id)
+        {
+            //ViewBag.Name = new SelectList(db.Users, "Name");
+            return null;
+        }
+        public ActionResult UsersEmailAddress(int? id)
+        {
+            return null;
+        }
+        /*
+        Get the selected background color and show what colors are available.
+        */
         public ActionResult BackgroundColor(int? id)
         {
             //todo
             return null;
-        }/// <summary>
-         /// Get what Syntax highlighting scemas are available.
-         /// </summary>
-         /// <param name="id"></param>
-         /// <returns></returns>
+        }
+        /*
+        Get what Syntax highlighting scemas are available.
+        */
         public ActionResult SyntaxHighlighting(int? id)
         {
             //todo
             return null;
         }
+        #endregion
+        [HttpPost]
+        public ActionResult Save(HttpResponse model)
+        {
 
-#endregion
+            return RedirectToAction("Index");
+        }
     }
 }
