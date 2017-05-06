@@ -87,3 +87,8 @@ textarea {
 .menu-item > a:hover{
    color: #000000;
 }
+
+.cbp-spmenu a.active{
+
+    color: white;
+}

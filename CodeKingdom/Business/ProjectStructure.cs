@@ -130,5 +130,10 @@ namespace CodeKingdom.Business
         {
             projectRepository.DeleteById(id);
         }
+       
+        public File GetFileByID(int id)
+        {
+            return fileRepository.GetById(id);
+        }
     }
 }

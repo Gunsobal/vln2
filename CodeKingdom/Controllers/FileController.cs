@@ -44,6 +44,7 @@ namespace CodeKingdom.Controllers
         public ActionResult Create()
         {
             ViewBag.FolderID = new SelectList(db.Folders, "ID", "Name");
+            ViewBag.ApplicationUserID = new SelectList(db.Users, "Id", "Email");
             return View();
         }
 
@@ -62,6 +63,7 @@ namespace CodeKingdom.Controllers
             }
 
             ViewBag.FolderID = new SelectList(db.Folders, "ID", "Name", file.FolderID);
+            ViewBag.ApplicationUserID = new SelectList(db.Users, "Id", "Email", file.ApplicationUserID);
             return View(file);
         }
 
@@ -80,6 +82,7 @@ namespace CodeKingdom.Controllers
                 return HttpNotFound();
             }
             ViewBag.FolderID = new SelectList(db.Folders, "ID", "Name", file.FolderID);
+            ViewBag.ApplicationUserID = new SelectList(db.Users, "Id", "Email", file.ApplicationUserID);
             return View(file);
         }
 
@@ -97,6 +100,7 @@ namespace CodeKingdom.Controllers
                 return RedirectToAction("Index");
             }
             ViewBag.FolderID = new SelectList(db.Folders, "ID", "Name", file.FolderID);
+            ViewBag.ApplicationUserID = new SelectList(db.Users, "Id", "Email", file.ApplicationUserID);
             return View(file);
         }
 
