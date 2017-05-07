@@ -28,35 +28,56 @@ namespace CodeKingdomTests.Repositories
         public void TestGetProjectById()
         {
             // Arrange
-            const int successID = 1;
-            const int failID = 5;
+            const int ID = 1;
             const string expectedName = "SpaceX";
 
             // Act
-            var success = repo.getById(successID);
-            var fail = repo.getById(failID);
+            var success = repo.getById(ID);
 
             // Assert
-            Assert.IsNull(fail);
             Assert.IsNotNull(success);
             Assert.AreEqual(expectedName, success.Name);
+        }
+
+        [TestMethod]
+        public void TestGetProjectByIdFail()
+        {
+            // Arrange
+            const int ID = 5;
+
+            // Act
+            var result = repo.getById(ID);
+
+            // Assert
+            Assert.IsNull(result);
         }
 
         [TestMethod]
         public void TestGetProjectsByUserId()
         {
             // Arrange
-            const string successID = "test1";
-            const string failID = "fail";
+            const string userID = "test1";
             const int expectedCount = 3;
 
             // Act
-            var success = repo.getByUserId(successID);
-            var fail = repo.getByUserId(failID);
+            var success = repo.getByUserId(userID);
 
             // Assert
-            Assert.AreEqual(0, fail.Count);
             Assert.AreEqual(expectedCount, success.Count);
+        }
+
+        [TestMethod]
+        public void TestGetProjectsByUserIdFail()
+        {
+            // Arrange
+            const string userID = "fail";
+
+            // Act
+            var result = repo.getByUserId(userID);
+
+            // Assert
+            Assert.IsNotNull(result);
+            Assert.AreEqual(0, result.Count);
         }
         #endregion
 
@@ -137,18 +158,28 @@ namespace CodeKingdomTests.Repositories
         public void TestDeleteProjectById()
         {
             // Arrange
-            const int successID = 1;
-            const int failID = 0;
+            const int ID = 1;
 
             // Act
-            var success = repo.DeleteById(successID);
-            var project = repo.getById(successID);
-            var fail = repo.DeleteById(failID);
+            var success = repo.DeleteById(ID);
+            var project = repo.getById(ID);
 
             // Assert
             Assert.IsTrue(success);
             Assert.IsNull(project);
-            Assert.IsFalse(fail);
+        }
+
+        [TestMethod]
+        public void TestDeleteProjectByIdFail()
+        {
+            // Arrange
+            const int ID = 0;
+
+            // Act
+            var result = repo.DeleteById(ID);
+
+            // Assert
+            Assert.IsFalse(result);
         }
         #endregion
 
