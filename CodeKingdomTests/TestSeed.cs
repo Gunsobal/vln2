@@ -91,7 +91,7 @@ namespace CodeKingdomTests
         #region Folder seed
         static public void Folders(MockDataContext context)
         {
-            /// Root Folders
+            // Root Folders
             context.Folders.Add(new Folder
             {
                 ID = 1,
@@ -107,7 +107,7 @@ namespace CodeKingdomTests
                 ID = 6,
                 Name = "root3"
             });
-            /// Normal Folders
+            // Normal Folders
             context.Folders.Add(new Folder
             {
                 ID = 3,

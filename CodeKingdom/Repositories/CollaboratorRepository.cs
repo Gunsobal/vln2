@@ -22,7 +22,7 @@ namespace CodeKingdom.Repositories
 
         public Collaborator GetById(int id)
         {
-            return db.Collaborators.Find(id);
+            return db.Collaborators.Where(x => x.ID == id).FirstOrDefault();
         }
 
         public List<Collaborator> GetByProjectId(int id)
@@ -87,7 +87,7 @@ namespace CodeKingdom.Repositories
             return true;
         }
 
-        public bool Delete(int id)
+        public bool DeleteById(int id)
         {
             Collaborator collaborator = GetById(id);
             if (collaborator == null)

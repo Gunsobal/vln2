@@ -57,7 +57,7 @@ namespace CodeKingdom.Business
 
         public void Delete(int id)
         {
-            collaboratorRepository.Delete(id);
+            collaboratorRepository.DeleteById(id);
         }
 
     }

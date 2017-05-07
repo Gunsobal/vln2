@@ -9,7 +9,8 @@ namespace CodeKingdomTests.Repositories
     public class TestFolderRepository
     {
         private FolderRepository repo;
-        
+
+        #region Initialize
         [TestInitialize]
         public void Initialize()
         {
@@ -17,23 +18,72 @@ namespace CodeKingdomTests.Repositories
             TestSeed.Folders(mockDb);
             repo = new FolderRepository(mockDb);
         }
+        #endregion
 
+        #region Test get methods
         [TestMethod]
         public void TestGetFolderById()
         {
             // Arrange
-            const int successID = 1;
-            const int failID = 30;
+            const int ID = 1;
             const string expectedName = "root1";
 
             // Act
-            var success = repo.GetById(successID);
-            var fail = repo.GetById(failID);
+            var result = repo.GetById(ID);
 
             // Assert
-            Assert.IsNull(fail);
-            Assert.IsNotNull(success);
-            Assert.AreEqual(expectedName, success.Name);
+            Assert.IsNotNull(result);
+            Assert.AreEqual(expectedName, result.Name);
         }
+
+        [TestMethod]
+        public void TestGetFolderByIdFail()
+        {
+            // Arrange
+            const int ID = 30;
+
+            // Act
+            var result = repo.GetById(ID);
+
+            // Assert
+            Assert.IsNull(result);
+        }
+
+        [TestMethod]
+        public void TestGetFolderChildrenById()
+        {
+            // Arrange
+            const int ID = 1;
+            const int expectedCount = 2;
+
+            // Act
+            var result = repo.GetChildrenById(ID);
+
+            // Assert
+            Assert.IsNotNull(result);
+            Assert.AreEqual(expectedCount, result.Count);
+            foreach (Folder folder in result)
+            {
+                Assert.AreEqual(ID, folder.FolderID);
+            }
+        }
+
+        [TestMethod]
+        public void TestGetFolderChildrenByIdFail()
+        {
+            // Arrange
+            const int ID = 90;
+
+            // Act
+            var result = repo.GetChildrenById(ID);
+
+            // Assert
+            Assert.IsNotNull(result);
+            Assert.AreEqual(0, result.Count);
+        }
+        #endregion
+        //TODO Test create
+        //TODO Test delete
+        //TODO Test update
     }
 }

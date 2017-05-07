@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using CodeKingdom.Repositories;
+using CodeKingdom.Models.Entities;
 
 namespace CodeKingdomTests.Repositories
 {
@@ -9,6 +10,7 @@ namespace CodeKingdomTests.Repositories
     {
         private FileRepository repo;
 
+        #region Initialize
         [TestInitialize]
         public void Initialize()
         {
@@ -16,6 +18,7 @@ namespace CodeKingdomTests.Repositories
             TestSeed.Files(mockDb);
             repo = new FileRepository(mockDb);
         }
+        #endregion 
 
         #region Test get methods
         [TestMethod]
@@ -47,7 +50,7 @@ namespace CodeKingdomTests.Repositories
         }
 
         [TestMethod]
-        public void TestGetFileByFolderId()
+        public void TestGetFilesByFolderId()
         {
             // Arrange
             const int folderID = 2;
@@ -59,10 +62,14 @@ namespace CodeKingdomTests.Repositories
             // Assert
             Assert.IsNotNull(result);
             Assert.AreEqual(expectedCount, result.Count);
+            foreach (File file in result)
+            {
+                Assert.AreEqual(folderID, file.FolderID);
+            }
         }
 
         [TestMethod]
-        public void TestGetFileByFolderIdFail()
+        public void TestGetFilesByFolderIdFail()
         {
             // Arrange
             const int folderID = 90;

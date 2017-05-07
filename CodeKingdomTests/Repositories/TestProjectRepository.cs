@@ -60,10 +60,10 @@ namespace CodeKingdomTests.Repositories
             const int expectedCount = 3;
 
             // Act
-            var success = repo.getByUserId(userID);
+            var result = repo.getByUserId(userID);
 
             // Assert
-            Assert.AreEqual(expectedCount, success.Count);
+            Assert.AreEqual(expectedCount, result.Count);
         }
 
         [TestMethod]
