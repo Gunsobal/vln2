@@ -83,7 +83,7 @@ namespace CodeKingdom.Controllers
             switch (result)
             {
                 case SignInStatus.Success:
-                    if (returnUrl.Length > 0)
+                    if (returnUrl != null)
                     {
                         return RedirectToLocal(returnUrl);
                     }
