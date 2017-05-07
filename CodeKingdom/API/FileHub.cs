@@ -16,7 +16,16 @@ namespace CodeKingdom.API
             int.TryParse(id, out correctId);
             var file = business.GetFileByID(correctId);
             // TODO: Change file types in database so that they match with ace editor
-            Clients.Caller.ReturnFile(file.Content, file.Type);
+            var type = "";
+            if(file.Type == "js")
+            {
+                type = "javascript";
+            }
+            else
+            {
+                type = file.Type;
+            }
+            Clients.Caller.ReturnFile(file.Content, type);
         }
     }
 }

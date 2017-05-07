@@ -9,6 +9,10 @@
 
 <div>
     <nav class="cbp-spmenu cbp-spmenu-vertical cbp-spmenu-left">
+        <div id="new-folder-file">
+            @Html.ActionLink("New Folder", "Create", "Folder", new { id = Model.ProjectID }, new { })
+            @Html.ActionLink("New File", "Create", "File", new { id = Model.ProjectID }, new { })
+        </div>
         <ul class="menu-list">
             <li><a class="tree-item" data-id="@Model.ProjectID" href="#">@Html.DisplayFor(model => model.Name) </a></li>
             
@@ -26,9 +30,10 @@
 
         <!--TODO Implement the right click dude -->
         <div id="cntnr">
+            
+            
             <ul class="right-click-items">
                 <li class="menu-item"><a href="#">Open in new tab</a></li>
-               
                 <li class="menu-item">@Html.ActionLink("Edit", "Edit", new { id = Model.ProjectID })</li>
                 <li class="menu-item" >@Html.ActionLink("Delete", "Delete", new { id = Model.ProjectID })</li>
                 <li class="menu-item" ><a id="download" href="#">Download</a></li>
@@ -63,5 +68,6 @@
     @Scripts.Render("https://cdnjs.cloudflare.com/ajax/libs/ace/1.2.6/ace.js")
     @Scripts.Render("~/Scripts/jPushMenu.js")
     @Scripts.Render("~/Scripts/editor.js")
+
     <script>var fileID = @Model.FileID;</script>
 }    
