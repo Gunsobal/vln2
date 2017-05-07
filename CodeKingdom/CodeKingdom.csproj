@@ -199,6 +199,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="API\ChatHub.cs" />
+    <Compile Include="API\EditorHub.cs" />
     <Compile Include="API\FileHub.cs" />
     <Compile Include="App_Start\Startup.SignalR.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
