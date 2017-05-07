@@ -3,6 +3,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using CodeKingdom.Repositories;
 using System.Linq;
 using CodeKingdom.Models.Entities;
+using CodeKingdom.Models.ViewModels;
 
 namespace CodeKingdomTests.Repositories
 {
@@ -152,13 +153,131 @@ namespace CodeKingdomTests.Repositories
             Assert.IsNull(result1);
             Assert.IsNull(result2);
         }
+
+        [TestMethod]
+        public void TestGetCollabRoleById()
+        {
+            // Arrange
+            const int ID = 1;
+            const string expectedName = "Owner";
+
+            // Act
+            var result = repo.GetRoleById(ID);
+
+            // Assert
+            Assert.IsNotNull(result);
+            Assert.AreEqual(expectedName, result.Name);
+        }
+
+        [TestMethod]
+        public void TestGetCollabRoleByIdFail()
+        {
+            // Arrange
+            const int ID = 0;
+
+            // Act
+            var result = repo.GetRoleById(ID);
+
+            // Assert
+            Assert.IsNull(result);
+        }
+
+        [TestMethod]
+        public void TestGetCollabRoles()
+        {
+            // Arrange
+            int expectedCount = 3;
+
+            // Act
+            var result = repo.GetAllRoles();
+
+            // Assert
+            Assert.IsNotNull(result);
+            Assert.AreEqual(expectedCount, result.Count);
+        }
         #endregion
 
         // TODO test create
 
         #region Test update method
+        [TestMethod]
+        public void TestUpdateCollaborator()
+        {
+            // Arrange
+            const int ID = 1;
+            const int newRoleID = 2;
+            CollaboratorViewModel coll = new CollaboratorViewModel { ID = ID, RoleID = newRoleID };
+
+            // Act
+            var result = repo.Update(coll);
+            var updatedColl = repo.GetById(ID);
+
+            // Assert
+            Assert.IsTrue(result);
+            Assert.AreEqual(newRoleID, updatedColl.CollaboratorRoleID);
+        }
+
+        [TestMethod]
+        public void TestUpdateCollaboratorFail()
+        {
+            // Arrange
+            const int ID = 0;
+            const int newRoleID = 2;
+            CollaboratorViewModel coll = new CollaboratorViewModel { ID = ID, RoleID = newRoleID };
+
+            // Act
+            var result = repo.Update(coll);
+
+            // Assert
+            Assert.IsFalse(result);
+        }
+
+        [TestMethod]
+        public void TestUpdateCollaboratorWithUnknownRole()
+        {
+            // Arrange
+            const int ID = 1;
+            const int newRoleID = 99;
+            CollaboratorViewModel coll = new CollaboratorViewModel { ID = ID, RoleID = newRoleID };
+
+            // Act
+            var result = repo.Update(coll);
+            var updatedColl = repo.GetById(ID);
+
+            // Assert
+            Assert.IsFalse(result);
+            Assert.AreNotEqual(newRoleID, updatedColl.CollaboratorRoleID);
+        }
         #endregion
+
         #region Test delete method
+        [TestMethod]
+        public void TestDeleteCollaboratorById()
+        {
+            // Arrange
+            const int ID = 1;
+
+            // Act
+            var result = repo.DeleteById(ID);
+            var collab = repo.GetById(ID);
+
+            // Assert
+            Assert.IsTrue(result);
+            Assert.IsNull(collab);
+        }
+
+        [TestMethod]
+        public void TestDeleteCollaboratorByIdFail()
+        {
+            // Arrange
+            const int ID = 0;
+
+            // Act
+            var result = repo.DeleteById(ID);
+
+            // Assert
+            Assert.IsFalse(result);
+        }
         #endregion
 
         #region Test IsInProject method
