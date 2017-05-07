@@ -22,7 +22,7 @@ namespace CodeKingdom.Repositories
 
         public Collaborator GetById(int id)
         {
-            return db.Collaborators.Find(id);
+            return db.Collaborators.Where(x => x.ID == id).FirstOrDefault();
         }
 
         public List<Collaborator> GetByProjectId(int id)
@@ -51,13 +51,14 @@ namespace CodeKingdom.Repositories
         public bool Update(CollaboratorViewModel model)
         {
             Collaborator collaborator = this.GetById(model.ID);
+            CollaboratorRole role = this.GetRoleById(model.RoleID);
 
-            if (collaborator == null)
+            if (collaborator == null || role == null)
             {
                 return false;
             }
 
-            collaborator.CollaboratorRoleID = model.RoleID;
+            collaborator.CollaboratorRoleID = role.ID;
             db.SaveChanges();
 
             return true;
@@ -87,7 +88,7 @@ namespace CodeKingdom.Repositories
             return true;
         }
 
-        public bool Delete(int id)
+        public bool DeleteById(int id)
         {
             Collaborator collaborator = GetById(id);
             if (collaborator == null)
@@ -103,6 +104,11 @@ namespace CodeKingdom.Repositories
         public List<CollaboratorRole> GetAllRoles()
         {
             return db.CollaboratorRoles.ToList();
+        }
+
+        public CollaboratorRole GetRoleById(int id)
+        {
+            return db.CollaboratorRoles.Where(x => x.ID == id).FirstOrDefault();
         }
     }
 }

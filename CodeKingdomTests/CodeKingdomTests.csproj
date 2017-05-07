@@ -94,6 +94,8 @@
     <Compile Include="InMemoryDbSet.cs" />
     <Compile Include="MockDataContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repositories\TestChatRepository.cs" />
+    <Compile Include="Repositories\TestCollaboratorRepository.cs" />
     <Compile Include="Repositories\TestProjectRepository.cs" />
     <Compile Include="Repositories\TestFolderRepository.cs" />
     <Compile Include="Repositories\TestFileRepository.cs" />

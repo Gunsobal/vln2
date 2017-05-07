@@ -23,6 +23,7 @@ namespace CodeKingdomTests
             Chats(context);
         }
 
+        #region Collaborator seed
         static public void CollaboratorRoles(MockDataContext context)
         {
             context.CollaboratorRoles.Add(new CollaboratorRole
@@ -41,10 +42,56 @@ namespace CodeKingdomTests
                 Name = "Reader"
             });
         }
-        
+
+        static public void Collaborators(MockDataContext context)
+        {
+            context.Collaborators.Add(new Collaborator
+            {
+                ID = 1,
+                ProjectID = 1,
+                ApplicationUserID = "test1",
+                CollaboratorRoleID = 1
+            });
+
+            context.Collaborators.Add(new Collaborator
+            {
+                ID = 4,
+                ProjectID = 2,
+                ApplicationUserID = "test1",
+                CollaboratorRoleID = 1
+            });
+
+            context.Collaborators.Add(new Collaborator
+            {
+                ID = 5,
+                ProjectID = 3,
+                ApplicationUserID = "test1",
+                CollaboratorRoleID = 1
+            });
+
+            context.Collaborators.Add(new Collaborator
+            {
+                ID = 2,
+                ProjectID = 1,
+                ApplicationUserID = "test2",
+                CollaboratorRoleID = 2
+            });
+
+            context.Collaborators.Add(new Collaborator
+            {
+                ID = 3,
+                ProjectID = 1,
+                ApplicationUserID = "test3",
+                CollaboratorRoleID = 3
+            });
+        }
+
+        #endregion
+
+        #region Folder seed
         static public void Folders(MockDataContext context)
         {
-            /// Root Folders
+            // Root Folders
             context.Folders.Add(new Folder
             {
                 ID = 1,
@@ -60,7 +107,7 @@ namespace CodeKingdomTests
                 ID = 6,
                 Name = "root3"
             });
-            /// Normal Folders
+            // Normal Folders
             context.Folders.Add(new Folder
             {
                 ID = 3,
@@ -80,7 +127,9 @@ namespace CodeKingdomTests
                 FolderID = 4
             });
         }
+        #endregion
 
+        #region File seed
         static public void Files(MockDataContext context)
         {
             context.Files.Add(new File
@@ -138,7 +187,9 @@ namespace CodeKingdomTests
                 ApplicationUserID = "dummy",
             });
         }
+        #endregion
 
+        #region Project seed
         static public void Projects(MockDataContext context)
         {
             context.Projects.Add(new Project
@@ -163,50 +214,9 @@ namespace CodeKingdomTests
                 Frozen = true
             });
         }
+        #endregion
 
-        static public void Collaborators(MockDataContext context)
-        {
-            context.Collaborators.Add(new Collaborator
-            {
-                ID = 1,
-                ProjectID = 1,
-                ApplicationUserID = "test1",
-                CollaboratorRoleID = 1
-            });
-
-            context.Collaborators.Add(new Collaborator
-            {
-                ID = 4,
-                ProjectID = 2,
-                ApplicationUserID = "test1",
-                CollaboratorRoleID = 1
-            });
-
-            context.Collaborators.Add(new Collaborator
-            {
-                ID = 5,
-                ProjectID = 3,
-                ApplicationUserID = "test1",
-                CollaboratorRoleID = 1
-            });
-
-            context.Collaborators.Add(new Collaborator
-            {
-                ID = 2,
-                ProjectID = 1,
-                ApplicationUserID = "test2",
-                CollaboratorRoleID = 2
-            });
-
-            context.Collaborators.Add(new Collaborator
-            {
-                ID = 3,
-                ProjectID = 1,
-                ApplicationUserID = "test3",
-                CollaboratorRoleID = 3
-            });
-        }
-
+        #region Chat seed
         static public void Chats(MockDataContext context)
         {
             context.Chats.Add(new Chat
@@ -227,6 +237,6 @@ namespace CodeKingdomTests
                 DateTime = DateTime.Now
             });
         }
-
+        #endregion
     }
 }
