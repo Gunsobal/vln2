@@ -55,6 +55,15 @@ namespace CodeKingdom.Repositories
                 Name = model.Name + "root"
             };
 
+            File file = new File
+            {
+                Name = "index.js",
+                Content = "",
+                Type = "Javascript",
+                Folder = root,
+                ApplicationUserID = model.ApplicationUserID
+            };
+
             Project project = new Project
             {
                 Name = model.Name,
@@ -70,6 +79,7 @@ namespace CodeKingdom.Repositories
             };
 
             db.Folders.Add(root);
+            db.Files.Add(file);
             db.Projects.Add(project);
             db.Collaborators.Add(collaborator);
             db.SaveChanges();
