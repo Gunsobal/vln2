@@ -10,6 +10,7 @@ namespace CodeKingdom.API
     public class FileHub : Hub
     {
         private ProjectStructure business = new ProjectStructure();
+
         public void Get(string id)
         {
             var correctId = 0;
@@ -25,7 +26,8 @@ namespace CodeKingdom.API
             {
                 type = file.Type;
             }
-            Clients.Caller.ReturnFile(file.Content, type);
+            Clients.Caller.ReturnFile(file.ID, file.Content, file.Type);
+
         }
     }
 }

@@ -25,6 +25,14 @@
         silent = false;
     }
 
+    var file = $.connection.fileHub; // adda filehub
+    file.client.ReturnFile = function (id, content, type) {
+        fileID = id;
+        editor.getSession().setMode("ace/mode/" + type);
+        editor.setValue(content);
+    }
+
+
     // Get the user name and store it to prepend to messages.
     $('#displayname').val("@User.Identity.Name");
     // Set initial focus to message input box.
