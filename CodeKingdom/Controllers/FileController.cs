@@ -9,6 +9,7 @@ using System.Web.Mvc;
 using CodeKingdom.Models;
 using CodeKingdom.Models.Entities;
 using CodeKingdom.Repositories;
+using CodeKingdom.Models.ViewModels;
 
 namespace CodeKingdom.Controllers
 {
@@ -128,6 +129,19 @@ namespace CodeKingdom.Controllers
             db.Files.Remove(file);
             db.SaveChanges();
             return RedirectToAction("Index");
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Save(EditorViewModel model)
+        {
+            FileViewModel fileModel = new FileViewModel
+            {
+                ID = model.FileID,
+                Content = model.Content
+            };
+            repository.Update(fileModel);
+            return RedirectToAction("Index", "Project", null);
         }
 
         protected override void Dispose(bool disposing)

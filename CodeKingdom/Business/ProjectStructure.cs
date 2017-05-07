@@ -86,14 +86,27 @@ namespace CodeKingdom.Business
             return viewModels;
         }
 
-        public EditorViewModel GetEditorViewModel(int projectId)
+        public EditorViewModel GetEditorViewModel(int projectId, int? fileId = null)
         {
             Project project = GetProject(projectId);
             int folderID = project.FolderID;
+            File file;
+
+            if (fileId.HasValue)
+            {
+                file = project.Root.Files.Where(f => f.ID == fileId).FirstOrDefault();
+            }
+            else
+            {
+                file = project.Root.Files.FirstOrDefault();
+            }
+
             EditorViewModel viewModel = new EditorViewModel
             {
                 Name = project.Name,
                 ProjectID = project.ID,
+                FileID = file.ID,
+                Content = file.Content,
                 Collaborators = project.Collaborators,
                 Folders = folderRepository.GetChildrenById(folderID),
                 Files = fileRepository.GetByFolderId(folderID),

@@ -61,7 +61,7 @@ namespace CodeKingdom.Repositories
 
         public bool Update(FileViewModel model)
         {
-            /*
+            
             File file = GetById(model.ID);
 
             if(file == null)
@@ -69,13 +69,13 @@ namespace CodeKingdom.Repositories
                 return false;
             }
 
-            file.Name = model.Name;
-            file.Type = model.Type;
+            //file.Name = model.Name;
+            //file.Type = model.Type;
             file.Content = model.Content;
-            file.FolderID = model.FolderID;
+            //file.FolderID = model.FolderID;
 
             db.SaveChanges();
-            */
+            
             return true;
         }
     }
