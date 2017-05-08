@@ -184,6 +184,113 @@ namespace CodeKingdomTests.Repositories
             Assert.AreNotEqual(result1.Name, result2.Name);
         }
         #endregion
-        // TODO: Test Update
+
+        #region Test update methods
+        [TestMethod]
+        public void TestUpdateFileContent()
+        {
+            // Arrange
+            const string newContent = "newContent";
+            FileViewModel file = new FileViewModel
+            {
+                ID = 1,
+                Content = newContent
+            };
+
+            // Act
+            var result = repo.UpdateContent(file);
+
+            // Assert
+            Assert.IsNotNull(result);
+            Assert.AreEqual(newContent, result.Content);
+        }
+
+        [TestMethod]
+        public void TestUpdateFileContentNonExistingFile()
+        {
+            // Arrange
+            FileViewModel file = new FileViewModel { ID = 0 };
+
+            // Act
+            var result = repo.UpdateContent(file);
+
+            // Assert
+            Assert.IsNull(result);
+        }
+
+        [TestMethod]
+        public void TestRenameFile()
+        {
+            // Arrange
+            const string newName = "newname";
+            FileViewModel file = new FileViewModel
+            {
+                ID = 1,
+                Name = newName,
+                FolderID = 1
+            };
+
+            // Act
+            var result = repo.Rename(file);
+
+            // Assert
+            Assert.IsNotNull(result);
+            Assert.AreEqual(newName, result.Name);
+        }
+
+        [TestMethod]
+        public void TestRenameFileDuplicate()
+        {
+            // Arrange
+            const string newName = "better-birds";
+            FileViewModel file = new FileViewModel
+            {
+                ID = 4,
+                Name = newName,
+                FolderID = 2
+            };
+
+            // Act
+            var result = repo.Rename(file);
+
+            // Assert
+            Assert.IsNotNull(result);
+            Assert.AreNotEqual(newName, result.Name);
+        }
+
+        [TestMethod]
+        public void TestRenameFileSameName()
+        {
+            // Arrange
+            const string newName = "birds";
+            FileViewModel file = new FileViewModel
+            {
+                ID = 4,
+                Name = newName,
+                FolderID = 2
+            };
+
+            // Act
+            var result = repo.Rename(file);
+
+            // Assert
+            Assert.IsNotNull(result);
+            Assert.AreEqual(newName, result.Name);
+        }
+
+        [TestMethod]
+        public void TestRenameNonExistingFile()
+        {
+            // Arrange
+            const string newName = "d";
+            FileViewModel file = new FileViewModel { ID = 0, Name = newName };
+
+            // Act
+            var result = repo.Rename(file);
+
+            // Assert
+            Assert.IsNull(result);
+        }
+        #endregion
     }
 }

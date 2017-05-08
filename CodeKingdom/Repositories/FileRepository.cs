@@ -69,7 +69,7 @@ namespace CodeKingdom.Repositories
             return true;
         }
 
-        public File Update(FileViewModel model)
+        public File UpdateContent(FileViewModel model)
         {
             
             File file = GetById(model.ID);
@@ -79,13 +79,37 @@ namespace CodeKingdom.Repositories
                 return null;
             }
 
-            file.Name = model.Name;
-            file.Type = model.Type;
             file.Content = model.Content;
-            file.FolderID = model.FolderID;
 
             db.SaveChanges();
             
+            return file;
+        }
+
+        public File Rename(FileViewModel model)
+        {
+            File file = GetById(model.ID);
+
+            if (file == null)
+            {
+                return null;
+            }
+
+            if (file.Name != model.Name)
+            {
+                List<File> files = GetByFolderId(model.FolderID);
+                foreach (File f in files)
+                {
+                    if (f.Name == model.Name)
+                    {
+                        model.Name += "Copy";
+                        return Rename(model);
+                    }
+                }
+                file.Name = model.Name;
+                db.SaveChanges();
+            }
+
             return file;
         }
     }
