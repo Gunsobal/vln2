@@ -13,6 +13,10 @@
         $("#hidden_editor").val(editor.getSession().getValue());
     });
 
+    $('.push-body').on("click", function(e) {
+        e.preventDefault();
+    })
+
     // Create a function that the hub can call back to display messages.
     chat.client.addNewMessageToPage = function (name, message) {
         // Add the message to the page.
@@ -72,15 +76,16 @@
     $('.toggle-menu').jPushMenu();
 
     /* JS for right click context menu*/
-    $(document).on("contextmenu", ".menu-list", function (e) {
+    $(document).on("contextmenu", ".tree-item", function (e) {
         e.preventDefault();
-        console.log(e.pageX + "," + e.pageY);
+        var href = $(this).attr('href');
+        $('#open-in-tab').attr('href', href);
         $("#cntnr").css("left", e.pageX);
         $("#cntnr").css("top", e.pageY);
         // $("#cntnr").hide(100);        
         $("#cntnr").fadeIn(200, startFocusOut());
     });
-
+    
     $(".tree-item").click(function () {
         var id = $(this).data("id");
         $(".tree-item").removeClass("active");
@@ -97,5 +102,5 @@
     function htmlEncode(value) {
         var encodedValue = $('<div />').text(value).html();
         return encodedValue;
-    }
+    };
 });
