@@ -13,6 +13,5 @@ namespace CodeKingdom.Models.ViewModels
         public string Content { get; set; }
         public string Type { get; set; }
         public string ApplicationUserID { get; set; }
-        public int MyProperty { get; set; }
     }
 }

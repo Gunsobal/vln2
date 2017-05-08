@@ -101,6 +101,20 @@ namespace CodeKingdom.Business
                 file = project.Root.Files.FirstOrDefault();
             }
 
+            // Project does not contain any files in the root of the project. 
+            // We have to create a default one the solution does not throw 
+            // yellow screen of death
+            FileViewModel fileViewModel = new FileViewModel
+            {
+                Name = "index.js",
+                FolderID = folderID,
+                Content = "",
+                Type = "Javascript",
+                ApplicationUserID = GetUserId(),
+            };
+
+            file = fileRepository.Create(fileViewModel);
+            
             EditorViewModel viewModel = new EditorViewModel
             {
                 Name = project.Name,

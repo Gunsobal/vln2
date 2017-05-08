@@ -27,9 +27,9 @@ namespace CodeKingdom.Repositories
             return db.Files.Where(x => x.FolderID == id).ToList();
         }
 
-        public bool Create(FileViewModel model)
+        public File Create(FileViewModel model)
         {
-            /*File file = new File
+            File file = new File
             {
                 Name = model.Name,
                 Type = model.Type,
@@ -40,8 +40,8 @@ namespace CodeKingdom.Repositories
 
             db.Files.Add(file);
             db.SaveChanges();
-            */
-            return true;
+
+            return file;
         }
 
         public bool DeleteById(int id)
@@ -64,7 +64,7 @@ namespace CodeKingdom.Repositories
             
             File file = GetById(model.ID);
 
-            if(file == null)
+            if (file == null)
             {
                 return false;
             }
