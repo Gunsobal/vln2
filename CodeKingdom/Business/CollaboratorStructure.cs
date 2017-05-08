@@ -33,7 +33,7 @@ namespace CodeKingdom.Business
                 RoleID = collaborator.CollaboratorRoleID,
                 ProjectID = collaborator.ProjectID,
             };
-            List<SelectListItem> roleList = CreateRoleSelectListForViewModel(viewModel);
+            List<SelectListItem> roleList = CreateRoleSelectListForViewModel();
             viewModel.Roles = roleList;
             return viewModel;
         }
@@ -53,7 +53,7 @@ namespace CodeKingdom.Business
                 RoleID = collaborator.CollaboratorRoleID,
                 ProjectID = collaborator.ProjectID
             };
-            List<SelectListItem> roleList = CreateRoleSelectListForViewModel(viewModel);
+            List<SelectListItem> roleList = CreateRoleSelectListForViewModel();
             viewModel.Roles = roleList;
             return viewModel;
         }
@@ -63,7 +63,7 @@ namespace CodeKingdom.Business
             return collaboratorRepository.GetById(id);
         }
 
-        public List<SelectListItem> CreateRoleSelectListForViewModel(CollaboratorViewModel viewModel)
+        public List<SelectListItem> CreateRoleSelectListForViewModel()
         {
             List<CollaboratorRole> roles = collaboratorRepository.GetAllRoles();
             List<SelectListItem> roleList = new List<SelectListItem>();
