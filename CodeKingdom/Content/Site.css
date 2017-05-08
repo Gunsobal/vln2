@@ -6,8 +6,13 @@
 
 /* Set padding to keep content from hitting the edges */
 .body-content {
+    padding-top: 45px;
     padding-left: 15px;
     padding-right: 15px;
+}
+
+.body-content h2{
+    font-size: 25px;
 }
 
 /* Override the default bootstrap behavior where horizontal description lists 
@@ -63,7 +68,7 @@ textarea {
   height: 180px;      
   background:#F9F9F9;
   box-shadow: 3px 3px 2px #E9E9E9;
-  border-radius:4px;
+  border-radius:5px;
 }
 
 #right-menu-line { 
@@ -84,12 +89,11 @@ textarea {
 }
 
 
-.menu-item > a:hover{
+.menu-item a:hover{
    color: #000000;
 }
 
 .cbp-spmenu a.active{
-
     color: white;
 }
 
@@ -97,4 +101,13 @@ textarea {
     position: absolute;
     bottom: 0;
     right: 0;
+}
+
+.right {
+    text-align: right;
+}
+
+.left {
+    text-align: left;
+    padding-left: 5px;
 }

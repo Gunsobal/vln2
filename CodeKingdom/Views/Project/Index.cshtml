@@ -1,23 +1,24 @@
 ﻿@model IEnumerable<CodeKingdom.Models.ViewModels.ProjectViewModel>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Projects";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Index</h2>
+<h2>Projects</h2>
 
 <p>
-    @Html.ActionLink("Create New", "Create")
+    @Html.ActionLink("Create New", "Create", new { }, new { @class="btn btn-default"} )
 </p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Name)
-        </th>
-        <th></th>
-    </tr>
 
+<table class="table">
+<thead>
+    <tr>
+        <th>Name</th>
+        <th>Settings</th>
+    </tr>
+</thead>
+  
 @foreach (var item in Model) {
     <tr>
         <td>
@@ -30,5 +31,4 @@
         </td>
     </tr>
 }
-
 </table>

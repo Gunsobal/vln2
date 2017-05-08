@@ -78,6 +78,8 @@
 
     $(".tree-item").click(function () {
         var id = $(this).data("id");
+        $(".tree-item").removeClass("active");
+        $(this).addClass("active");
     });
     
     function startFocusOut() {
