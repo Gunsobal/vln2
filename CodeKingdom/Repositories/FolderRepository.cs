@@ -26,10 +26,19 @@ namespace CodeKingdom.Repositories
             return db.Folders.Where(x => x.FolderID == id).ToList();
         }
 
-        //Create
+        public Folder Create(Folder folder)
+        {
+            return new Folder();
+        }
 
-        //Delete
+        public bool DeleteById(int id)
+        {
+            return false;
+        }
 
-        //Update
+        public Folder Update(Folder folder)
+        {
+            return new Folder();
+        }
     }
 }
