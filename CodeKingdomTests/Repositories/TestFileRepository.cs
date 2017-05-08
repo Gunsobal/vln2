@@ -2,6 +2,7 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using CodeKingdom.Repositories;
 using CodeKingdom.Models.Entities;
+using CodeKingdom.Models.ViewModels;
 
 namespace CodeKingdomTests.Repositories
 {
@@ -113,7 +114,76 @@ namespace CodeKingdomTests.Repositories
         }
         #endregion
 
-        // TODO: Test Create
+        #region Test create method
+        [TestMethod]
+        public void TestCreateFile()
+        {
+            // Arrange
+            FileViewModel newFile = new FileViewModel
+            {
+                Name = "testFile",
+                Type = "js",
+                FolderID = 4,
+                ApplicationUserID = "test1",
+                Content = "some text"
+            };
+
+            // Act
+            var result = repo.Create(newFile);
+
+            // Assert
+            Assert.IsNotNull(result);
+            Assert.AreEqual(newFile.Name, result.Name);
+        }
+
+        [TestMethod]
+        public void TestCreateFileDuplicate()
+        {
+            // Arrange
+            const string fileName = "myscript";
+            FileViewModel newFile = new FileViewModel
+            {
+                Name = fileName,
+                FolderID = 5,
+                Type = "js",
+                Content = "script-stuff",
+                ApplicationUserID = "dummy",
+            };
+
+            // Act
+            var result = repo.Create(newFile);
+
+            // Assert
+            Assert.IsNotNull(result);
+            Assert.AreNotEqual(fileName, result.Name);
+        }
+
+        [TestMethod]
+        public void TestCreateMultipleFileDuplicates()
+        {
+            // Arrange
+            const string fileName = "myscript";
+            FileViewModel newFile = new FileViewModel
+            {
+                Name = fileName,
+                FolderID = 5,
+                Type = "js",
+                Content = "script-stuff",
+                ApplicationUserID = "dummy"
+            };
+
+            // Act
+            var result1 = repo.Create(newFile);
+            var result2 = repo.Create(newFile);
+
+            // Assert
+            Assert.IsNotNull(result1);
+            Assert.IsNotNull(result2);
+            Assert.AreNotEqual(fileName, result1.Name);
+            Assert.AreNotEqual(fileName, result2.Name);
+            Assert.AreNotEqual(result1.Name, result2.Name);
+        }
+        #endregion
         // TODO: Test Update
     }
 }

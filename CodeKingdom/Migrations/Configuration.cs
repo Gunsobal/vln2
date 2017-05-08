@@ -56,6 +56,8 @@ namespace CodeKingdom.Migrations
             seedFile(context, "index.html", 1, "unnsteinng@gmail.com");
             seedFile(context, "script.js", 1, "unnsteinng@gmail.com");
             seedFile(context, "style.css", 1, "unnsteinng@gmail.com");
+            seedFile(context, "index.js", 2, "Gunso2@mail.com");
+            seedFile(context, "index.js", 3, "Gunso3@mail.com");
             seedFile(context, "bubbiController.cs", 4, "unnsteinng@gmail.com");
             seedFile(context, "model.cs", 5, "unnsteinng@gmail.com");
             seedFile(context, "bubbi.html", 6, "unnsteinng@gmail.com");
@@ -68,6 +70,8 @@ namespace CodeKingdom.Migrations
             seedFile(context, "doc2.txt", 8, "Gunso3@mail.com");
             seedFile(context, "doc3.txt", 8, "Gunso3@mail.com");
             seedFile(context, "bin.obj", 9, "Gunso3@mail.com");
+            seedFile(context, "index.js", 2, "Gunso2@mail.com");
+            seedFile(context, "index.js", 3, "Gunso3@mail.com");
             seedProject(context, "projectNron", 1);
             seedProject(context, "projectNrond", 2);
             seedProject(context, "projectNron3", 3);

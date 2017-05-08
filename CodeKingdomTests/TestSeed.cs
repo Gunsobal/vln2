@@ -186,6 +186,15 @@ namespace CodeKingdomTests
                 Content = "illustrator-file",
                 ApplicationUserID = "dummy",
             });
+            context.Files.Add(new File
+            {
+                ID = 7,
+                Name = "index",
+                FolderID = 6,
+                Type = "js",
+                Content = "Default File",
+                ApplicationUserID = "test1"
+            });
         }
         #endregion
 
