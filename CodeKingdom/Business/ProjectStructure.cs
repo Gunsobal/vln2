@@ -73,13 +73,16 @@ namespace CodeKingdom.Business
 
             foreach (var project in projects)
             {
+                string userID = GetUserId();
+                Collaborator collaborator = collaboratorRepository.GetByUserIdAndProjectId(userID, project.ID);
                 List<CollaboratorViewModel> collabViewModels = GetListOfCollaboratorViewModels(project); 
                 viewModels.Add(
                     new ProjectViewModel
                     {
                         ID = project.ID,
                         Name = project.Name,
-                        Collaborators = collabViewModels
+                        Collaborators = collabViewModels,
+                        Role = collaborator.Role.Name
                     }
                 );
             }
