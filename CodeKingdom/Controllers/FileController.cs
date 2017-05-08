@@ -13,10 +13,11 @@ using CodeKingdom.Models.ViewModels;
 
 namespace CodeKingdom.Controllers
 {
+    [Authorize]
     public class FileController : Controller
     {
-        private ApplicationDbContext db = new ApplicationDbContext();
         private FileRepository repository = new FileRepository();
+        private FolderRepository folderRepository = new FolderRepository();
         private ProjectRepository projectRepository = new ProjectRepository();
 
         public ActionResult Create(int? id)
@@ -25,21 +26,29 @@ namespace CodeKingdom.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
+
+            Project project = projectRepository.getById(id.Value);
+
+            if (project == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.NotFound);
+            }
+
             FileViewModel model = new FileViewModel
             {
-                ProjectID = id.Value
+                ProjectID = project.ID,
+                Folders = GetFolders(project.Root.ID)
             };
+
             return View(model);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "ID,ProjectID,Name,Type")] FileViewModel file)
+        public ActionResult Create([Bind(Include = "ID,ProjectID,FolderID,Name,Type")] FileViewModel file)
         {
             if (ModelState.IsValid)
             {
-                Project project = projectRepository.getById(file.ProjectID);
-                file.FolderID = project.Root.ID;
                 File newfile = repository.Create(file);
                 return RedirectToAction("Details", "Project", new { id = file.ProjectID, fileID = newfile.ID});
             }
@@ -60,8 +69,24 @@ namespace CodeKingdom.Controllers
             {
                 return HttpNotFound();
             }
-            
-            return View(file);
+
+            Project project = projectRepository.getById(id.Value);
+
+            if (project == null)
+            {
+                return HttpNotFound();
+            }
+
+            FileViewModel model = new FileViewModel
+            {
+                ID = file.ID,
+                Name = file.Name,
+                ProjectID = project.ID,
+                Type = file.Type,
+                Folders = GetFolders(project.Root.ID)
+            };
+
+            return View(model);
         }
 
         // POST: File/Edit/5
@@ -109,9 +134,7 @@ namespace CodeKingdom.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            File file = db.Files.Find(id);
-            db.Files.Remove(file);
-            db.SaveChanges();
+            repository.DeleteById(id);
             return RedirectToAction("Index");
         }
 
@@ -128,13 +151,18 @@ namespace CodeKingdom.Controllers
             return RedirectToAction("Index", "Project", null);
         }
 
-        protected override void Dispose(bool disposing)
+        private List<SelectListItem> GetFolders(int rootID)
         {
-            if (disposing)
+            List<Folder> folders = new List<Folder>();
+            folders.AddRange(folderRepository.GetCascadingChildrenById(rootID));
+            List<SelectListItem> folderList = new List<SelectListItem>();
+
+            foreach (var folder in folders)
             {
-                db.Dispose();
+                folderList.Add(new SelectListItem { Value = folder.ID.ToString(), Text = folder.Name });
             }
-            base.Dispose(disposing);
+
+            return folderList;
         }
     }
 }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
+using System.Web.Mvc;
 
 namespace CodeKingdom.Models.ViewModels
 {
@@ -17,5 +18,8 @@ namespace CodeKingdom.Models.ViewModels
         [Required]
         public string Type { get; set; }
         public string ApplicationUserID { get; set; }
+
+        public IEnumerable<SelectListItem> Folders { get; set; }
+
     }
 }
