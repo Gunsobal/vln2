@@ -13,62 +13,49 @@ using CodeKingdom.Models.ViewModels;
 
 namespace CodeKingdom.Controllers
 {
+    [Authorize]
     public class FileController : Controller
     {
-        private ApplicationDbContext db = new ApplicationDbContext();
-
         private FileRepository repository = new FileRepository();
+        private FolderRepository folderRepository = new FolderRepository();
+        private ProjectRepository projectRepository = new ProjectRepository();
 
-        // GET: File
-        public ActionResult Index()
+        public ActionResult Create(int? id)
         {
-            var files = db.Files.Include(f => f.Folder).Include(f => f.Owner);
-            return View(files.ToList());
-        }
-
-        // GET: File/Details/5
-        public ActionResult Details(int? id)
-        {
-            if (id == null)
+            if (!id.HasValue)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            File file = db.Files.Find(id);
-            if (file == null)
+
+            Project project = projectRepository.getById(id.Value);
+
+            if (project == null)
             {
-                return HttpNotFound();
+                return new HttpStatusCodeResult(HttpStatusCode.NotFound);
             }
-            return View(file);
+
+            FileViewModel model = new FileViewModel
+            {
+                ProjectID = project.ID,
+                Folders = GetFolders(project.Root.ID)
+            };
+
+            return View(model);
         }
 
-        // GET: File/Create
-        public ActionResult Create()
-        {
-            ViewBag.FolderID = new SelectList(db.Folders, "ID", "Name");
-            ViewBag.ApplicationUserID = new SelectList(db.Users, "Id", "Email");
-            return View();
-        }
-
-        // POST: File/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "ID,Name,Content,Type,FolderID,ApplicationUserID")] File file)
+        public ActionResult Create([Bind(Include = "ID,ProjectID,FolderID,Name,Type")] FileViewModel file)
         {
             if (ModelState.IsValid)
             {
-                db.Files.Add(file);
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                File newfile = repository.Create(file);
+                return RedirectToAction("Details", "Project", new { id = file.ProjectID, fileID = newfile.ID});
             }
 
-            ViewBag.FolderID = new SelectList(db.Folders, "ID", "Name", file.FolderID);
-            ViewBag.ApplicationUserID = new SelectList(db.Users, "Id", "Email", file.ApplicationUserID);
             return View(file);
         }
 
-        // GET: File/Edit/5
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -82,9 +69,24 @@ namespace CodeKingdom.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.FolderID = new SelectList(db.Folders, "ID", "Name", file.FolderID);
-            ViewBag.ApplicationUserID = new SelectList(db.Users, "Id", "Email", file.ApplicationUserID);
-            return View(file);
+
+            Project project = projectRepository.getById(id.Value);
+
+            if (project == null)
+            {
+                return HttpNotFound();
+            }
+
+            FileViewModel model = new FileViewModel
+            {
+                ID = file.ID,
+                Name = file.Name,
+                ProjectID = project.ID,
+                Type = file.Type,
+                Folders = GetFolders(project.Root.ID)
+            };
+
+            return View(model);
         }
 
         // POST: File/Edit/5
@@ -92,42 +94,47 @@ namespace CodeKingdom.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "ID,Name,Content,Type,FolderID,ApplicationUserID")] File file)
+        public ActionResult Edit([Bind(Include = "ID,Name,Type")] FileViewModel file)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(file).State = EntityState.Modified;
-                db.SaveChanges();
+                repository.Rename(file);
                 return RedirectToAction("Index");
             }
-            ViewBag.FolderID = new SelectList(db.Folders, "ID", "Name", file.FolderID);
-            ViewBag.ApplicationUserID = new SelectList(db.Users, "Id", "Email", file.ApplicationUserID);
+            
             return View(file);
         }
 
-        // GET: File/Delete/5
         public ActionResult Delete(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            File file = db.Files.Find(id);
+
+            File file = repository.GetById(id.Value);
+
             if (file == null)
             {
                 return HttpNotFound();
             }
-            return View(file);
+
+            FileViewModel model = new FileViewModel
+            {
+                ID = file.ID,
+                Name = file.Name,
+                Type = file.Type,
+                Content = file.Content,
+            };
+
+            return View(model);
         }
 
-        // POST: File/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            File file = db.Files.Find(id);
-            db.Files.Remove(file);
-            db.SaveChanges();
+            repository.DeleteById(id);
             return RedirectToAction("Index");
         }
 
@@ -144,13 +151,18 @@ namespace CodeKingdom.Controllers
             return RedirectToAction("Index", "Project", null);
         }
 
-        protected override void Dispose(bool disposing)
+        private List<SelectListItem> GetFolders(int rootID)
         {
-            if (disposing)
+            List<Folder> folders = new List<Folder>();
+            folders.AddRange(folderRepository.GetCascadingChildrenById(rootID));
+            List<SelectListItem> folderList = new List<SelectListItem>();
+
+            foreach (var folder in folders)
             {
-                db.Dispose();
+                folderList.Add(new SelectListItem { Value = folder.ID.ToString(), Text = folder.Name });
             }
-            base.Dispose(disposing);
+
+            return folderList;
         }
     }
 }

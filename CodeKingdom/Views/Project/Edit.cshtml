@@ -33,6 +33,7 @@
                         <th>
                             @Html.DisplayNameFor(model => model.Collaborators) @Html.ActionLink("Add another collaborator", "Create", "Collaborator", new { id = Model.ID }, null)
                         </th>
+                        <th>Role</th>
                         <th></th>
                     </tr>
 
@@ -43,9 +44,13 @@
                                 @Html.DisplayFor(modelItem => item.UserName)
                             </td>
                             <td>
+                                @Html.DisplayFor(modelItem => item.RoleName)
+                            </td>
+                            <td>
                                 @Html.ActionLink("Edit", "Edit", "Collaborator", new { id = item.ID }, null)
-                                @if (item.RoleName != "Owner")
+                                @if (item.RoleName == "Owner")
                                 {
+                                    <text> | </text>
                                     @Html.ActionLink("Delete", "Delete", "Collaborator", new { id = item.ID }, null)
                                 }
                             </td>

@@ -11,7 +11,7 @@
     <nav class="cbp-spmenu cbp-spmenu-vertical cbp-spmenu-left">
         <div id="new-folder-file">
             @Html.ActionLink("New Folder", "Create", "Folder", new { id = Model.ProjectID }, new { })
-            @Html.ActionLink("New File", "Create", "File", new { id = Model.ProjectID }, new { })
+            @Html.ActionLink("New File", "Create", "File", new { id = Model.ProjectID }, null)
         </div>
         <ul class="menu-list">
             <li><a class="tree-item" data-id="@Model.ProjectID" href="#">@Html.DisplayFor(model => model.Name) </a></li>

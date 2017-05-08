@@ -34,8 +34,8 @@ namespace CodeKingdom.Migrations
             //
 
             //CodeKingdomTest User Seeds
-            seedUser(context, "test_user_one@test.com");
-            seedUser(context, "test_user_two@test.com");
+            //seedUser(context, "test_user_one@test.com");
+            //seedUser(context, "test_user_two@test.com");
             
             //CodeKingdom Seeds
             seedUser(context, "Gunso@mail.com");
@@ -47,12 +47,12 @@ namespace CodeKingdom.Migrations
             seedFolder(context, "Root1");
             seedFolder(context, "Root2");
             seedFolder(context, "Root3");
-            seedFolder(context, "controllers", 1);
-            seedFolder(context, "models", 1);
-            seedFolder(context, "views", 1);
-            seedFolder(context, "images", 2);
-            seedFolder(context, "docs", 3);
-            seedFolder(context, "bin", 3);
+            seedFolder(context, "controllers", context.Folders.Where(x => x.Name == "Root1").FirstOrDefault());
+            seedFolder(context, "models", context.Folders.Where(x => x.Name == "Root1").FirstOrDefault());
+            seedFolder(context, "views", context.Folders.Where(x => x.Name == "Root1").FirstOrDefault());
+            seedFolder(context, "images", context.Folders.Where(x => x.Name == "Root1").FirstOrDefault());
+            seedFolder(context, "docs");
+            seedFolder(context, "bin", context.Folders.Where(x => x.Name == "models").FirstOrDefault());
             seedFile(context, "index.html", 1, "unnsteinng@gmail.com");
             seedFile(context, "script.js", 1, "unnsteinng@gmail.com");
             seedFile(context, "style.css", 1, "unnsteinng@gmail.com");
@@ -112,10 +112,15 @@ namespace CodeKingdom.Migrations
                 new CollaboratorRole { Name = "Member" });
             context.SaveChanges();
         }
-        private void seedFolder(ApplicationDbContext context, string name, int? parent_id = null)
+        private void seedFolder(ApplicationDbContext context, string name, Folder parent = null)
         {
-            context.Folders.AddOrUpdate(f => f.Name,
-                new Folder { Name = name, Parent = parent_id.HasValue ? context.Folders.Find(parent_id) : null });
+            Folder folder = new Models.Entities.Folder();
+            if (parent != null)
+            {
+                folder.FolderID = parent.ID;
+            }
+            folder.Name = name;
+            context.Folders.AddOrUpdate(f => f.Name, folder);
             context.SaveChanges();
         }
         private void seedFile(ApplicationDbContext context, string name, int folder_id, string username)

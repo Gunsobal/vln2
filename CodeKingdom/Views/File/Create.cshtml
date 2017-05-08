@@ -1,4 +1,4 @@
-﻿@model CodeKingdom.Models.Entities.File
+﻿@model CodeKingdom.Models.ViewModels.FileViewModel
 
 @{
     ViewBag.Title = "Create";
@@ -11,7 +11,8 @@
 @using (Html.BeginForm()) 
 {
     @Html.AntiForgeryToken()
-    
+    @Html.HiddenFor(model => model.ProjectID)
+       
     <div class="form-horizontal">
         <h4>File</h4>
         <hr />
@@ -25,14 +26,6 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.Content, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Content, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Content, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
             @Html.LabelFor(model => model.Type, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.Type, new { htmlAttributes = new { @class = "form-control" } })
@@ -41,18 +34,10 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.FolderID, "FolderID", htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.FolderID, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.DropDownList("FolderID", null, htmlAttributes: new { @class = "form-control" })
+                @Html.DropDownListFor(model => model.FolderID, Model.Folders, new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.FolderID, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.ApplicationUserID, "ApplicationUserID", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.DropDownList("ApplicationUserID", null, htmlAttributes: new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.ApplicationUserID, "", new { @class = "text-danger" })
             </div>
         </div>
 
@@ -65,7 +50,7 @@
 }
 
 <div>
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink("Back to editor", "Details", "Project", new { id = Model.ProjectID }, null)
 </div>
 
 @section Scripts {

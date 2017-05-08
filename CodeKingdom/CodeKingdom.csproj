@@ -341,17 +341,15 @@
     <Content Include="Views\Project\Details.cshtml" />
     <Content Include="Views\Project\Edit.cshtml" />
     <Content Include="Views\Project\Index.cshtml" />
-    <Content Include="Views\Collaborators\Create.cshtml" />
-    <Content Include="Views\Collaborators\Delete.cshtml" />
-    <Content Include="Views\Collaborators\Details.cshtml" />
-    <Content Include="Views\Collaborators\Edit.cshtml" />
-    <Content Include="Views\Collaborators\Index.cshtml" />
+    <Content Include="Views\Collaborator\Create.cshtml" />
+    <Content Include="Views\Collaborator\Delete.cshtml" />
+    <Content Include="Views\Collaborator\Details.cshtml" />
+    <Content Include="Views\Collaborator\Edit.cshtml" />
+    <Content Include="Views\Collaborator\Index.cshtml" />
     <Content Include="Views\Shared\_FrontpageLayout.cshtml" />
     <Content Include="Views\File\Create.cshtml" />
     <Content Include="Views\File\Delete.cshtml" />
-    <Content Include="Views\File\Details.cshtml" />
     <Content Include="Views\File\Edit.cshtml" />
-    <Content Include="Views\File\Index.cshtml" />
     <Content Include="Views\Project\Chat.cshtml" />
   </ItemGroup>
   <ItemGroup>

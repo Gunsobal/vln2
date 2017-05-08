@@ -30,7 +30,7 @@ namespace CodeKingdom.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            CollaboratorViewModel viewModel = collaboratorStructure.CreateCollaboratorViewModelFromID(id.Value);
+            CollaboratorViewModel viewModel = collaboratorStructure.CreateCollaboratorViewModelFromProjectAndUserID(id.Value, HttpContext.User.Identity.GetUserId());
 
             if (!isOwner(viewModel))
             {
@@ -51,7 +51,7 @@ namespace CodeKingdom.Controllers
                     return new HttpStatusCodeResult(HttpStatusCode.Forbidden);
                 }
 
-                if (repository.Create(collaborator))
+                if (collaboratorStructure.Create(collaborator))
                 {
                     return RedirectToAction("Index", "Project", new { id = collaborator.ProjectID });
                 }

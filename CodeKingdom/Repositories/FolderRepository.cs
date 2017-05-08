@@ -26,10 +26,42 @@ namespace CodeKingdom.Repositories
             return db.Folders.Where(x => x.FolderID == id).ToList();
         }
 
-        //Create
+        public List<Folder> GetCascadingChildrenById(int id)
+        {
+            List<Folder> folders = getCascadingChildrenRecursive(id);
+            Folder folder = GetById(id);
+            if (folder != null)
+            {
+                folders.Insert(0, folder);
+            }
+            return folders;
+        }
 
-        //Delete
+        public Folder Create(Folder folder)
+        {
+            return new Folder();
+        }
 
-        //Update
+        public bool DeleteById(int id)
+        {
+            return false;
+        }
+
+        public Folder Update(Folder folder)
+        {
+            return new Folder();
+        }
+
+        private List<Folder> getCascadingChildrenRecursive(int id)
+        {
+            List<Folder> children = GetChildrenById(id);
+            List<Folder> folders = new List<Folder>();
+            folders.AddRange(children);
+            foreach (Folder child in children)
+            {
+                folders.AddRange(getCascadingChildrenRecursive(child.ID));
+            }
+            return folders;
+        }
     }
 }
