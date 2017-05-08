@@ -30,7 +30,7 @@ namespace CodeKingdom.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            CollaboratorViewModel viewModel = collaboratorStructure.CreateCollaboratorViewModelFromID(id.Value);
+            CollaboratorViewModel viewModel = collaboratorStructure.CreateCollaboratorViewModelFromProjectAndUserID(id.Value, User.Identity.GetUserId());
 
             if (!isOwner(viewModel))
             {

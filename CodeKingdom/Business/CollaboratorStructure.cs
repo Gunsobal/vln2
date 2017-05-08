@@ -12,10 +12,12 @@ namespace CodeKingdom.Business
     public class CollaboratorStructure
     {
         private CollaboratorRepository collaboratorRepository;
+        private UserRepository userRepository;
 
         public CollaboratorStructure()
         {
             collaboratorRepository = new CollaboratorRepository();
+            userRepository = new UserRepository();
         }
 
         public CollaboratorViewModel CreateCollaboratorViewModelFromID(int id)
@@ -28,6 +30,26 @@ namespace CodeKingdom.Business
                 RoleName = collaborator.Role.Name,
                 RoleID = collaborator.CollaboratorRoleID,
                 ProjectID = collaborator.ProjectID,
+            };
+            List<SelectListItem> roleList = CreateRoleSelectListForViewModel(viewModel);
+            viewModel.Roles = roleList;
+            return viewModel;
+        }
+
+        public CollaboratorViewModel CreateCollaboratorViewModelFromProjectAndUserID(int projectID, string userID)
+        {
+            Collaborator collaborator = collaboratorRepository.GetByUserIdAndProjectId(userID, projectID);
+            if (collaborator == null)
+            {
+                return null;
+            }
+            CollaboratorViewModel viewModel = new CollaboratorViewModel
+            {
+                ID = collaborator.ID,
+                UserName = collaborator.User.UserName,
+                RoleName = collaborator.Role.Name,
+                RoleID = collaborator.CollaboratorRoleID,
+                ProjectID = collaborator.ProjectID
             };
             List<SelectListItem> roleList = CreateRoleSelectListForViewModel(viewModel);
             viewModel.Roles = roleList;
