@@ -30,13 +30,19 @@ namespace CodeKingdom.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            CollaboratorViewModel viewModel = collaboratorStructure.CreateCollaboratorViewModelFromProjectAndUserID(id.Value, HttpContext.User.Identity.GetUserId());
+            CollaboratorViewModel viewModel = new CollaboratorViewModel
+            {
+                ProjectID = id.Value,
+                Roles = collaboratorStructure.CreateRoleSelectListForViewModel(),
+            };
+
+            // collaboratorStructure.CreateCollaboratorViewModelFromProjectAndUserID(id.Value, HttpContext.User.Identity.GetUserId());
 
             if (!isOwner(viewModel))
             {
                 return new HttpStatusCodeResult(HttpStatusCode.Forbidden);
             }
-            collaboratorStructure.CreateRoleSelectListForViewModel(viewModel);
+
             return View(viewModel);
         }
 
@@ -56,6 +62,8 @@ namespace CodeKingdom.Controllers
                     return RedirectToAction("Index", "Project", new { id = collaborator.ProjectID });
                 }
             }
+
+            collaborator.Roles = collaboratorStructure.CreateRoleSelectListForViewModel();
 
             return View(collaborator);
         }
