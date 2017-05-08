@@ -3,6 +3,7 @@
     var editor = ace.edit("editor"),
         chat = $.connection.chatHub,
         editorHub = $.connection.editorHub,
+        file = $.connection.fileHub,
         silent = false;
 
     editor.setTheme("ace/theme/twilight");
@@ -25,11 +26,15 @@
         silent = false;
     }
 
-    var file = $.connection.fileHub; // adda filehub
+    // Change file
     file.client.ReturnFile = function (id, content, type) {
+        silent = true;
+        editorHub.server.leaveFile(fileID);
         fileID = id;
+        editorHub.server.joinFile(fileID);
         editor.getSession().setMode("ace/mode/" + type);
         editor.setValue(content);
+        silent = false;
     }
 
 
