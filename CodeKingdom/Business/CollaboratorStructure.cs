@@ -1,6 +1,8 @@
-﻿using CodeKingdom.Models.Entities;
+﻿using CodeKingdom.Models;
+using CodeKingdom.Models.Entities;
 using CodeKingdom.Models.ViewModels;
 using CodeKingdom.Repositories;
+using Microsoft.AspNet.Identity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -82,5 +84,20 @@ namespace CodeKingdom.Business
             collaboratorRepository.DeleteById(id);
         }
 
+        public bool Create(CollaboratorViewModel viewModel)
+        {
+            ApplicationUser user = userRepository.GetByUserName(viewModel.UserName);
+            if (user == null)
+            {
+                return false;
+            }
+            Collaborator collaborator = new Collaborator
+            {
+                ApplicationUserID = user.Id,
+                ProjectID = viewModel.ProjectID,
+                CollaboratorRoleID = viewModel.RoleID
+            };
+            return collaboratorRepository.Create(collaborator);
+        }
     }
 }

@@ -64,26 +64,14 @@ namespace CodeKingdom.Repositories
             return true;
         }
 
-        public bool Create(CollaboratorViewModel model)
+        public bool Create(Collaborator model)
         {
-            ApplicationUser user = userRepository.GetByUserName(model.UserName);
-
-            if (user == null)
+            if (IsInProject(model.ApplicationUserID, model.ProjectID))
             {
                 return false;
             }
 
-            if (IsInProject(user.Id, model.ProjectID))
-            {
-                return false;
-            }
-
-            db.Collaborators.Add(new Collaborator
-            {
-                ApplicationUserID = user.Id,
-                ProjectID = model.ProjectID,
-                CollaboratorRoleID = model.RoleID,
-            });
+            db.Collaborators.Add(model);
             db.SaveChanges();
             return true;
         }

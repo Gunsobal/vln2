@@ -51,7 +51,7 @@ namespace CodeKingdom.Controllers
                     return new HttpStatusCodeResult(HttpStatusCode.Forbidden);
                 }
 
-                if (repository.Create(collaborator))
+                if (collaboratorStructure.Create(collaborator))
                 {
                     return RedirectToAction("Index", "Project", new { id = collaborator.ProjectID });
                 }

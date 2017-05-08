@@ -127,7 +127,7 @@ namespace CodeKingdomTests.Repositories
         }
 
         [TestMethod]
-        public void TestGetCascadingFolderChildrenByIdSNoChildren()
+        public void TestGetCascadingFolderChildrenByIdNoChildren()
         {
             // Arrange
             const int ID = 2;
