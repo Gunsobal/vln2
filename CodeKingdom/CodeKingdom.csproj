@@ -349,9 +349,7 @@
     <Content Include="Views\Shared\_FrontpageLayout.cshtml" />
     <Content Include="Views\File\Create.cshtml" />
     <Content Include="Views\File\Delete.cshtml" />
-    <Content Include="Views\File\Details.cshtml" />
     <Content Include="Views\File\Edit.cshtml" />
-    <Content Include="Views\File\Index.cshtml" />
     <Content Include="Views\Project\Chat.cshtml" />
   </ItemGroup>
   <ItemGroup>
