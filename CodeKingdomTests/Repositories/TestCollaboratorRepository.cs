@@ -198,6 +198,47 @@ namespace CodeKingdomTests.Repositories
         #endregion
 
         // TODO test create
+        [TestMethod]
+        public void TestCreateCollaborator()
+        {
+            // Arrange
+            const int projectID = 3;
+            const string userID = "test2";
+            Collaborator collaborator = new Collaborator
+            {
+                ProjectID = projectID,
+                ApplicationUserID = userID,
+                CollaboratorRoleID = 3
+            };
+
+            // Act
+            var success = repo.Create(collaborator);
+            var result = repo.GetByUserIdAndProjectId(userID, projectID);
+
+            // Assert
+            Assert.IsTrue(success);
+            Assert.IsNotNull(result);
+        }
+
+        [TestMethod]
+        public void TestCreateCollaboratorDuplicate()
+        {
+            // Arrange
+            const int projectID = 1;
+            const string userID = "test1";
+            Collaborator collaborator = new Collaborator
+            {
+                ProjectID = projectID,
+                ApplicationUserID = userID,
+                CollaboratorRoleID = 3
+            };
+
+            // Act
+            var success = repo.Create(collaborator);
+
+            // Assert
+            Assert.IsFalse(success);
+        }
 
         #region Test update method
         [TestMethod]
