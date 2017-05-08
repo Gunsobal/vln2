@@ -81,6 +81,64 @@ namespace CodeKingdomTests.Repositories
             Assert.IsNotNull(result);
             Assert.AreEqual(0, result.Count);
         }
+
+        [TestMethod]
+        public void TestGetCascadingFolderChildrenByIdFromRoot()
+        {
+            // Arrange
+            const int ID = 1;
+            const int expectedCount = 4;
+
+            // Act
+            var result = repo.GetCascadingChildrenById(ID);
+
+            // Assert
+            Assert.IsNotNull(result);
+            Assert.AreEqual(expectedCount, result.Count);
+        }
+
+        [TestMethod]
+        public void TestGetCascadingFolderChildrenByIdFromChild()
+        {
+            // Arrange
+            const int ID = 4;
+            const int expectedCount = 2;
+
+            // Act
+            var result = repo.GetCascadingChildrenById(ID);
+
+            // Assert
+            Assert.IsNotNull(result);
+            Assert.AreEqual(expectedCount, result.Count);
+        }
+
+        [TestMethod]
+        public void TestGetCascadingFolderChildrenByIdFail()
+        {
+            // Arrange
+            const int ID = 8;
+
+            // Act
+            var result = repo.GetCascadingChildrenById(ID);
+
+            // Assert
+            Assert.IsNotNull(result);
+            Assert.AreEqual(0, result.Count);
+        }
+
+        [TestMethod]
+        public void TestGetCascadingFolderChildrenByIdSNoChildren()
+        {
+            // Arrange
+            const int ID = 2;
+
+            // Act
+            var result = repo.GetCascadingChildrenById(ID);
+
+            // Assert
+            Assert.IsNotNull(result);
+            Assert.AreEqual(1, result.Count);
+        }
         #endregion
         //TODO Test create
         //TODO Test delete
