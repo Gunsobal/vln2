@@ -223,10 +223,12 @@ namespace CodeKingdomTests.Repositories
         {
             // Arrange
             const string newName = "newname";
+            const string newType = "app";
             FileViewModel file = new FileViewModel
             {
                 ID = 1,
                 Name = newName,
+                Type = newType,
                 FolderID = 1
             };
 
@@ -236,6 +238,7 @@ namespace CodeKingdomTests.Repositories
             // Assert
             Assert.IsNotNull(result);
             Assert.AreEqual(newName, result.Name);
+            Assert.AreEqual(newType, result.Type);
         }
 
         [TestMethod]

@@ -107,8 +107,10 @@ namespace CodeKingdom.Repositories
                     }
                 }
                 file.Name = model.Name;
-                db.SaveChanges();
             }
+
+            file.Type = model.Type;
+            db.SaveChanges();
 
             return file;
         }
