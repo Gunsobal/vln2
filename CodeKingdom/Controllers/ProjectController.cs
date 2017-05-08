@@ -22,14 +22,14 @@ namespace CodeKingdom.Controllers
             return View(viewModels);
         }
 
-        public ActionResult Details(int? id)
+        public ActionResult Details(int? id, int? fileId)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            EditorViewModel viewModel = projectStructure.GetEditorViewModel(id.Value);
+            EditorViewModel viewModel = projectStructure.GetEditorViewModel(id.Value, fileId);
 
             ViewBag.leftMenuButton = true;
 

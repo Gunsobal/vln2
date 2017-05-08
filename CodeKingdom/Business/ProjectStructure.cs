@@ -90,30 +90,34 @@ namespace CodeKingdom.Business
         {
             Project project = GetProject(projectId);
             int folderID = project.FolderID;
-            File file;
+            File file = null;
 
             if (fileId.HasValue)
             {
                 file = project.Root.Files.Where(f => f.ID == fileId).FirstOrDefault();
             }
-            else
+            
+            if ((fileId.HasValue && file == null) || !fileId.HasValue)
             {
                 file = project.Root.Files.FirstOrDefault();
             }
 
-            // Project does not contain any files in the root of the project. 
-            // We have to create a default one the solution does not throw 
-            // yellow screen of death
-            FileViewModel fileViewModel = new FileViewModel
+            if (file == null)
             {
-                Name = "index.js",
-                FolderID = folderID,
-                Content = "",
-                Type = "Javascript",
-                ApplicationUserID = GetUserId(),
-            };
+                // Project does not contain any files in the root of the project. 
+                // We have to create a default one the solution does not throw 
+                // yellow screen of death
+                FileViewModel fileViewModel = new FileViewModel
+                {
+                    Name = "index.js",
+                    FolderID = folderID,
+                    Content = "",
+                    Type = "Javascript",
+                    ApplicationUserID = GetUserId(),
+                };
 
-            file = fileRepository.Create(fileViewModel);
+                file = fileRepository.Create(fileViewModel);
+            }
             
             EditorViewModel viewModel = new EditorViewModel
             {
