@@ -29,6 +29,17 @@ namespace CodeKingdom.Repositories
 
         public File Create(FileViewModel model)
         {
+            List<File> files = GetByFolderId(model.FolderID);
+
+            foreach (File f in files)
+            {
+                if (f.Name == model.Name)
+                {
+                    model.Name += "Copy";
+                    return Create(model);
+                }
+            }
+
             File file = new File
             {
                 Name = model.Name,
@@ -40,7 +51,6 @@ namespace CodeKingdom.Repositories
 
             db.Files.Add(file);
             db.SaveChanges();
-
             return file;
         }
 
@@ -59,24 +69,48 @@ namespace CodeKingdom.Repositories
             return true;
         }
 
-        public bool Update(FileViewModel model)
+        public File UpdateContent(FileViewModel model)
         {
             
             File file = GetById(model.ID);
 
             if (file == null)
             {
-                return false;
+                return null;
             }
 
-            //file.Name = model.Name;
-            //file.Type = model.Type;
             file.Content = model.Content;
-            //file.FolderID = model.FolderID;
 
             db.SaveChanges();
             
-            return true;
+            return file;
+        }
+
+        public File Rename(FileViewModel model)
+        {
+            File file = GetById(model.ID);
+
+            if (file == null)
+            {
+                return null;
+            }
+
+            if (file.Name != model.Name)
+            {
+                List<File> files = GetByFolderId(model.FolderID);
+                foreach (File f in files)
+                {
+                    if (f.Name == model.Name)
+                    {
+                        model.Name += "Copy";
+                        return Rename(model);
+                    }
+                }
+                file.Name = model.Name;
+                db.SaveChanges();
+            }
+
+            return file;
         }
     }
 }

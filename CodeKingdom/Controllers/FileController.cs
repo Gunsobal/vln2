@@ -140,7 +140,7 @@ namespace CodeKingdom.Controllers
                 ID = model.FileID,
                 Content = model.Content
             };
-            repository.Update(fileModel);
+            repository.UpdateContent(fileModel);
             return RedirectToAction("Index", "Project", null);
         }
 

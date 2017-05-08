@@ -30,7 +30,7 @@ namespace CodeKingdom.API
                 Content = content
             };
 
-            fileRepository.Update(viewModel);
+            fileRepository.UpdateContent(viewModel);
         }
 
         public void LeaveFile(int fileID)
