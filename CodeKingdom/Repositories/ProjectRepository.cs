@@ -26,6 +26,11 @@ namespace CodeKingdom.Repositories
             return result;
         }
 
+        public Project GetByRootId(int ID)
+        {
+            return db.Projects.Where(x => x.FolderID == ID).FirstOrDefault();
+        }
+
         public List<Project> getByUserId(string userID)
         {
 

@@ -18,16 +18,18 @@ namespace CodeKingdom.API
             var file = business.GetFileByID(correctId);
             // TODO: Change file types in database so that they match with ace editor
             var type = "";
-            if(file.Type == "js")
-            {
-                type = "javascript";
+            if (file != null)
+                {
+                if (file.Type == "js")
+                {
+                    type = "javascript";
+                }
+                else
+                {
+                    type = file.Type;
+                }
+                Clients.Caller.ReturnFile(file.ID, file.Content, file.Type);
             }
-            else
-            {
-                type = file.Type;
-            }
-            Clients.Caller.ReturnFile(file.ID, file.Content, file.Type);
-
         }
     }
 }
