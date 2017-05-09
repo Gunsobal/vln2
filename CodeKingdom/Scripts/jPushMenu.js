@@ -6,7 +6,8 @@
  * Original version (pure JS) is created by Mary Lou http://tympanus.net/
  */
 
-(function($) {
+(function ($) {
+    $('.chat-container').hide();
     $.fn.jPushMenu = function(customOptions) {
         var o = $.extend({}, $.fn.jPushMenu.defaultOptions, customOptions);
 
