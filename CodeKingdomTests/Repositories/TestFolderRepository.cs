@@ -139,7 +139,106 @@ namespace CodeKingdomTests.Repositories
             Assert.IsNotNull(result);
             Assert.AreEqual(1, result.Count);
         }
+
+        [TestMethod]
+        public void TestGetFolderParent()
+        {
+            // Arrange
+            const int ID = 4;
+            const int expectedID = 1;
+
+            // Act
+            var result = repo.GetParent(ID);
+
+            // Assert
+            Assert.IsNotNull(result);
+            Assert.AreEqual(expectedID, result.ID);
+        }
+
+        [TestMethod]
+        public void TestGetFolderParentNoParent()
+        {
+            // Arrange
+            const int ID = 1;
+
+            // Act
+            var result = repo.GetParent(ID);
+
+            // Assert
+            Assert.IsNull(result);
+        }
+
+        [TestMethod]
+        public void TestGetFolderParentFail()
+        {
+            // Arrange
+            const int ID = 0;
+
+            // Act
+            var result = repo.GetParent(ID);
+
+            // Assert
+            Assert.IsNull(result);
+        }
+
+        [TestMethod]
+        public void TestGetFolderRoot()
+        {
+            // Arrange
+            const int ID = 4;
+            const int expectedID = 1;
+
+            // Act
+            var result = repo.GetRoot(ID);
+
+            // Assert
+            Assert.IsNotNull(result);
+            Assert.AreEqual(expectedID, result.ID);
+        }
+
+        [TestMethod]
+        public void TestGetFolderRootNested()
+        {
+            // Arrange
+            const int ID = 5;
+            const int expectedID = 1;
+
+            // Act
+            var result = repo.GetRoot(ID);
+
+            // Assert
+            Assert.IsNotNull(result);
+            Assert.AreEqual(expectedID, result.ID);
+        }
+
+        [TestMethod]
+        public void TestGetFolderRootFromRoot()
+        {
+            // Arrange
+            const int ID = 1;
+
+            // Act
+            var result = repo.GetRoot(ID);
+
+            // Assert
+            Assert.IsNotNull(result);
+            Assert.AreEqual(ID, result.ID);
+        }
+
+        [TestMethod]
+        public void TestGetFolderRootFail()
+        {
+            // Arrange
+            const int ID = 0;
+
+            // Act
+            var result = repo.GetRoot(ID);
+
+            // Assert
+            Assert.IsNull(result);
+        }
         #endregion
+
         //TODO Test create
         //TODO Test delete
         //TODO Test update

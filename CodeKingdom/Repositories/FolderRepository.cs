@@ -39,7 +39,12 @@ namespace CodeKingdom.Repositories
 
         public Folder GetParent(int id)
         {
-            return db.Folders.Where(x => x.FolderID == id).FirstOrDefault();
+            Folder folder = GetById(id);
+            if (folder == null || !folder.FolderID.HasValue)
+            {
+                return null;
+            }
+            return GetById(folder.FolderID.Value);
         }
 
         public Folder GetRoot(int id)
@@ -47,7 +52,7 @@ namespace CodeKingdom.Repositories
             Folder parent = GetParent(id);
             if (parent == null)
             {
-                return db.Folders.Where(x => x.ID == id).FirstOrDefault();
+                return GetById(id);
             }
             else
             {
