@@ -113,10 +113,6 @@ textarea {
     padding-left: 5px;
 }
 
-
-
-
-
 .chat-container {
     position: absolute;
     bottom: 0;
@@ -174,8 +170,11 @@ textarea{
     height: 60px;
 }
 
-
 a.push-menu {
     cursor: pointer;
 }
 
+.remote-cursor {
+    position: absolute;
+    border-left: 2px solid gold;
+}
