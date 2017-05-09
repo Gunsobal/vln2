@@ -151,10 +151,10 @@
         });
         
         //getting files by id, when file name is clicked
-        $('.tree-item').click(function () {
+        /*$('.tree-item').click(function () {
             //auto save or not?
             file.server.get($(this).data("id"));
-        });
+        });*/
 
         // Chat Box send message
         $('#sendmessage').click(function () {

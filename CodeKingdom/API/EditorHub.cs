@@ -108,12 +108,13 @@ namespace CodeKingdom.API
 
             if (user != null)
             {
-                users.Remove(user);
-
-                foreach (var group in user.Groups)
+                if (users.Remove(user))
                 {
-                    Clients.Group(group).RemoveCursor(Context.ConnectionId);
-                    Clients.Group(group).userList(users);
+                    foreach (var group in user.Groups)
+                    {
+                        Clients.Group(group).RemoveCursor(Context.ConnectionId);
+                        Clients.Group(group).userList(users);
+                    }
                 }
             }
 
