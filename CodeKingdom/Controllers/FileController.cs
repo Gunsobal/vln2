@@ -154,7 +154,14 @@ namespace CodeKingdom.Controllers
                 fileNames.Add(f.Name);
             }
 
-            return Json(new { ProjectID = project.ID, FileIDs = fileIDs, FileNames = fileNames }, JsonRequestBehavior.AllowGet) as JsonResult;
+            return Json(new { ProjectID = project.ID, FileIDs = fileIDs, FileNames = fileNames }, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        public JsonResult RenameFile(FileViewModel file)
+        {
+            File newFile = repository.Rename(file);
+            return Json(new { Name = newFile.Name, ID = newFile.ID }, JsonRequestBehavior.AllowGet);
         }
 
         [HttpPost]
