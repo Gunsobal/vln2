@@ -248,6 +248,7 @@
     <Compile Include="Models\Entities\UserConfiguration.cs" />
     <Compile Include="Models\ViewModels\AccountViewModels.cs" />
     <Compile Include="Models\Entities\IdentityModels.cs" />
+    <Compile Include="Models\ViewModels\ChatViewModel.cs" />
     <Compile Include="Models\ViewModels\CollaboratorViewModel.cs" />
     <Compile Include="Models\ViewModels\EditorViewModel.cs" />
     <Compile Include="Models\ViewModels\FileViewModel.cs" />

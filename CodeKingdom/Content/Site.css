@@ -139,11 +139,16 @@ textarea {
 .text-wrap {
     word-wrap: break-word;
     word-wrap: hyphenate;
+    list-style: none;
 }
 
 #message{
     height: 60px;
     width: 235px;
+}
+
+#discussion {
+    padding-left: 5px;
 }
 
 textarea{
@@ -165,8 +170,11 @@ textarea{
     color: white;
     text-align: center;
     text-decoration: none;
-    font-family: 'Courier New';
-    font-size: 16px;
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: bold;
+    letter-spacing: 1.5px;
+    font-size: 11px;
+    text-transform: uppercase;
     height: 60px;
 }
 
@@ -177,4 +185,15 @@ a.push-menu {
 .remote-cursor {
     position: absolute;
     border-left: 2px solid gold;
+}
+
+.active-users {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    background: black;
+    z-index: 1000000;
+}
+.active-user {
+    padding: 3px 10px;
 }

@@ -59,6 +59,9 @@
     <!-- Extracting the Current User to use in editor.js -->
     <script>
         var user = "@HttpContext.Current.User.Identity.Name";
+        user = user.slice(0, user.indexOf('@@'));
+        var projectID = @Model.ProjectID;
+
     </script>
 
     <h2>Chat</h2>
@@ -73,6 +76,8 @@
         </div>
     </div>
     <img src="/Content/Images/chat-bubble.png" id="chat-bubble"/>
+    <div class="active-users">
+    </div>
 </div>
 
 @section scripts {
