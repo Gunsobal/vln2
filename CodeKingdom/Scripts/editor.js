@@ -1,5 +1,4 @@
 ﻿$(function () {
-
     var editor = ace.edit("editor"),
         chat = $.connection.chatHub,
         editorHub = $.connection.editorHub,
@@ -210,7 +209,6 @@
         else {
             chat.show();
         }
-
     });
 
 });
