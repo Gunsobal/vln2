@@ -12,10 +12,9 @@
         <div id="new-folder-file">
             @Html.ActionLink("New Folder", "Create", "Folder", new { id = Model.ProjectID }, new { })
             @Html.ActionLink("New File", "Create", "File", new { id = Model.ProjectID }, null)
+            <span>@Html.DisplayFor(model => model.Name) </span>
         </div>
-        <ul class="menu-list">
-            <li><a class="tree-item" data-id="@Model.ProjectID" href="#">@Html.DisplayFor(model => model.Name) </a></li>
-            
+        <ul class="menu-list" id="editormenu">
             <!--TODO: Fix structure - only showing files and then folders -->
             @foreach (var file in Model.Files)
             {
@@ -28,19 +27,19 @@
                 <li>@Html.ActionLink(folder.Name, "Details", null, new { @class = "tree-item", data_id = folder.ID })</li>
             }
         </ul>
+        <form>
 
+        </form>
         <!--TODO Implement the right click dude -->
-        <div id="dialog">
-            <select>
-                <option></option>
-            </select>
-        </div>
+        
+        
 
         <div id="cntnr">
             <ul class="right-click-items">
                 <li class="menu-item" ><a href="#" id="open-in-tab" class="new-tab" target="_blank">Open in new tab</a></li>
-                <li class="menu-item" id="context-menu-edit">@Html.ActionLink("Edit", "Edit", new { id = Model.ProjectID })</li>
-                <li class="menu-item" id="context-menu-delete" >@Html.ActionLink("Delete", "Delete", new { id = Model.ProjectID })</li>
+                <li class="menu-item">@Html.ActionLink("Edit", "Edit", new { id = Model.ProjectID }, new { id = "context-menu-edit" })</li>
+                <!--<li class="menu-item">@Html.ActionLink("Delete", "Delete", new { id = Model.ProjectID }, new { id = "context-menu-delete" })</li>-->
+                <li class="menu-item"><a id="context-menu-delete">Delete</a></li>
                 <li class="menu-item" ><a id="download" href="#">Download</a></li>
             </ul>
         </div>

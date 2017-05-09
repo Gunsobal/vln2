@@ -176,10 +176,32 @@
         e.preventDefault();
         var href = $(this).attr('href');
         $('#open-in-tab').attr('href', href);
+
+        var fileID = $(this).data("id");
+        $("#context-menu-delete").attr("file-id", fileID);
+ 
         $("#cntnr").css("left", e.pageX);
         $("#cntnr").css("top", e.pageY);
         // $("#cntnr").hide(100);        
         $("#cntnr").fadeIn(200, startFocusOut());
+    });
+
+    $("#context-menu-delete").on("click", function () {
+        $.ajax({
+            type: "POST",
+            url: "/File/DeleteFile/" + $(this).attr("file-id"),
+            dataType: "json",
+            success: function (response) {
+                var menu = $("#editormenu");
+                menu.html('');
+                for (i = 0; i < response.FileIDs.length; ++i) {
+                    var html = '<li><a class="tree-item" data-id="' + response.FileIDs[i] + '" href="/Project/Details/' + response.ProjectID + '?fileID=' + response.FileIDs[i] + '">' + response.FileNames[i] + '</a></li>';
+                    menu.append(html);
+                }
+            }
+        });
+        $("#cntnr").hide();
+        return false;
     });
     
     $(".tree-item").click(function () {
@@ -210,5 +232,4 @@
             chat.show();
         }
     });
-
 });

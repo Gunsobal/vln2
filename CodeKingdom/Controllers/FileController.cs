@@ -139,6 +139,25 @@ namespace CodeKingdom.Controllers
         }
 
         [HttpPost]
+        public JsonResult DeleteFile(int id)
+        {
+            File flie = repository.GetById(id);
+            Folder root = folderRepository.GetRoot(flie.FolderID);
+            Project project = projectRepository.GetByRootId(root.ID);
+            repository.DeleteById(id);
+            List<File> files = repository.GetByFolderId(root.ID);
+            List<int> fileIDs = new List<int>();
+            List<string> fileNames = new List<string>();
+            foreach (File f in files)
+            {
+                fileIDs.Add(f.ID);
+                fileNames.Add(f.Name);
+            }
+
+            return Json(new { ProjectID = project.ID, FileIDs = fileIDs, FileNames = fileNames }, JsonRequestBehavior.AllowGet) as JsonResult;
+        }
+
+        [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Save(EditorViewModel model)
         {
