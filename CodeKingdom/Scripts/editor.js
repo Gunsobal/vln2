@@ -113,24 +113,15 @@
     }
     
     // Create a function that the hub can call back to display messages.
-    chat.client.addNewMessageToPage = function (name, message) {
+    chat.client.addNewMessageToPage = function (model) {
         // Add the message to the page.
-        $('#discussion').append('<li class="text-wrap"><strong>' + htmlEncode(name)
-            + '</strong>: ' + htmlEncode(message) + '</li>');
-
-        //TODO: save content to Chat class
-        
+        $('#discussion').append('<li class="text-wrap"><strong>' + htmlEncode(model.Username)
+            + '</strong>: ' + htmlEncode(model.Message) + '</li>');
     };
-
-    // Get the user name and store it to prepend to messages
-    // variable user is initialized in the Details.cshtml file for the 
-    // Product controller, there it also extracts it's value.
-    $('#displayname').val(user);
-    // Set initial focus to message input box.
-    $('#message').focus();
-
+    
     // Start the connection.
-    $.connection.hub.start().done(function () {
+    $.connection.hub.start().done(function() {
+        chat.server.joinChat(projectID);
         editorHub.server.joinFile(fileID);
         editorHub.server.getUsers(fileID);
 
@@ -159,7 +150,7 @@
         // Chat Box send message
         $('#sendmessage').click(function () {
             // Call the Send method on the hub. 
-            chat.server.send($('#displayname').val(), $('#message').val());
+            chat.server.send(projectID, $('#message').val());
             // Clear text box and reset focus for next comment.
             $('#message').val('').focus();
         });
@@ -206,7 +197,6 @@
             $users.append($markup);
         });
         
-
     }
 
     $('#chat-bubble').click(function () {

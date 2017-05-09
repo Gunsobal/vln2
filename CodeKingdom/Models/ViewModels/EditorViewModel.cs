@@ -15,6 +15,7 @@ namespace CodeKingdom.Models.ViewModels
         public List<Collaborator> Collaborators { get; set; }
         public List<Folder> Folders { get; set; }
         public List<File> Files { get; set; }
+        public List<ChatViewModel> Chats { get; set; }
     }   
 
 
