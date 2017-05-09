@@ -37,6 +37,24 @@ namespace CodeKingdom.Repositories
             return folders;
         }
 
+        public Folder GetParent(int id)
+        {
+            return db.Folders.Where(x => x.FolderID == id).FirstOrDefault();
+        }
+
+        public Folder GetRoot(int id)
+        {
+            Folder parent = GetParent(id);
+            if (parent == null)
+            {
+                return db.Folders.Where(x => x.ID == id).FirstOrDefault();
+            }
+            else
+            {
+                return GetRoot(parent.ID);
+            }
+        }
+
         public Folder Create(Folder folder)
         {
             return new Folder();
