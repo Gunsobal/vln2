@@ -267,6 +267,7 @@
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\ChatBox.css" />
     <Content Include="Content\font-awesome.min.css" />
     <Content Include="Content\grayscale.min.css" />
     <Content Include="Content\jPushMenu.css" />

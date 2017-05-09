@@ -19,22 +19,24 @@
         <th>Settings</th>
     </tr>
 </thead>
-  
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.ActionLink(item.Name, "Details", new { id = item.ID })
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Role)
-        </td>
-        <td>
-            @if (item.Role == "Owner")
-            {
-                @Html.ActionLink("Edit", "Edit", new { id=item.ID }) <text> | </text>
-                @Html.ActionLink("Delete", "Delete", new { id=item.ID })
-            }
-        </td>
-    </tr>
-}
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.ActionLink(item.Name, "Details", new { id = item.ID })
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Role)
+                </td>
+                <td>
+                    @if (item.Role == "Owner")
+                    {
+                        @Html.ActionLink("Edit", "Edit", new { id = item.ID }) <text> | </text>
+                        @Html.ActionLink("Delete", "Delete", new { id = item.ID })
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
 </table>

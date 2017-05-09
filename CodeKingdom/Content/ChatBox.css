@@ -1,0 +1,66 @@
+﻿/* CSS For Editor chat */
+
+.chat-container {
+    position: absolute;
+    bottom: 0;
+    right: 50px;
+    border-style: solid;
+    border-radius: 5px;
+    border-color: #dd0db0;
+    width: 300px;
+    height: 300px;
+}
+
+.chat-content {
+    position: relative;
+    height: 234px;
+    overflow-y: scroll;
+}
+
+.chat-input {
+    position: relative;
+    border-style: none;
+    //border-color: blueviolet;
+}
+
+.text-wrap {
+    word-wrap: break-word;
+    word-wrap: hyphenate;
+    list-style: none;
+}
+
+#message {
+    height: 60px;
+    width: 235px;
+}
+
+#discussion {
+    padding-left: 5px;
+}
+
+textarea {
+    resize: none;
+}
+
+#chat-bubble {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    height: 40px;
+    width: 40px;
+}
+
+#sendmessage {
+    background-color: #dd0db0;
+    position: relative;
+    border-radius: 4px;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: bold;
+    letter-spacing: 1.5px;
+    font-size: 11px;
+    text-transform: uppercase;
+    height: 60px;
+}
