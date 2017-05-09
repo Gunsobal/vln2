@@ -53,15 +53,7 @@
     $('.push-body').on("click", function(e) {
         e.preventDefault();
     })
-
-    // Create a function that the hub can call back to display messages.
-    chat.client.addNewMessageToPage = function (name, message) {
-        // Add the message to the page.
-        $('#discussion').append('<li><strong>' + htmlEncode(name)
-            + '</strong>: ' + htmlEncode(message) + '</li>');
-    };
-
-
+    
     editorHub.client.onChange = function (data) {
         silent = true;
         editor.getSession().getDocument().applyDelta(data);
@@ -106,8 +98,7 @@
         editor.setValue(content);
         silent = false;
     }
-
-    var chatContent = "";
+    
     // Create a function that the hub can call back to display messages.
     chat.client.addNewMessageToPage = function (name, message) {
         // Add the message to the page.
@@ -116,7 +107,6 @@
 
         //TODO: save content to Chat class
         
-
     };
 
     // Get the user name and store it to prepend to messages
@@ -145,14 +135,7 @@
             position.id = $.connection.hub.id;
             editorHub.server.updateCursor(position, fileID);
         });
-
-        $('#sendmessage').click(function () {
-            // Call the Send method on the hub.
-            chat.server.send($('#displayname').val(), $('#message').val());
-            // Clear text box and reset focus for next comment.
-            $('#message').val('').focus();
-        });
-
+        
         //getting files by id, when file name is clicked
         $('.tree-item').click(function () {
             //auto save or not?
@@ -166,7 +149,6 @@
             // Clear text box and reset focus for next comment.
             $('#message').val('').focus();
         });
-
     });
 
     $('.toggle-menu').jPushMenu();
