@@ -50,6 +50,7 @@
         $("#hidden_editor").val(editor.getSession().getValue());
     });
 
+
     $('.push-body').on("click", function(e) {
         e.preventDefault();
     })
@@ -60,6 +61,7 @@
         $('#discussion').append('<li><strong>' + htmlEncode(name)
             + '</strong>: ' + htmlEncode(message) + '</li>');
     };
+
 
     editorHub.client.onChange = function (data) {
         silent = true;
@@ -106,9 +108,22 @@
         silent = false;
     }
 
+    var chatContent = "";
+    // Create a function that the hub can call back to display messages.
+    chat.client.addNewMessageToPage = function (name, message) {
+        // Add the message to the page.
+        $('#discussion').append('<li class="text-wrap"><strong>' + htmlEncode(name)
+            + '</strong>: ' + htmlEncode(message) + '</li>');
 
-    // Get the user name and store it to prepend to messages.
-    $('#displayname').val("@User.Identity.Name");
+        //TODO: save content to Chat class
+        
+
+    };
+
+    // Get the user name and store it to prepend to messages
+    // variable user is initialized in the Details.cshtml file for the 
+    // Product controller, there it also extracts it's value.
+    $('#displayname').val(user);
     // Set initial focus to message input box.
     $('#message').focus();
 
@@ -138,11 +153,21 @@
             // Clear text box and reset focus for next comment.
             $('#message').val('').focus();
         });
+
         //getting files by id, when file name is clicked
         $('.tree-item').click(function () {
             //auto save or not?
             file.server.get($(this).data("id"));
         });
+
+        // Chat Box send message
+        $('#sendmessage').click(function () {
+            // Call the Send method on the hub. 
+            chat.server.send($('#displayname').val(), $('#message').val());
+            // Clear text box and reset focus for next comment.
+            $('#message').val('').focus();
+        });
+
     });
 
     $('.toggle-menu').jPushMenu();
@@ -174,5 +199,18 @@
     function htmlEncode(value) {
         var encodedValue = $('<div />').text(value).html();
         return encodedValue;
-    };
+
+    }
+
+    $('#chat-bubble').click(function () {
+        var chat = $('.chat-container');
+        if (chat.is(':visible')) {
+            chat.hide();
+        }
+        else {
+            chat.show();
+        }
+
+    });
+
 });

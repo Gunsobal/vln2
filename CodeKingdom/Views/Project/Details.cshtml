@@ -19,7 +19,7 @@
             <!--TODO: Fix structure - only showing files and then folders -->
             @foreach (var file in Model.Files)
             {
-                <li>@Html.ActionLink(file.Name, "Details", "Project", new { id = Model.ProjectID, fileID = file.ID }, new { @class = (file.ID == Model.Files.First().ID ? Html.Raw("tree-item active") : Html.Raw("tree-item")), data_id = file.ID })</li>
+                <li>@Html.ActionLink(file.Name, "Details", "Project", new { id = Model.ProjectID, fileID = file.ID }, new { @class = (file.ID == Model.FileID ? Html.Raw("tree-item active") : Html.Raw("tree-item")), data_id = file.ID })</li>
 
             }
 
@@ -30,11 +30,17 @@
         </ul>
 
         <!--TODO Implement the right click dude -->
+        <div id="dialog">
+            <select>
+                <option></option>
+            </select>
+        </div>
+
         <div id="cntnr">
             <ul class="right-click-items">
                 <li class="menu-item" ><a href="#" id="open-in-tab" class="new-tab" target="_blank">Open in new tab</a></li>
-                <li class="menu-item">@Html.ActionLink("Edit", "Edit", new { id = Model.ProjectID })</li>
-                <li class="menu-item" >@Html.ActionLink("Delete", "Delete", new { id = Model.ProjectID })</li>
+                <li class="menu-item" id="context-menu-edit">@Html.ActionLink("Edit", "Edit", new { id = Model.ProjectID })</li>
+                <li class="menu-item" id="context-menu-delete" >@Html.ActionLink("Delete", "Delete", new { id = Model.ProjectID })</li>
                 <li class="menu-item" ><a id="download" href="#">Download</a></li>
             </ul>
         </div>
@@ -50,15 +56,23 @@
         <input type="submit" class="btn btn-save" value="Save" />
     }
 
-
+    <!-- Extracting the Current User to use in editor.js -->
+    <script>
+        var user = "@HttpContext.Current.User.Identity.Name";
+    </script>
 
     <h2>Chat</h2>
-    <div class="container">
-        <input type="text" id="message" />
-        <input type="button" id="sendmessage" value="Send" />
-        <input type="hidden" id="displayname" />
-        <ul id="discussion"></ul>
+    <div class="chat-container">
+        <div class="chat-content">
+            <input type="hidden" id="displayname"/>
+            <ul id="discussion"></ul>
+        </div>
+        <div class="chat-input">
+            <textarea name="textbox" id="message"></textarea>
+            <input type="button" id="sendmessage" value="Send" />
+        </div>
     </div>
+    <img src="/Content/Images/chat-bubble.png" id="chat-bubble"/>
 </div>
 
 @section scripts {
