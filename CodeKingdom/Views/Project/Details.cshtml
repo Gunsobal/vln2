@@ -19,19 +19,20 @@
             <!--TODO: Fix structure - only showing files and then folders -->
             @foreach (var file in Model.Files)
             {
-                <li><a class="tree-item @(file.ID == Model.Files.First().ID ? Html.Raw("active") : Html.Raw("") )" data-id ="@file.ID" href="#">@Html.DisplayFor(name => file.Name) </a></li>
+                <li>@Html.ActionLink(file.Name, "Details", "Project", new { id = Model.ProjectID, fileID = file.ID }, new { @class = (file.ID == Model.Files.First().ID ? Html.Raw("tree-item active") : Html.Raw("tree-item")), data_id = file.ID })</li>
+
             }
 
             @foreach (var folder in Model.Folders)
             {
-                <li><a class="tree-item" data-id ="@folder.ID" href="#">@Html.DisplayFor(name => folder.Name)</a></li>              
+                <li>@Html.ActionLink(folder.Name, "Details", null, new { @class = "tree-item", data_id = folder.ID })</li>
             }
         </ul>
 
         <!--TODO Implement the right click dude -->
         <div id="cntnr">
             <ul class="right-click-items">
-                <li class="menu-item"><a href="#">Open in new tab</a></li>
+                <li class="menu-item" ><a href="#" id="open-in-tab" class="new-tab" target="_blank">Open in new tab</a></li>
                 <li class="menu-item">@Html.ActionLink("Edit", "Edit", new { id = Model.ProjectID })</li>
                 <li class="menu-item" >@Html.ActionLink("Delete", "Delete", new { id = Model.ProjectID })</li>
                 <li class="menu-item" ><a id="download" href="#">Download</a></li>
@@ -75,5 +76,13 @@
     @Scripts.Render("~/Scripts/jPushMenu.js")
     @Scripts.Render("~/Scripts/editor.js")
 
-    <script>var fileID = @Model.FileID;</script>
+    <script>
+        var fileID = @Model.FileID;
+        
+        $(document).ready(function() {
+            var $navbar = $(".navbar-fixed-top");
+            $(window).unbind('scroll');
+            $navbar.addClass("top-nav-collapse");
+        })
+    </script>
 }    

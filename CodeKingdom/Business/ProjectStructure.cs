@@ -145,10 +145,12 @@ namespace CodeKingdom.Business
         public ProjectViewModel CreateProjectViewModel(Project project)
         {
             List<CollaboratorViewModel> collaborators = GetListOfCollaboratorViewModels(project);
+            Collaborator collaborator = collaboratorRepository.GetByUserIdAndProjectId(GetUserId(), project.ID);
             ProjectViewModel viewModel = new ProjectViewModel
             {
                 ID = project.ID,
                 Name = project.Name,
+                Role = collaborator.Role.Name,
                 Collaborators = collaborators
             };
             return viewModel;
