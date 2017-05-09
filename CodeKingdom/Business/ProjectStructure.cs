@@ -16,6 +16,7 @@ namespace CodeKingdom.Business
         private FolderRepository folderRepository;
         private FileRepository fileRepository;
         private CollaboratorRepository collaboratorRepository;
+        private ChatRepository chatRepository;
 
         public ProjectStructure()
         {
@@ -23,6 +24,7 @@ namespace CodeKingdom.Business
             folderRepository = new FolderRepository();
             fileRepository = new FileRepository();
             collaboratorRepository = new CollaboratorRepository();
+            chatRepository = new ChatRepository();
         }
 
         public string GetUserId()
@@ -121,7 +123,18 @@ namespace CodeKingdom.Business
 
                 file = fileRepository.Create(fileViewModel);
             }
-            
+            List<Chat> chats = chatRepository.GetByProjectId(projectId);
+            List<ChatViewModel> chatViewModels = new List<ChatViewModel>();
+            foreach(var chat in chats)
+            {
+                chatViewModels.Add(new ChatViewModel
+                {
+                    Message = chat.Message,
+                    ProjectID = chat.ProjectID,
+                    Username = chat.User.UserName,
+                    DateTime = chat.DateTime
+                });
+            }
             EditorViewModel viewModel = new EditorViewModel
             {
                 Name = project.Name,
@@ -131,6 +144,7 @@ namespace CodeKingdom.Business
                 Collaborators = project.Collaborators,
                 Folders = folderRepository.GetChildrenById(folderID),
                 Files = fileRepository.GetByFolderId(folderID),
+                Chats = chatViewModels
             };
 
             return viewModel;

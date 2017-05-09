@@ -3,7 +3,8 @@
         chat = $.connection.chatHub,
         editorHub = $.connection.editorHub,
         file = $.connection.fileHub,
-        silent = false;
+        silent = false,
+        users = [];
 
     editor.setTheme("ace/theme/twilight");
     editor.getSession().setMode("ace/mode/javascript");
@@ -23,6 +24,13 @@
             } else {
 
                 var screenPos = session.documentToScreenPosition(pos)
+                var user = users.find(function (user) {
+                    console.log(user, cursors[i]);
+                    if (user.ID == cursors[i].id) {
+                        return true;
+                    }
+                    return false;
+                });
 
                 var height = config.lineHeight;
                 var width = config.characterWidth;
@@ -33,6 +41,7 @@
                     "<div class='remote-cursor' style='",
                     "height:", height, "px;",
                     "top:", top, "px;",
+                    "border-color: ", user.Color,";",
                     "left:", left, "px; width:", width, "px'></div>"
                 );
             }
@@ -53,15 +62,7 @@
     $('.push-body').on("click", function(e) {
         e.preventDefault();
     })
-
-    // Create a function that the hub can call back to display messages.
-    chat.client.addNewMessageToPage = function (name, message) {
-        // Add the message to the page.
-        $('#discussion').append('<li><strong>' + htmlEncode(name)
-            + '</strong>: ' + htmlEncode(message) + '</li>');
-    };
-
-
+    
     editorHub.client.onChange = function (data) {
         silent = true;
         editor.getSession().getDocument().applyDelta(data);
@@ -86,8 +87,12 @@
         marker.redraw();
     }
 
+    editorHub.client.userList = function (userList) {
+        users = userList;
+        renderActiveUsers(users);
+    }
+
     editorHub.client.removeCursor = function (id) {
-        console.log("remove");
         marker.cursors = marker.cursors.filter(function (cursor) {
             if (cursor.id === id) {
                 return false;
@@ -106,29 +111,19 @@
         editor.setValue(content);
         silent = false;
     }
-
-    var chatContent = "";
+    
     // Create a function that the hub can call back to display messages.
-    chat.client.addNewMessageToPage = function (name, message) {
+    chat.client.addNewMessageToPage = function (model) {
         // Add the message to the page.
-        $('#discussion').append('<li class="text-wrap"><strong>' + htmlEncode(name)
-            + '</strong>: ' + htmlEncode(message) + '</li>');
-
-        //TODO: save content to Chat class
-        
-
+        $('#discussion').append('<li class="text-wrap"><strong>' + htmlEncode(model.Username)
+            + '</strong>: ' + htmlEncode(model.Message) + '</li>');
     };
-
-    // Get the user name and store it to prepend to messages
-    // variable user is initialized in the Details.cshtml file for the 
-    // Product controller, there it also extracts it's value.
-    $('#displayname').val(user);
-    // Set initial focus to message input box.
-    $('#message').focus();
-
+    
     // Start the connection.
-    $.connection.hub.start().done(function () {
-        editorHub.server.joinFile(fileID)
+    $.connection.hub.start().done(function() {
+        chat.server.joinChat(projectID);
+        editorHub.server.joinFile(fileID);
+        editorHub.server.getUsers(fileID);
 
         editor.on("change", function (obj) {
             if (silent) {
@@ -145,28 +140,20 @@
             position.id = $.connection.hub.id;
             editorHub.server.updateCursor(position, fileID);
         });
-
-        $('#sendmessage').click(function () {
-            // Call the Send method on the hub.
-            chat.server.send($('#displayname').val(), $('#message').val());
-            // Clear text box and reset focus for next comment.
-            $('#message').val('').focus();
-        });
-
+        
         //getting files by id, when file name is clicked
-        $('.tree-item').click(function () {
+        /*$('.tree-item').click(function () {
             //auto save or not?
             file.server.get($(this).data("id"));
-        });
+        });*/
 
         // Chat Box send message
         $('#sendmessage').click(function () {
             // Call the Send method on the hub. 
-            chat.server.send($('#displayname').val(), $('#message').val());
+            chat.server.send(projectID, $('#message').val());
             // Clear text box and reset focus for next comment.
             $('#message').val('').focus();
         });
-
     });
 
     $('.toggle-menu').jPushMenu();
@@ -253,7 +240,18 @@
     function htmlEncode(value) {
         var encodedValue = $('<div />').text(value).html();
         return encodedValue;
+    }
 
+    function renderActiveUsers(users) {
+        var $users = $(".active-users");
+
+        $users.html("")
+        users.forEach(function (user) {
+            $markup = $('<div class="active-user">' + user.Username + '</div>');
+            $markup.css({ borderRight: "5px solid " + user.Color });
+            $users.append($markup);
+        });
+        
     }
 
     $('#chat-bubble').click(function () {

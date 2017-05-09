@@ -55,15 +55,20 @@
     }
 
     <!-- Extracting the Current User to use in editor.js -->
-    <script>
-        var user = "@HttpContext.Current.User.Identity.Name";
-    </script>
+
 
     <h2>Chat</h2>
     <div class="chat-container">
         <div class="chat-content">
             <input type="hidden" id="displayname"/>
-            <ul id="discussion"></ul>
+            <ul id="discussion">
+                @foreach (var chat in Model.Chats)
+                {
+                    <li class="text-wrap">
+                        <strong> @chat.Username </strong>@chat.Message
+                    </li>
+                }
+            </ul>
         </div>
         <div class="chat-input">
             <textarea name="textbox" id="message"></textarea>
@@ -71,6 +76,8 @@
         </div>
     </div>
     <img src="/Content/Images/chat-bubble.png" id="chat-bubble"/>
+    <div class="active-users">
+    </div>
 </div>
 
 @section scripts {
@@ -82,7 +89,7 @@
 
     <script>
         var fileID = @Model.FileID;
-        
+        var projectID = @Model.ProjectID;
         $(document).ready(function() {
             var $navbar = $(".navbar-fixed-top");
             $(window).unbind('scroll');

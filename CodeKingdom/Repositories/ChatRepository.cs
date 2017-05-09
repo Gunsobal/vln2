@@ -1,5 +1,6 @@
 ﻿using CodeKingdom.Models;
 using CodeKingdom.Models.Entities;
+using CodeKingdom.Models.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,6 +11,7 @@ namespace CodeKingdom.Repositories
     public class ChatRepository
     {
         private readonly IAppDataContext db;
+        private UserRepository userRepository = new UserRepository();
 
         public ChatRepository(IAppDataContext context = null)
         {
@@ -19,6 +21,20 @@ namespace CodeKingdom.Repositories
         public List<Chat> GetByProjectId(int id)
         {
             return db.Chats.Where(x => x.ProjectID == id).ToList();
-        } 
+        }
+
+        public void Save(ChatViewModel viewModel)
+        {
+            ApplicationUser user = userRepository.GetByEmail(viewModel.Username);
+            Chat chat = new Chat
+            {
+                Message = viewModel.Message,
+                DateTime = viewModel.DateTime,
+                ProjectID = viewModel.ProjectID,
+                ApplicationUserID = user.Id
+            };
+            db.Chats.Add(chat);
+            db.SaveChanges();
+        }
     }
 }
