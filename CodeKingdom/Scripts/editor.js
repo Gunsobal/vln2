@@ -3,7 +3,8 @@
         chat = $.connection.chatHub,
         editorHub = $.connection.editorHub,
         file = $.connection.fileHub,
-        silent = false;
+        silent = false,
+        users = [];
 
     editor.setTheme("ace/theme/twilight");
     editor.getSession().setMode("ace/mode/javascript");
@@ -23,6 +24,13 @@
             } else {
 
                 var screenPos = session.documentToScreenPosition(pos)
+                var user = users.find(function (user) {
+                    console.log(user, cursors[i]);
+                    if (user.ID == cursors[i].id) {
+                        return true;
+                    }
+                    return false;
+                });
 
                 var height = config.lineHeight;
                 var width = config.characterWidth;
@@ -33,6 +41,7 @@
                     "<div class='remote-cursor' style='",
                     "height:", height, "px;",
                     "top:", top, "px;",
+                    "border-color: ", user.Color,";",
                     "left:", left, "px; width:", width, "px'></div>"
                 );
             }
@@ -86,8 +95,12 @@
         marker.redraw();
     }
 
+    editorHub.client.userList = function (userList) {
+        users = userList;
+        renderActiveUsers(users);
+    }
+
     editorHub.client.removeCursor = function (id) {
-        console.log("remove");
         marker.cursors = marker.cursors.filter(function (cursor) {
             if (cursor.id === id) {
                 return false;
@@ -128,7 +141,8 @@
 
     // Start the connection.
     $.connection.hub.start().done(function () {
-        editorHub.server.joinFile(fileID)
+        editorHub.server.joinFile(fileID);
+        editorHub.server.getUsers(fileID);
 
         editor.on("change", function (obj) {
             if (silent) {
@@ -198,6 +212,18 @@
     function htmlEncode(value) {
         var encodedValue = $('<div />').text(value).html();
         return encodedValue;
+    }
+
+    function renderActiveUsers(users) {
+        var $users = $(".active-users");
+
+        $users.html("")
+        users.forEach(function (user) {
+            $markup = $('<div class="active-user">' + user.Username + '</div>');
+            $markup.css({ borderRight: "5px solid " + user.Color });
+            $users.append($markup);
+        });
+        
 
     }
 

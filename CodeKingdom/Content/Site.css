@@ -178,3 +178,14 @@ a.push-menu {
     position: absolute;
     border-left: 2px solid gold;
 }
+
+.active-users {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    background: black;
+    z-index: 1000000;
+}
+.active-user {
+    padding: 3px 10px;
+}
