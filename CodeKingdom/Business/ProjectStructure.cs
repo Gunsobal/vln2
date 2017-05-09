@@ -135,6 +135,14 @@ namespace CodeKingdom.Business
                     DateTime = chat.DateTime
                 });
             }
+
+            List<File> files = new List<File>();
+            List<Folder> folders = folderRepository.GetChildrenById(folderID);
+            foreach (Folder folder in folders)
+            {
+                files.AddRange(fileRepository.GetByFolderId(folder.ID));
+            }
+
             EditorViewModel viewModel = new EditorViewModel
             {
                 Name = project.Name,
@@ -142,8 +150,8 @@ namespace CodeKingdom.Business
                 FileID = file.ID,
                 Content = file.Content,
                 Collaborators = project.Collaborators,
-                Folders = folderRepository.GetChildrenById(folderID),
-                Files = fileRepository.GetByFolderId(folderID),
+                Folders = folders,
+                Files = files,
                 Chats = chatViewModels
             };
 

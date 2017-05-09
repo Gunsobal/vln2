@@ -79,6 +79,34 @@ namespace CodeKingdomTests.Repositories
             Assert.IsNotNull(result);
             Assert.AreEqual(0, result.Count);
         }
+
+        [TestMethod]
+        public void TestGetProjectsByRootId()
+        {
+            // Arrange
+            const int rootID = 1;
+            const int expectedID = 1;
+
+            // Act
+            var result = repo.GetByRootId(rootID);
+
+            // Assert
+            Assert.IsNotNull(result);
+            Assert.AreEqual(expectedID, result.ID);
+        }
+
+        [TestMethod]
+        public void TestGetProjectsByRootIdFail()
+        {
+            // Arrange
+            const int rootID = 0;
+
+            // Act
+            var result = repo.GetByRootId(rootID);
+
+            // Assert
+            Assert.IsNull(result);
+        }
         #endregion
 
         #region Test project repo create method
