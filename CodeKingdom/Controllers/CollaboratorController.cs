@@ -139,7 +139,8 @@ namespace CodeKingdom.Controllers
             }
 
             collaboratorStructure.Delete(id);
-            return RedirectToAction("Index");
+            //return RedirectToAction("Index");
+            return RedirectToAction("Index", "Project");
         }
 
         protected bool isOwner(Collaborator collaborator)
