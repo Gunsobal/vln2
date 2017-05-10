@@ -93,7 +93,7 @@ namespace CodeKingdom.Repositories
 
         public File Rename(FileViewModel model)
         {
-            File file = GetByFileInProject(model.ID, model.ProjectID);
+            File file = GetById(model.ID);
 
             if (file == null)
             {

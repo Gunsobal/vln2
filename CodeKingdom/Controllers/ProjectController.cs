@@ -2,6 +2,7 @@
 using CodeKingdom.Models;
 using CodeKingdom.Models.Entities;
 using CodeKingdom.Models.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Net;
 using System.Web.Mvc;
