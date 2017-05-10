@@ -158,7 +158,7 @@
 
     $('.toggle-menu').jPushMenu();
 
-    /* JS for right click context menu*/
+    // JS for right click context menu
     $(document).on("contextmenu", ".tree-item", function (e) {
         e.preventDefault();
         var href = $(this).attr('href');
