@@ -71,8 +71,7 @@
     }
 
     file.client.renameFile = function (fileID, newName) {
-        var element = $('a[data-id="' + fileID + '"]')[0];
-        element.text = newName;
+        $('a[data-id="' + fileID + '"]')[0].text = newName;
     }
 
     file.client.removeFile = function (fileID) {
