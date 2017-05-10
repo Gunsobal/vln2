@@ -1,4 +1,5 @@
-﻿using System.Web;
+﻿using CodeKingdom.Handlers;
+using System.Web;
 using System.Web.Mvc;
 
 namespace CodeKingdom
@@ -7,7 +8,8 @@ namespace CodeKingdom
     {
         public static void RegisterGlobalFilters(GlobalFilterCollection filters)
         {
-            filters.Add(new HandleErrorAttribute());
+            filters.Add(new CustomHandleErrorAttribute());
+            // filters.Add(new HandleErrorAttribute());
         }
     }
 }

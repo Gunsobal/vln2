@@ -2,6 +2,7 @@
 using CodeKingdom.Models;
 using CodeKingdom.Models.Entities;
 using CodeKingdom.Models.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Net;
 using System.Web.Mvc;
@@ -17,6 +18,9 @@ namespace CodeKingdom.Controllers
    
         public ActionResult Index()
         {
+            
+            throw new Exception("Villa");
+
             List<Project> projects = projectStructure.GetListOfProjects();
             List<ProjectViewModel> viewModels = projectStructure.GetListOfProjectViewModels(projects);
             return View(viewModels);
