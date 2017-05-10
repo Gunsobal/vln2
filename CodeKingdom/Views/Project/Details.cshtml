@@ -25,11 +25,6 @@
                    new { @class = (file.ID == Model.FileID ? Html.Raw("tree-item active") : Html.Raw("tree-item")), data_id = file.ID })</li>
 
             }
-
-            @foreach (var folder in Model.Folders)
-            {
-                <li>@Html.ActionLink(folder.Name, "Details", null, new { @class = "tree-item", data_id = folder.ID })</li>
-            }
         </ul>
 
         <!-- Right Click menu -->
@@ -99,6 +94,62 @@
             var $navbar = $(".navbar-fixed-top");
             $(window).unbind('scroll');
             $navbar.addClass("top-nav-collapse");
+        })
+    </script>
+    <script>
+        function File(id, name, folderID){
+            this.ID = id;
+            this.Name = name;
+            this.FolderID = folderID;
+        };
+
+        function Folder(id, name, parentID){
+            this.ID = id;
+            this.Name = name;
+            this.ParentID = parentID;
+        };
+
+        var files = [];
+        var folders = [];
+
+        @foreach (var file in Model.Files)
+        {
+            @:files.push(new File(@file.ID, "@file.Name", @file.FolderID));
+        }
+
+        @foreach (var folder in Model.Folders)
+        {
+            @:folders.push(new Folder(@folder.ID, "@folder.Name", @folder.FolderID)); 
+        }
+
+        function CreateFolderNode(folders, files, folder){
+            var html = '';
+            folders.forEach(function(element){
+                if (element.ParentID == folder.ID){
+                    html += '<li class="folderItem">' + element.Name + '<ul class="folderList">';
+                    html += CreateFolderNode(folders, files, element);
+                    html += '</ul>';
+                }
+            });
+            html += "</li>";
+            files.forEach(function(file){
+                if (file.FolderID == folder.ID){
+                    html += '<li class="fileItem"><a class="tree-item" data-id="' + file.ID
+                        + '" href="/Project/Details/' + projectID + '?fileID=' + file.ID
+                        + '">' + file.Name + '</a></li>';
+                }
+            });
+            return html;
+        }
+
+        function populateEditorMenu(files, folders){
+            var menu = $("#editormenu");
+            var tree = CreateFolderNode(folders, files, folders[0]);
+            menu.html(tree);
+        }
+
+        $(function(){
+            populateEditorMenu(files, folders);
         })
     </script>
 }    

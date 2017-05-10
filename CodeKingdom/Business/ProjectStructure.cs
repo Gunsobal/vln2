@@ -138,8 +138,8 @@ namespace CodeKingdom.Business
             }
 
             // List<File> files = new List<File>();
-            List<File> files = fileRepository.GetByFolderId(folderID);
-            List<Folder> folders = folderRepository.GetChildrenById(folderID);
+            List<File> files = new List<File>();
+            List<Folder> folders = folderRepository.GetCascadingChildrenById(folderID);
             foreach (Folder folder in folders)
             {
                 files.AddRange(fileRepository.GetByFolderId(folder.ID));
