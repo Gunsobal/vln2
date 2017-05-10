@@ -12,6 +12,15 @@ namespace CodeKingdom.Models
         public string PhoneNumber { get; set; }
         public bool TwoFactor { get; set; }
         public bool BrowserRemembered { get; set; }
+        /*
+         Settings window funtions
+         */
+        //public string UsersFullName { get; set; }
+        public string UsersEmailAddress { get; set; }
+        public string Colorscheme { get; set; }
+        public string Keybinding { get; set; }
+        public string Save { get; set; }
+
     }
 
     public class ManageLoginsViewModel

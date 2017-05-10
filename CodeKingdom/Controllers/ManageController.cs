@@ -70,7 +70,11 @@ namespace CodeKingdom.Controllers
                 PhoneNumber = await UserManager.GetPhoneNumberAsync(userId),
                 TwoFactor = await UserManager.GetTwoFactorEnabledAsync(userId),
                 Logins = await UserManager.GetLoginsAsync(userId),
-                BrowserRemembered = await AuthenticationManager.TwoFactorBrowserRememberedAsync(userId)
+                BrowserRemembered = await AuthenticationManager.TwoFactorBrowserRememberedAsync(userId),
+                //UsersFullName = await UserManager.GetEmailAsync(userId),
+                UsersEmailAddress = UserManager.GetEmail(userId),
+                Colorscheme = await UserConfigurationController.Getcolorscheme(userId), // "GHG",
+                Keybinding = "vim"
             };
             return View(model);
         }
@@ -384,6 +388,44 @@ namespace CodeKingdom.Controllers
             Error
         }
 
-#endregion
+        #endregion
+        /*
+        UsersFullName functions are to get and set currently loged on users
+        full name
+        */
+
+        public ActionResult UsersFullName(int? id)
+        {
+            //ViewBag.Name = new SelectList(db.Users, "Name");
+            return null;
+        }
+        public ActionResult UsersEmailAddress(int? id)
+        {
+            System.Console.WriteLine("ghg test");
+
+            return null;
+        }
+        /*
+        Get the selected background color and show what colors are available.
+        */
+        public ActionResult BackgroundColor(int? id)
+        {
+            //todo
+            return null;
+        }
+        /*
+        Get what Syntax highlighting scemas are available.
+        */
+        public ActionResult SyntaxHighlighting(int? id)
+        {
+            //todo
+            return null;
+        }
+        [HttpPost, ActionName("Submit")]
+        public ActionResult Save(HttpResponse model)
+        {
+
+            return RedirectToAction("Index");
+        }
     }
 }
