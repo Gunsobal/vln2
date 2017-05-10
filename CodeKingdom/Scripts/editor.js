@@ -115,8 +115,9 @@
     // Create a function that the hub can call back to display messages.
     chat.client.addNewMessageToPage = function (model) {
         // Add the message to the page.
-        $('#discussion').append('<li class="text-wrap"><strong>' + htmlEncode(model.Username)
-            + '</strong>: ' + htmlEncode(model.Message) + '</li>');
+        var username = model.Username.split('@');
+
+        $('#discussion').append('<li class="show-time"><i>' + htmlEncode(model.DateAndTime) + '</i></li><li class="show-name-msg"><strong>' + htmlEncode(username[0]) + '</strong>: ' + htmlEncode(model.Message) + '</li>');
     };
     
     // Start the connection.
@@ -262,5 +263,10 @@
         else {
             chat.show();
         }
+    });
+
+    $('.close-chat').click(function () {
+        var chat = $('.chat-container');
+        chat.hide();
     });
 });

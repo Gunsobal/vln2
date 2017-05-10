@@ -56,13 +56,21 @@
     <!-- Chat Window -->
     <h2>Chat</h2>
     <div class="chat-container">
+        <div class="chat-bar">
+            <div><p>Chat for @Model.Name</p></div>
+            <input type="button" class="close-chat" value="Close"/>
+        </div>
         <div class="chat-content">
             <input type="hidden" id="displayname"/>
             <ul id="discussion">
                 @foreach (var chat in Model.Chats)
                 {
-                    <li class="text-wrap">
-                        <strong> @chat.Username </strong>@chat.Message
+                    <li class="show-time">
+                        <i>@chat.DateTime.ToString("dd MMM HH:mm")</i>
+                    </li>
+                    <li class="show-name-msg">
+                        @{ var username = chat.Username.Split('@');}
+                        <strong>  @username[0] </strong>@chat.Message
                     </li>
                 }
             </ul>

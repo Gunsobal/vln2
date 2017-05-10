@@ -12,5 +12,6 @@ namespace CodeKingdom.Models.ViewModels
         public int ProjectID { get; set; }
         public string Username { get; set; }
         public DateTime DateTime { get; set; }
+        public string DateAndTime { get; set; }
     }
 }

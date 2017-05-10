@@ -195,5 +195,10 @@ namespace CodeKingdom.Business
         {
             return fileRepository.GetByFileInProject(id, projectId);
         }
+
+        public void ClearChatForProject(int id)
+        {
+            chatRepository.ClearChat(id);
+        }
     }
 }

@@ -84,6 +84,17 @@ namespace CodeKingdom.Controllers
             return View(viewModel);
         }
 
+        public ActionResult ClearChat(int? id)
+        {
+            if(id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            projectStructure.ClearChatForProject(id.Value);
+
+            return RedirectToAction("Index", "Project");
+        }
+
         public ActionResult Delete(int? id)
         {
             if (id == null)

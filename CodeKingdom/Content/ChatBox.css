@@ -2,36 +2,75 @@
 
 .chat-container {
     position: absolute;
+    display: flex;
+    flex-direction: column;
+
     bottom: 0;
-    right: 50px;
+    right: 5%;
+
     border-style: solid;
     border-radius: 5px;
-    border-color: #dd0db0;
+    border-color: darkgrey;
+
     width: 300px;
     height: 300px;
+
+    color: black;
+    background-color: white;
+}
+
+.chat-bar {
+    display: flex;
+    flex-direction: row;
+    
+    height: 7%;
+    background-color: lightgray;
+}
+
+.chat-bar > div {
+    width: 80%;
+}
+
+.close-chat {
+    background-color: hotpink;
+    border-radius: 1px;
+    border-style: solid;
+    color: white;
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: bold;
+    font-size: 8px;
+    text-transform: uppercase;
+    width: 20%;
 }
 
 .chat-content {
-    position: relative;
-    height: 234px;
+    height: 73%;
     overflow-y: scroll;
+    overflow-x: hidden;
 }
 
 .chat-input {
-    position: relative;
-    border-style: none;
-    //border-color: blueviolet;
+    display: flex;
+    flex-direction: row;
+    height: 20%;
+    background-color: white;
 }
 
-.text-wrap {
-    word-wrap: break-word;
-    word-wrap: hyphenate;
-    list-style: none;
+.show-time{
+    font-size: 8pt;
+}
+
+.show-name-msg{
+    position: relative;
+    bottom: 6px;
+    word-wrap:break-word;
+    word-wrap:hyphenate;
 }
 
 #message {
-    height: 60px;
-    width: 235px;
+    width: 80%;
+    border-style: solid;
+    border-radius: 1px;
 }
 
 #discussion {
@@ -50,17 +89,32 @@ textarea {
     width: 40px;
 }
 
+/* Send button */
 #sendmessage {
-    background-color: #dd0db0;
-    position: relative;
-    border-radius: 4px;
+    background-color: hotpink;
+    border-radius: 1px;
+    border-style: solid;
     color: white;
-    text-align: center;
-    text-decoration: none;
     font-family: Arial, Helvetica, sans-serif;
     font-weight: bold;
-    letter-spacing: 1.5px;
+    letter-spacing: 1.8px;
     font-size: 11px;
     text-transform: uppercase;
-    height: 60px;
+    width: 20%;
+}
+
+::-webkit-scrollbar{
+    width: 15px;
+}
+
+::-webkit-scrollbar-track{
+    background-color: hotpink;
+}
+
+::-webkit-scrollbar-thumb{
+    background-color: white;
+}
+
+::-webkit-scrollbar-button{
+    background-color: lightgray;
 }
