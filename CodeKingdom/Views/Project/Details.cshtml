@@ -17,14 +17,7 @@
             <span>@Html.DisplayFor(model => model.Name) </span>
         </div>
         <ul class="menu-list" id="editormenu">
-            <!--TODO: Fix structure - only showing files and then folders -->
-            @foreach (var file in Model.Files)
-            {
-                <li>@Html.ActionLink(file.Name, "Details", "Project", 
-                   new { id = Model.ProjectID, fileID = file.ID }, 
-                   new { @class = (file.ID == Model.FileID ? Html.Raw("tree-item active") : Html.Raw("tree-item")), data_id = file.ID })</li>
 
-            }
         </ul>
 
         <!-- Right Click menu -->
