@@ -235,16 +235,14 @@
 
     $('#chat-bubble').click(function () {
         var chat = $('.chat-container');
-        if (chat.is(':visible')) {
-            chat.hide();
-        }
-        else {
-            chat.show();
-        }
+        chat.show();
+        $(this).hide();
     });
 
     $('.close-chat').click(function () {
-        var chat = $('.chat-container');
-        chat.hide();
+        var bubble = $('#chat-bubble');
+        $('.chat-container').hide();
+        bubble.show();
+
     });
 });
