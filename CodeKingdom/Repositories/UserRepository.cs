@@ -31,9 +31,9 @@ namespace CodeKingdom.Repositories
         {
             return db.Users.Where(u => u.UserName == userName).FirstOrDefault();
         }
-        public ApplicationUser Getcolorscheme(string id)
+        public string Getcolorscheme(string id)
         {
-            return db.UserConfigurations.Where(u => u.AppicationUserID == id) .FirstOrDefault();
+            return null; // db.UserConfigurations.Where(u => u.AppicationUserID == id) .FirstOrDefault();
             //return UserConfiguration. "ghg";
         }
     }

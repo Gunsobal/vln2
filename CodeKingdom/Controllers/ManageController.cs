@@ -7,6 +7,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using CodeKingdom.Models;
+using CodeKingdom.Repositories;
 
 namespace CodeKingdom.Controllers
 {
@@ -73,7 +74,7 @@ namespace CodeKingdom.Controllers
                 BrowserRemembered = await AuthenticationManager.TwoFactorBrowserRememberedAsync(userId),
                 //UsersFullName = await UserManager.GetEmailAsync(userId),
                 UsersEmailAddress = UserManager.GetEmail(userId),
-                Colorscheme = await UserConfigurationController.Getcolorscheme(userId), // "GHG",
+                Colorscheme = "GHG", // UserRepository.Getcolorscheme(userId); 
                 Keybinding = "vim"
             };
             return View(model);
