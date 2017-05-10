@@ -23,13 +23,27 @@
 }
 
 .chat-bar > div {
-    width: 80%;
+    width: 90%;
 }
 
+.close-chat {
+    background: url('/Content/Images/quit.png');
+    background-color: lightgray;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: 40%;
+    outline: none;
+    border-color: lightgray;
+    border-style: none;
+    width: 10%;
+}
+
+/*
 .close-chat {
     border-color: lightgray;
     border-style: solid;
     background-color: #dd0db0;
+    background-image: url('/Content/Images/quit.png');
     color: white;
     font-family: Arial, Helvetica, sans-serif;
     font-weight: bold;
@@ -37,7 +51,7 @@
     text-transform: uppercase;
     width: 20%;
 }
-
+*/
 .chat-content {
     height: 73%;
     overflow-y: scroll;
@@ -68,7 +82,7 @@
 }
 
 #message {
-    width: 80%;
+    width: 100%;
     border-style: solid;
     outline: none;
     border-style: solid;
@@ -95,29 +109,18 @@ textarea {
 }
 
 /* Send button */
-#sendmessage {
-    background-color: #dd0db0;
-    border-style: solid;
-    border-color: lightgray;
-    color: white;
-    font-family: Arial, Helvetica, sans-serif;
-    font-weight: bold;
-    letter-spacing: 1.8px;
-    font-size: 11px;
-    text-transform: uppercase;
-    width: 20%;
-}
+
 
 ::-webkit-scrollbar{
     width: 15px;
 }
 
 ::-webkit-scrollbar-track {
-    background-color: #dd0db0;
+    background-color: white;
 }
 
-::-webkit-scrollbar-thumb{
-    background-color: white;
+::-webkit-scrollbar-thumb {
+    background-color: #dd0db0;
 }
 
 ::-webkit-scrollbar-button{
