@@ -18,9 +18,6 @@ namespace CodeKingdom.Controllers
    
         public ActionResult Index()
         {
-            
-            throw new Exception("Villa");
-
             List<Project> projects = projectStructure.GetListOfProjects();
             List<ProjectViewModel> viewModels = projectStructure.GetListOfProjectViewModels(projects);
             return View(viewModels);
