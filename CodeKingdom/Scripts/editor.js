@@ -131,7 +131,7 @@
             }
             content = editor.getValue();
             editorHub.server.onChange(obj, fileID);
-            editorHub.server.save(content, fileID);
+            editorHub.server.save(content, fileID, projectID);
         });
 
         // When the cursor changes the server needs to be notified
