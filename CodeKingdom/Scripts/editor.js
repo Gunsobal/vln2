@@ -4,6 +4,7 @@
         editorHub = $.connection.editorHub,
         file = $.connection.fileHub,
         silent = false,
+        selectedFile = fileID,
         users = [];
 
     editor.setTheme("ace/theme/twilight");
@@ -69,6 +70,14 @@
         silent = false;
     }
 
+    file.client.renameFile = function (fileID, newName) {
+        $('a[data-id="' + fileID + '"]')[0].text = newName;
+    }
+
+    file.client.removeFile = function (fileID) {
+        $('a[data-id="' + fileID + '"]').parent().remove();
+    }
+
     // Updates all remote cursors in the file
     editorHub.client.updateCursor = function (data) {
         var found = false;
@@ -125,6 +134,7 @@
         chat.server.joinChat(projectID);
         editorHub.server.joinFile(fileID);
         editorHub.server.getUsers(fileID);
+        file.server.joinProject(projectID);
 
         editor.on("change", function (obj) {
             if (silent) {
@@ -132,7 +142,7 @@
             }
             content = editor.getValue();
             editorHub.server.onChange(obj, fileID);
-            editorHub.server.save(content, fileID);
+            editorHub.server.save(content, fileID, projectID);
         });
 
         // When the cursor changes the server needs to be notified
@@ -155,74 +165,42 @@
             // Clear text box and reset focus for next comment.
             $('#message').val('').focus();
         });
+
+        $("#context-menu-rename").on('click', function () {
+            var element = $('a[data-id="' + selectedFile + '"]')[0];
+            var filename = element.text;
+            var newFilename = prompt("Enter a new name for " + filename, filename);
+            if (newFilename != filename && newFilename != null){
+                file.server.renameFile(projectID, selectedFile, newFilename);
+            }
+            $("#cntnr").hide();
+        });
+
+        $("#context-menu-delete").on('click', function () {
+            var r = confirm("Are you sure you want to delete this file?");
+            if (r){
+                file.server.deleteFile(projectID, selectedFile);
+            }
+            $("#cntnr").hide();
+        });
     });
 
     $('.toggle-menu').jPushMenu();
 
-    /* JS for right click context menu*/
+    // JS for right click context menu
     $(document).on("contextmenu", ".tree-item", function (e) {
         e.preventDefault();
         var href = $(this).attr('href');
         $('#open-in-tab').attr('href', href);
 
-        var fileID = $(this).data("id");
-        $("#context-menu-delete").attr("file-id", fileID);
-        $("#context-menu-rename").attr("file-id", fileID);
+        selectedFile = $(this).data("id");
+        $("#context-menu-delete").attr("file-id", selectedFile);
+        $("#context-menu-rename").attr("file-id", selectedFile);
 
         $("#cntnr").css("left", e.pageX);
         $("#cntnr").css("top", e.pageY);
         // $("#cntnr").hide(100);        
         $("#cntnr").fadeIn(200, startFocusOut());
-    });
-
-    $("#context-menu-delete").on("click", function () {
-        //TODO, setja nafn í staðinn fyrir this file
-        var r = confirm("Are you sure you want to delete this file?");
-        if (r == true)
-        {
-            $.ajax({
-                type: "POST",
-                url: "/File/DeleteFile/" + $(this).attr("file-id"),
-                dataType: "json",
-                success: function (response) {
-                    var menu = $("#editormenu");
-                    menu.html('');
-                    for (i = 0; i < response.FileIDs.length; ++i) {
-                        var html = '<li><a class="tree-item" data-id="' + response.FileIDs[i] + '" href="/Project/Details/' + response.ProjectID + '?fileID=' + response.FileIDs[i] + '">' + response.FileNames[i] + '</a></li>';
-                        menu.append(html);
-                    }
-                }
-            });
-            $("#cntnr").hide();
-            return false;
-        }
-    });
-
-    $("#context-menu-rename").on("click", function () {
-        var element = $('a[data-id="' + $(this).attr('file-id') + '"]')[0];
-        var filename = element.text;
-        var newFilename = prompt("Enter a new name for this file", filename);
-        console.log(newFilename);
-        if (newFilename != filename || newFilename != null) {
-            var data = {
-                ID: $(this).attr('file-id'),
-                Name: newFilename,
-                FolderID: 0,
-                ProjectID: 0,
-                Content: "",
-                Type: "",
-                ApplicationUserID: "",
-                Folders: []
-            };
-            $.ajax({
-                type: "POST",
-                url: "/File/RenameFile",
-                data: data,
-                success: function (response) {
-                    element.text = response.Name;
-                }
-            });
-        }
     });
     
     $(".tree-item").click(function () {

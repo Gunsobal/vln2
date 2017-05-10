@@ -218,6 +218,8 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Handlers\CustomHandleErrorAttribute.cs" />
+    <Compile Include="Loggers\FileLogger.cs" />
     <Compile Include="Migrations\201705021049269_InitialCreate.cs" />
     <Compile Include="Migrations\201705021049269_InitialCreate.Designer.cs">
       <DependentUpon>201705021049269_InitialCreate.cs</DependentUpon>
@@ -360,6 +362,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Exceptions\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

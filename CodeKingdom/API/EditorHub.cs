@@ -79,11 +79,12 @@ namespace CodeKingdom.API
             Clients.Caller.userList(users);
         }
 
-        public void Save(string content, int fileID)
+        public void Save(string content, int fileID, int projectID)
         {
             FileViewModel viewModel = new FileViewModel
             {
                 ID = fileID,
+                ProjectID = projectID,
                 Content = content
             };
 
