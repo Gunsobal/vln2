@@ -218,6 +218,8 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Handlers\CustomHandleErrorAttribute.cs" />
+    <Compile Include="Loggers\FileLogger.cs" />
     <Compile Include="Migrations\201705021049269_InitialCreate.cs" />
     <Compile Include="Migrations\201705021049269_InitialCreate.Designer.cs">
       <DependentUpon>201705021049269_InitialCreate.cs</DependentUpon>
@@ -271,6 +273,7 @@
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\ChatBox.css" />
     <Content Include="Content\font-awesome.min.css" />
     <Content Include="Content\grayscale.min.css" />
     <Content Include="Content\jPushMenu.css" />
@@ -359,6 +362,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Exceptions\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

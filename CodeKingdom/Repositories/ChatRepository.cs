@@ -36,5 +36,15 @@ namespace CodeKingdom.Repositories
             db.Chats.Add(chat);
             db.SaveChanges();
         }
+
+        public void ClearChat(int id)
+        {
+            var chats = db.Chats.Where(x => x.ProjectID == id);
+            foreach(var chat in chats)
+            {
+                db.Chats.Remove(chat);
+            }
+            db.SaveChanges();
+        }
     }
 }

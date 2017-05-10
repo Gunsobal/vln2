@@ -124,8 +124,9 @@
     // Create a function that the hub can call back to display messages.
     chat.client.addNewMessageToPage = function (model) {
         // Add the message to the page.
-        $('#discussion').append('<li class="text-wrap"><strong>' + htmlEncode(model.Username)
-            + '</strong>: ' + htmlEncode(model.Message) + '</li>');
+        var username = model.Username.split('@');
+        $('#discussion').append('<li class="show-time"><i>' + htmlEncode(model.DateAndTime) + '</i></li><li class="show-name-msg"><strong>' + htmlEncode(username[0]) + '</strong>: ' + htmlEncode(model.Message) + '</li>');
+        scrollBottom();
     };
     
     // Start the connection.
@@ -186,7 +187,7 @@
 
     $('.toggle-menu').jPushMenu();
 
-    /* JS for right click context menu*/
+    // JS for right click context menu
     $(document).on("contextmenu", ".tree-item", function (e) {
         e.preventDefault();
         var href = $(this).attr('href');
@@ -232,13 +233,42 @@
         
     }
 
+    // Positions the user at the bottom of the chat content window
+    function scrollBottom() {
+        var divScroll = $('.chat-content');
+        var height = divScroll[0].scrollHeight;
+        divScroll.scrollTop(height);
+    }
+
     $('#chat-bubble').click(function () {
         var chat = $('.chat-container');
-        if (chat.is(':visible')) {
-            chat.hide();
-        }
-        else {
-            chat.show();
+        chat.show();
+        $(this).hide();
+        scrollBottom();
+    });
+
+    $('.close-chat').click(function () {
+        var bubble = $('#chat-bubble');
+        $('.chat-container').hide();
+        bubble.show();
+    });
+
+    $('#message').keypress(function (e) {
+        if (e.which == 13) {
+            $('#sendmessage').click();
+            $('#message').val('').focus();
+            return false;
         }
     });
+
+    $('.chat-container').keyup(function (e) {
+        if (e.which == 27) {
+            $(this).hide();
+            $('#chat-bubble').show();
+            return false;
+        }
+    });
+
+    
+    
 });

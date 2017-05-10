@@ -138,8 +138,8 @@ namespace CodeKingdom.Business
             }
 
             // List<File> files = new List<File>();
-            List<File> files = fileRepository.GetByFolderId(folderID);
-            List<Folder> folders = folderRepository.GetChildrenById(folderID);
+            List<File> files = new List<File>();
+            List<Folder> folders = folderRepository.GetCascadingChildrenById(folderID);
             foreach (Folder folder in folders)
             {
                 files.AddRange(fileRepository.GetByFolderId(folder.ID));
@@ -194,6 +194,11 @@ namespace CodeKingdom.Business
         public File GetFileByID(int id, int projectId)
         {
             return fileRepository.GetByFileInProject(id, projectId);
+        }
+
+        public void ClearChatForProject(int id)
+        {
+            chatRepository.ClearChat(id);
         }
     }
 }

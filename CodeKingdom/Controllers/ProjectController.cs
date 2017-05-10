@@ -2,6 +2,7 @@
 using CodeKingdom.Models;
 using CodeKingdom.Models.Entities;
 using CodeKingdom.Models.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Net;
 using System.Web.Mvc;
@@ -82,6 +83,17 @@ namespace CodeKingdom.Controllers
                 return RedirectToAction("Index");
             }
             return View(viewModel);
+        }
+
+        public ActionResult ClearChat(int? id)
+        {
+            if(id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            projectStructure.ClearChatForProject(id.Value);
+
+            return RedirectToAction("Index", "Project");
         }
 
         public ActionResult Delete(int? id)
