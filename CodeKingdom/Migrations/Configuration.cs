@@ -53,28 +53,31 @@ namespace CodeKingdom.Migrations
             seedFolder(context, "images", context.Folders.Where(x => x.Name == "Root1").FirstOrDefault());
             seedFolder(context, "docs");
             seedFolder(context, "bin", context.Folders.Where(x => x.Name == "models").FirstOrDefault());
-            seedFile(context, "index1.html", context.Folders.Where(x => x.Name == "Root1").Single().ID, "unnsteinng@gmail.com");
-            seedFile(context, "script.js", context.Folders.Where(x => x.Name == "Root1").Single().ID, "unnsteinng@gmail.com");
-            seedFile(context, "style.css", context.Folders.Where(x => x.Name == "Root1").Single().ID, "unnsteinng@gmail.com");
-            seedFile(context, "index2.js", context.Folders.Where(x => x.Name == "Root2").Single().ID, "Gunso2@mail.com");
-            seedFile(context, "index3.js", context.Folders.Where(x => x.Name == "Root3").Single().ID, "Gunso3@mail.com");
-            seedFile(context, "bubbiController.cs", context.Folders.Where(x => x.Name == "controllers").Single().ID, "unnsteinng@gmail.com");
-            seedFile(context, "model.cs", context.Folders.Where(x => x.Name == "models").Single().ID, "unnsteinng@gmail.com");
-            seedFile(context, "bubbi.html", context.Folders.Where(x => x.Name == "views").Single().ID, "unnsteinng@gmail.com");
-            seedFile(context, "lame.html", context.Folders.Where(x => x.Name == "views").Single().ID, "unnsteinng@gmail.com");
-            seedFile(context, "image.png", context.Folders.Where(x => x.Name == "images").Single().ID, "Gunso2@mail.com");
-            seedFile(context, "image2.png", context.Folders.Where(x => x.Name == "images").Single().ID, "Gunso2@mail.com");
-            seedFile(context, "image3.png", context.Folders.Where(x => x.Name == "images").Single().ID, "Gunso2@mail.com");
-            seedFile(context, "image4.png", context.Folders.Where(x => x.Name == "images").Single().ID, "Gunso2@mail.com");
-            seedFile(context, "doc.txt", context.Folders.Where(x => x.Name == "docs").Single().ID, "Gunso3@mail.com");
-            seedFile(context, "doc2.txt", context.Folders.Where(x => x.Name == "docs").Single().ID, "Gunso3@mail.com");
-            seedFile(context, "doc3.txt", context.Folders.Where(x => x.Name == "docs").Single().ID, "Gunso3@mail.com");
-            seedFile(context, "bin.obj", context.Folders.Where(x => x.Name == "bin").Single().ID, "Gunso3@mail.com");
-            seedFile(context, "index4.js", context.Folders.Where(x => x.Name == "Root2").Single().ID, "Gunso2@mail.com");
-            seedFile(context, "index5.js", context.Folders.Where(x => x.Name == "Root3").Single().ID, "Gunso3@mail.com");
-            seedProject(context, "projectNron", context.Folders.Where(x => x.Name == "Root1").Single().ID);
-            seedProject(context, "projectNrond", context.Folders.Where(x => x.Name == "Root2").Single().ID);
-            seedProject(context, "projectNron3", context.Folders.Where(x => x.Name == "Root3").Single().ID);
+
+            int project1 = seedProject(context, "projectNron", context.Folders.Where(x => x.Name == "Root1").Single().ID);
+            int project2 = seedProject(context, "projectNrond", context.Folders.Where(x => x.Name == "Root2").Single().ID);
+            int project3 = seedProject(context, "projectNron3", context.Folders.Where(x => x.Name == "Root3").Single().ID);
+
+            seedFile(context, "index1.html", context.Folders.Where(x => x.Name == "Root1").Single().ID, "unnsteinng@gmail.com", project1);
+            seedFile(context, "script.js", context.Folders.Where(x => x.Name == "Root1").Single().ID, "unnsteinng@gmail.com", project1);
+            seedFile(context, "style.css", context.Folders.Where(x => x.Name == "Root1").Single().ID, "unnsteinng@gmail.com", project1);
+            seedFile(context, "index2.js", context.Folders.Where(x => x.Name == "Root2").Single().ID, "Gunso2@mail.com", project2);
+            seedFile(context, "index3.js", context.Folders.Where(x => x.Name == "Root3").Single().ID, "Gunso3@mail.com", project3);
+            seedFile(context, "bubbiController.cs", context.Folders.Where(x => x.Name == "controllers").Single().ID, "unnsteinng@gmail.com", project1);
+            seedFile(context, "model.cs", context.Folders.Where(x => x.Name == "models").Single().ID, "unnsteinng@gmail.com", project1);
+            seedFile(context, "bubbi.html", context.Folders.Where(x => x.Name == "views").Single().ID, "unnsteinng@gmail.com", project1);
+            seedFile(context, "lame.html", context.Folders.Where(x => x.Name == "views").Single().ID, "unnsteinng@gmail.com", project1);
+            seedFile(context, "image.png", context.Folders.Where(x => x.Name == "images").Single().ID, "Gunso2@mail.com", project1);
+            seedFile(context, "image2.png", context.Folders.Where(x => x.Name == "images").Single().ID, "Gunso2@mail.com", project1);
+            seedFile(context, "image3.png", context.Folders.Where(x => x.Name == "images").Single().ID, "Gunso2@mail.com", project1);
+            seedFile(context, "image4.png", context.Folders.Where(x => x.Name == "images").Single().ID, "Gunso2@mail.com", project1);
+            seedFile(context, "doc.txt", context.Folders.Where(x => x.Name == "docs").Single().ID, "Gunso3@mail.com", project1);
+            seedFile(context, "doc2.txt", context.Folders.Where(x => x.Name == "docs").Single().ID, "Gunso3@mail.com", project1);
+            seedFile(context, "doc3.txt", context.Folders.Where(x => x.Name == "docs").Single().ID, "Gunso3@mail.com", project1);
+            seedFile(context, "bin.obj", context.Folders.Where(x => x.Name == "bin").Single().ID, "Gunso3@mail.com", project1);
+            seedFile(context, "index4.js", context.Folders.Where(x => x.Name == "Root2").Single().ID, "Gunso2@mail.com", project1);
+            seedFile(context, "index5.js", context.Folders.Where(x => x.Name == "Root3").Single().ID, "Gunso3@mail.com", project1);
+            
             seedCollaborators(context, context.Projects.Where(x => x.Name == "projectNron").Single().ID, "unnsteinng@gmail.com", 1);
             seedCollaborators(context, context.Projects.Where(x => x.Name == "projectNron").Single().ID, "Gunso@mail.com", 1);
             seedCollaborators(context, context.Projects.Where(x => x.Name == "projectNron").Single().ID, "Gunso2@mail.com", 1);
@@ -123,7 +126,7 @@ namespace CodeKingdom.Migrations
             context.Folders.AddOrUpdate(f => f.Name, folder);
             context.SaveChanges();
         }
-        private void seedFile(ApplicationDbContext context, string name, int folder_id, string username)
+        private void seedFile(ApplicationDbContext context, string name, int folder_id, string username, int projectId)
         {
             Folder folder = context.Folders.Where(x => x.ID == folder_id).FirstOrDefault();
 
@@ -139,21 +142,24 @@ namespace CodeKingdom.Migrations
                     Content = "Lorem Ipsum",
                     Type = name.Substring(name.IndexOf('.') + 1),
                     FolderID = folder.ID,
-                    ApplicationUserID = user.Id
+                    ApplicationUserID = user.Id,
+                    ProjectID = projectId
                 });
                 context.SaveChanges();
             }
         }
-        private void seedProject(ApplicationDbContext context, string name, int root_id)
+        private int seedProject(ApplicationDbContext context, string name, int root_id)
         {
             Folder folder = context.Folders.Find(root_id);
+            Project project = new Project { Name = name, FolderID = folder.ID, Frozen = false };
 
             if (folder != null)
             {
-                context.Projects.AddOrUpdate(p => p.Name,
-                    new Project { Name = name, FolderID = folder.ID, Frozen = false });
+                context.Projects.AddOrUpdate(p => p.Name, project);
                 context.SaveChanges();
             }
+
+            return project.ID;
         }
         private void seedCollaborators(ApplicationDbContext context, int project_id, string username, int role_id)
         {

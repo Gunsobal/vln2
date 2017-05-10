@@ -99,7 +99,8 @@ namespace CodeKingdom.Business
 
             if (fileId.HasValue)
             {
-                file = project.Root.Files.Where(f => f.ID == fileId).FirstOrDefault();
+                //file = project.Root.Files.Where(f => f.ID == fileId).FirstOrDefault();
+                file = fileRepository.GetByFileInProject(fileId.Value, projectId);
             }
             
             if ((fileId.HasValue && file == null) || !fileId.HasValue)
@@ -136,7 +137,8 @@ namespace CodeKingdom.Business
                 });
             }
 
-            List<File> files = new List<File>();
+            // List<File> files = new List<File>();
+            List<File> files = fileRepository.GetByFolderId(folderID);
             List<Folder> folders = folderRepository.GetChildrenById(folderID);
             foreach (Folder folder in folders)
             {
@@ -189,9 +191,9 @@ namespace CodeKingdom.Business
             projectRepository.DeleteById(id);
         }
        
-        public File GetFileByID(int id)
+        public File GetFileByID(int id, int projectId)
         {
-            return fileRepository.GetById(id);
+            return fileRepository.GetByFileInProject(id, projectId);
         }
     }
 }

@@ -238,6 +238,10 @@
     <Compile Include="Migrations\201705041258223_ForeignKeyOnChatUser.Designer.cs">
       <DependentUpon>201705041258223_ForeignKeyOnChatUser.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201705101024210_ProjectIDInFile.cs" />
+    <Compile Include="Migrations\201705101024210_ProjectIDInFile.Designer.cs">
+      <DependentUpon>201705101024210_ProjectIDInFile.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Entities\Chat.cs" />
     <Compile Include="Models\Entities\Collaborator.cs" />
@@ -267,7 +271,6 @@
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
-    <Content Include="Content\ChatBox.css" />
     <Content Include="Content\font-awesome.min.css" />
     <Content Include="Content\grayscale.min.css" />
     <Content Include="Content\jPushMenu.css" />
@@ -381,6 +384,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201705041258223_ForeignKeyOnChatUser.resx">
       <DependentUpon>201705041258223_ForeignKeyOnChatUser.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201705101024210_ProjectIDInFile.resx">
+      <DependentUpon>201705101024210_ProjectIDInFile.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

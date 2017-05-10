@@ -22,6 +22,11 @@ namespace CodeKingdom.Repositories
             return db.Files.Where(x => x.ID == id).FirstOrDefault();
         }
 
+        public File GetByFileInProject(int fileId, int projectId)
+        {
+            return db.Files.Where(x => x.ID == fileId && x.ProjectID == projectId).FirstOrDefault();
+        }
+
         public List<File> GetByFolderId(int id)
         {
             return db.Files.Where(x => x.FolderID == id).ToList();
@@ -72,7 +77,7 @@ namespace CodeKingdom.Repositories
         public File UpdateContent(FileViewModel model)
         {
             
-            File file = GetById(model.ID);
+            File file = GetByFileInProject(model.ID, model.ProjectID);
 
             if (file == null)
             {
@@ -88,7 +93,7 @@ namespace CodeKingdom.Repositories
 
         public File Rename(FileViewModel model)
         {
-            File file = GetById(model.ID);
+            File file = GetByFileInProject(model.ID, model.ProjectID);
 
             if (file == null)
             {

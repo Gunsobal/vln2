@@ -141,8 +141,8 @@ namespace CodeKingdom.Controllers
         [HttpPost]
         public JsonResult DeleteFile(int id)
         {
-            File flie = repository.GetById(id);
-            Folder root = folderRepository.GetRoot(flie.FolderID);
+            File file = repository.GetById(id);
+            Folder root = folderRepository.GetRoot(file.FolderID);
             Project project = projectRepository.GetByRootId(root.ID);
             repository.DeleteById(id);
             List<File> files = repository.GetByFolderId(root.ID);
