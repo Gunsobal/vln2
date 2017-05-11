@@ -153,10 +153,20 @@
         });
         
         //getting files by id, when file name is clicked
-        /*$('.tree-item').click(function () {
+       /* $('.tree-item').click(function () {
             //auto save or not?
             file.server.get($(this).data("id"));
+
         });*/
+
+        $('.folder').click(function () {
+            if ($(this).find(".fa").hasClass("fa-minus")) {
+                $(this).find(".fa").removeClass("fa-minus").addClass("fa-plus");
+            } else {
+                $(this).find(".fa").removeClass("fa-plus").addClass("fa-minus");
+            }
+            
+        })
 
         // Chat Box send message
         $('#sendmessage').click(function () {
@@ -202,6 +212,7 @@
         // $("#cntnr").hide(100);        
         $("#cntnr").fadeIn(200, startFocusOut());
     });
+    
     
     $(".tree-item").click(function () {
         var id = $(this).data("id");
