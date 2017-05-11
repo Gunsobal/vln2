@@ -249,6 +249,7 @@
       <DependentUpon>201705111644429_DataAnnotation.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Models\EditorUser.cs" />
     <Compile Include="Models\Entities\Chat.cs" />
     <Compile Include="Models\Entities\Collaborator.cs" />
     <Compile Include="Models\Entities\CollaboratorRole.cs" />
