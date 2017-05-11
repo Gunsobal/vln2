@@ -419,7 +419,7 @@ namespace CodeKingdom.Controllers
         {
             _userRepo.SetUserConfiguration(model);
 
-            return RedirectToAction("Index");
+            return RedirectToAction("Index", "Project");
         }
     }
 }
