@@ -152,11 +152,10 @@
             editorHub.server.updateCursor(position, fileID);
         });
         
-        //getting files by id, when file name is clicked
-        /*$('.tree-item').click(function () {
-            //auto save or not?
-            file.server.get($(this).data("id"));
-        });*/
+        $('.tree-item').click(function (e) {
+            e.preventDefault();
+            file.server.get($(this).data("id"), projectID);
+        });
 
         // Chat Box send message
         $('#sendmessage').click(function () {

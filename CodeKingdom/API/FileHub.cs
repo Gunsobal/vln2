@@ -15,14 +15,12 @@ namespace CodeKingdom.API
         private ProjectStructure business = new ProjectStructure();
         private FileRepository repo = new FileRepository();
 
-        // Is this still being used somewere?
-        public void Get(string id)
+        public void Get(string fileId, int projectId)
         {
             var correctId = 0;
-            int.TryParse(id, out correctId);
-            // var file = business.GetFileByID(correctId);
-            File file = null;
-            // TODO: Change file types in database so that they match with ace editor
+            int.TryParse(fileId, out correctId);
+            var file = business.GetFileByID(correctId, projectId);
+
             var type = "";
             if (file != null)
                 {
