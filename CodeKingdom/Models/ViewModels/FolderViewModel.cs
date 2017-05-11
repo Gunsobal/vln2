@@ -11,8 +11,10 @@ namespace CodeKingdom.Models.ViewModels
     {
         public int ID { get; set; }
         [Required]
+        [Display(Name = "Folder")]
         public int FolderID { get; set; }
         [Required]
+        [StringLength(50, ErrorMessage = "Folder name cannot be longer than 50 characters.")]
         public string Name { get; set; }
         public int ProjectID { get; set; }
         public string ApplicationUserID { get; set; }

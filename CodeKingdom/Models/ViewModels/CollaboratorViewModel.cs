@@ -12,11 +12,16 @@ namespace CodeKingdom.Models.ViewModels
         
         public int ID { get; set; }
         [Required]
+        [Display(Name = "Email")]
+        [StringLength(50, ErrorMessage = "Project name cannot be longer than 50 characters.")]
         public string UserName { get; set; }
-        
+
+        [Required]
+        [Display(Name = "Role Name")]
         public string RoleName { get; set; }
 
         [Required]
+        [Display(Name = "Role Name")]
         public int RoleID { get; set; }
 
         public int ProjectID { get; set; }
