@@ -50,7 +50,5 @@ namespace CodeKingdom.Models
         {
             return new ApplicationDbContext();
         }
-
-        //public System.Data.Entity.DbSet<CodeKingdom.Models.ApplicationUser> ApplicationUsers { get; set; }
     }
 }

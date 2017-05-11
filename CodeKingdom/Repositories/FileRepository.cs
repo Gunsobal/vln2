@@ -52,6 +52,7 @@ namespace CodeKingdom.Repositories
                 FolderID = model.FolderID,
                 ApplicationUserID = model.ApplicationUserID,
                 Content = "",
+                ProjectID = model.ProjectID,
             };
 
             db.Files.Add(file);
@@ -71,6 +72,21 @@ namespace CodeKingdom.Repositories
             db.Files.Remove(file);
             db.SaveChanges();
 
+            return true;
+        }
+
+        public bool deleteByProjectId(int projectID)
+        {
+            List<File> files = db.Files.Where(x => x.ProjectID == projectID).ToList();
+            if (files.Count == 0)
+            {
+                return false;
+            }
+            foreach (var file in files)
+            {
+                db.Files.Remove(file);
+            }
+            db.SaveChanges();
             return true;
         }
 

@@ -122,6 +122,7 @@ namespace CodeKingdom.Business
                     Content = "",
                     Type = "Javascript",
                     ApplicationUserID = GetUserId(),
+                    ProjectID = projectId,
                 };
 
                 file = fileRepository.Create(fileViewModel);
@@ -191,7 +192,14 @@ namespace CodeKingdom.Business
 
         public void DeleteById(int id)
         {
-            projectRepository.DeleteById(id);
+            Project project = projectRepository.getById(id);
+            if (project != null)
+            {
+                int root = project.ID;
+                fileRepository.deleteByProjectId(id);
+                projectRepository.DeleteById(id);
+                folderRepository.DeleteById(root);
+            }
         }
        
         public File GetFileByID(int id, int projectId)

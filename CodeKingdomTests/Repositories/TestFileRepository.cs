@@ -194,7 +194,8 @@ namespace CodeKingdomTests.Repositories
             FileViewModel file = new FileViewModel
             {
                 ID = 1,
-                Content = newContent
+                Content = newContent,
+                ProjectID = 1
             };
 
             // Act

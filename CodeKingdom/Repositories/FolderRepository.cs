@@ -62,17 +62,59 @@ namespace CodeKingdom.Repositories
 
         public Folder Create(Folder folder)
         {
-            return new Folder();
+            List<Folder> foldersInParent = GetChildrenById(folder.FolderID.Value);
+            foreach (Folder f in foldersInParent)
+            {
+                if (f.Name == folder.Name)
+                {
+                    folder.Name += "Copy";
+                    Create(folder);
+                }
+            }
+            db.Folders.Add(folder);
+            db.SaveChanges();
+            return folder;
         }
 
         public bool DeleteById(int id)
         {
-            return false;
+            List<Folder> children = GetCascadingChildrenById(id);
+            if (children.Count == 0)
+            {
+                return false;
+            }
+            foreach (var child in children)
+            {
+                List<File> files = db.Files.Where(x => x.FolderID == child.ID).ToList();
+                foreach (var file in files)
+                {
+                    db.Files.Remove(file);
+                }
+                db.Folders.Remove(child);
+            }
+            db.SaveChanges();
+            return true;
         }
 
-        public Folder Update(Folder folder)
+        public bool Update(Folder folder)
         {
-            return new Folder();
+            Folder existing = GetById(folder.ID);
+            if (existing == null || existing.Name == folder.Name)
+            {
+                return false;
+            }
+            List<Folder> folders = GetChildrenById(existing.ID);
+            foreach (var f in folders)
+            {
+                if (f.Name == folder.Name)
+                {
+                    folder.Name += "Copy";
+                    return Update(folder);
+                }
+            }
+            existing.Name = folder.Name;
+            db.SaveChanges();
+            return true;
         }
 
         private List<Folder> getCascadingChildrenRecursive(int id)

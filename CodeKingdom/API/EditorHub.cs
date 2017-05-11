@@ -76,7 +76,8 @@ namespace CodeKingdom.API
 
         public void GetUsers(int fileID)
         {
-            Clients.Caller.userList(users);
+            List<User> groupUsers = users.Where(u => u.Groups.Contains(Convert.ToString(fileID))).ToList();
+            Clients.Caller.userList(groupUsers);
         }
 
         public void Save(string content, int fileID, int projectID)
@@ -97,16 +98,6 @@ namespace CodeKingdom.API
 
             User user = users.Where(u => u.ID == id).FirstOrDefault();
 
-            foreach (var color in colors)
-            {
-                if (color.Value == user.Color)
-                {
-                    int index = colors.IndexOf(color);
-                    colors[index] = new KeyValuePair<bool, string>(false, color.Value);
-                    break;
-                }
-            }
-
             if (user != null)
             {
                 if (users.Remove(user))
@@ -117,7 +108,18 @@ namespace CodeKingdom.API
                         Clients.Group(group).userList(users);
                     }
                 }
+
+                foreach (var color in colors)
+                {
+                    if (color.Value == user.Color)
+                    {
+                        int index = colors.IndexOf(color);
+                        colors[index] = new KeyValuePair<bool, string>(false, color.Value);
+                        break;
+                    }
+                }
             }
+
 
             return base.OnDisconnected(stopCalled);
         }
@@ -125,8 +127,24 @@ namespace CodeKingdom.API
 
         public void LeaveFile(int fileID)
         {
-            Clients.Group(Convert.ToString(fileID), Context.ConnectionId).RemoveCursor(Context.ConnectionId);
-            Groups.Remove(Context.ConnectionId, Convert.ToString(fileID));
+            string id = Context.ConnectionId;
+
+            User user = users.Where(u => u.ID == id).FirstOrDefault();
+
+            string groupName = Convert.ToString(fileID);
+            Clients.Group(groupName).RemoveCursor(Context.ConnectionId);
+            Clients.Group(groupName).userList(users);
+            users.Remove(user);
+
+            foreach (var color in colors)
+            {
+                if (color.Value == user.Color)
+                {
+                    int index = colors.IndexOf(color);
+                    colors[index] = new KeyValuePair<bool, string>(false, color.Value);
+                    break;
+                }
+            }
         }
     }
 

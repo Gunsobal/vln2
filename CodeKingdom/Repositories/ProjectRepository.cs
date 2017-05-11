@@ -88,7 +88,8 @@ namespace CodeKingdom.Repositories
             db.Projects.Add(project);
             db.Collaborators.Add(collaborator);
             db.SaveChanges();
-
+            file.ProjectID = project.ID;
+            db.SaveChanges();
             return true;
         }
 
@@ -99,6 +100,12 @@ namespace CodeKingdom.Repositories
             if (project == null)
             {
                 return false;
+            }
+
+            List<File> files = db.Files.Where(x => x.ProjectID == id).ToList();
+            foreach (var file in files)
+            {
+                db.Files.Remove(file);
             }
 
             db.Projects.Remove(project);
