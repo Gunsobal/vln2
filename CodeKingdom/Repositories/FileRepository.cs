@@ -52,6 +52,7 @@ namespace CodeKingdom.Repositories
                 FolderID = model.FolderID,
                 ApplicationUserID = model.ApplicationUserID,
                 Content = "",
+                ProjectID = model.ProjectID,
             };
 
             db.Files.Add(file);
