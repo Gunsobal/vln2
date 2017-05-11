@@ -83,6 +83,10 @@
     file.client.deleteFolder = function (folderID) {
         $("#folder-" + folderID).parent().remove();
     }
+
+    file.client.updateFolder = function (folderID, newName) {
+        $($('a[data-folderid="' + folderID + '"]')[0].children[1]).context.textContent = newName;
+    }
     
 
     // Updates all remote cursors in the file
@@ -204,17 +208,17 @@
             if (r) {
                 file.server.deleteFolder(projectID, selectedFolder);
             }
-            $("#folerRightClickMenu").hide();
+            $("#folderRightClickMenu").hide();
         });
 
         $('#folder-menu-rename').on('click', function () {
-            var element = $('a[data-folderid="' + selectedFolder + '"]')[0];
-            var folderName = element.text;
+            var element = $($('a[data-folderid="' + selectedFolder + '"]')[0].children[1]);
+            var folderName = element.context.textContent;
             var newFolderName = prompt("Enter a new name for " + folderName, folderName);
             if (newFolderName != folderName && newFolderName != null) {
                 file.server.renameFolder(projectID, selectedFolder, newFolderName);
             }
-            $("#cntnr").hide();
+            $("folderRightClickMenu").hide();
         });
     });
 

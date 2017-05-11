@@ -75,13 +75,9 @@ namespace CodeKingdom.API
 
         public void RenameFolder(int projectID, int folderID, string newName)
         {
-            FolderViewModel model = new FolderViewModel
-            {
-                ID = folderID,
-                Name = newName,
-                ProjectID = projectID
-            };
-            folderRepo.Rename(model);
+            
+            folderRepo.Update(new Folder { Name = newName, ID = folderID});
+            Clients.Group(Convert.ToString(projectID)).UpdateFolder(folderID, newName);
         }
 
     }
