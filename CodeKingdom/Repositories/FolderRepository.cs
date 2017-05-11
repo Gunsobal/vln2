@@ -98,9 +98,25 @@ namespace CodeKingdom.Repositories
             return true;
         }
 
-        public Folder Update(Folder folder)
+        public bool Update(Folder folder)
         {
-            return new Folder();
+            Folder existing = GetById(folder.ID);
+            if (existing == null || existing.Name == folder.Name)
+            {
+                return false;
+            }
+            List<Folder> folders = GetChildrenById(existing.ID);
+            foreach (var f in folders)
+            {
+                if (f.Name == folder.Name)
+                {
+                    folder.Name += "Copy";
+                    return Update(folder);
+                }
+            }
+            existing.Name = folder.Name;
+            db.SaveChanges();
+            return true;
         }
 
         private List<Folder> getCascadingChildrenRecursive(int id)
