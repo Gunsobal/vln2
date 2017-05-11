@@ -14,9 +14,12 @@ namespace CodeKingdom.Controllers
     public class ProjectController : Controller
     {
 
-        private ApplicationDbContext db = new ApplicationDbContext();
         private ProjectStructure projectStructure = new ProjectStructure();
    
+        /// <summary>
+        /// Project main view. Show every project user is a part of
+        /// </summary>
+        /// <returns></returns>
         public ActionResult Index()
         {
             List<Project> projects = projectStructure.GetListOfProjects();
@@ -24,6 +27,12 @@ namespace CodeKingdom.Controllers
             return View(viewModels);
         }
 
+        /// <summary>
+        /// Editor view. Loads ace editor with signal r
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="fileId"></param>
+        /// <returns></returns>
         public ActionResult Details(int? id, int? fileId)
         {
             if (id == null)
@@ -39,11 +48,20 @@ namespace CodeKingdom.Controllers
             return View(viewModel);
         }
 
+        /// <summary>
+        /// Returns new view for creating project
+        /// </summary>
+        /// <returns></returns>
         public ActionResult Create()
         {
             return View();
         }
 
+        /// <summary>
+        /// Creates new project
+        /// </summary>
+        /// <param name="viewModel"></param>
+        /// <returns></returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "Name")] ProjectViewModel viewModel)
@@ -57,6 +75,11 @@ namespace CodeKingdom.Controllers
             return View(viewModel);
         }
 
+        /// <summary>
+        /// Returns edit view for project. It shows project name and every collaborator in it and each role.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -75,6 +98,11 @@ namespace CodeKingdom.Controllers
             return View(viewModel);
         }
 
+        /// <summary>
+        /// Changes the name of the project
+        /// </summary>
+        /// <param name="viewModel"></param>
+        /// <returns></returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "ID,Name")] ProjectViewModel viewModel)
@@ -98,6 +126,11 @@ namespace CodeKingdom.Controllers
             return RedirectToAction("Index", "Project");
         }
 
+        /// <summary>
+        /// Ask user for confirmation before deleting a project
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public ActionResult Delete(int? id)
         {
             if (id == null)
@@ -116,6 +149,11 @@ namespace CodeKingdom.Controllers
             return View(viewModel);
         }
 
+        /// <summary>
+        /// Deletes a project
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
@@ -123,15 +161,6 @@ namespace CodeKingdom.Controllers
             ViewBag.LeftButton = true;
             projectStructure.DeleteById(id);
             return RedirectToAction("Index");
-        }
-
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                db.Dispose();
-            }
-            base.Dispose(disposing);
         }
     }
 }
