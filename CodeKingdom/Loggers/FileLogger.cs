@@ -9,6 +9,10 @@ using System.Web;
 
 namespace CodeKingdom.Loggers
 {
+    /// <summary>
+    /// Basic logger that log's exceptions to file, with stacktrace and where it happens. 
+    /// Uses singleton.
+    /// </summary>
     public class FileLogger
     {
         private static FileLogger instance = null;

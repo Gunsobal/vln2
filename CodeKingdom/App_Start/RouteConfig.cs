@@ -14,16 +14,17 @@ namespace CodeKingdom
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
             routes.MapRoute(
+                name: "ProjectFile",
+                url: "{controller}/{action}/{id}/{fileID}",
+                defaults: new { controller = "Project", action = "Details", id = UrlParameter.Optional, fileID = UrlParameter.Optional } 
+            );
+
+            routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",
                 defaults: new { controller = "Account", action = "Login", id = UrlParameter.Optional }
             );
 
-            routes.MapRoute(
-                "ProjectFile",
-                "{controller}/{action}/{id}/{fileId}",
-                new { controller = "Home", action = "Index", id = UrlParameter.Optional, fileId = UrlParameter.Optional } 
-            );
         }
     }
 }
