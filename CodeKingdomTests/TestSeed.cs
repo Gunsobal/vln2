@@ -168,6 +168,7 @@ namespace CodeKingdomTests
                 Type = "jpg",
                 Content = "pic-of-birds",
                 ApplicationUserID = "dummy",
+                ProjectID = 1
             });
             context.Files.Add(new File
             {

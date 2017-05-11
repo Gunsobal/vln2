@@ -196,7 +196,6 @@ namespace CodeKingdom.Business
             if (project != null)
             {
                 int root = project.ID;
-                fileRepository.deleteByProjectId(id);
                 projectRepository.DeleteById(id);
                 folderRepository.DeleteById(root);
             }

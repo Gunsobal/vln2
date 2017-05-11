@@ -230,7 +230,8 @@ namespace CodeKingdomTests.Repositories
                 ID = 1,
                 Name = newName,
                 Type = newType,
-                FolderID = 1
+                FolderID = 1,
+                ProjectID = 1
             };
 
             // Act
@@ -251,7 +252,8 @@ namespace CodeKingdomTests.Repositories
             {
                 ID = 4,
                 Name = newName,
-                FolderID = 2
+                FolderID = 2,
+                ProjectID = 1
             };
 
             // Act
@@ -271,7 +273,8 @@ namespace CodeKingdomTests.Repositories
             {
                 ID = 4,
                 Name = newName,
-                FolderID = 2
+                FolderID = 2,
+                ProjectID = 1
             };
 
             // Act
