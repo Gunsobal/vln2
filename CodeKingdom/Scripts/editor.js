@@ -138,6 +138,12 @@
         var username = model.Username.split('@');
         $('#discussion').append('<li class="show-time"><i>' + htmlEncode(model.DateAndTime) + '</i></li><li class="show-name-msg"><strong>' + htmlEncode(username[0]) + '</strong>: ' + htmlEncode(model.Message) + '</li>');
         scrollBottom();
+        if ($(".chat-container").is(":hidden")) {
+            $("#chat-bubble").addClass("bubble-Expand").delay(3000).queue(function(next){
+                $(this).removeClass("bubble-Expand");
+                next();
+            });
+        }
     };
     
     // Start the connection.
@@ -290,6 +296,7 @@
 
     $('#chat-bubble').click(function () {
         var chat = $('.chat-container');
+        $(this).removeClass("bubble-Expand");
         chat.show();
         $(this).hide();
         scrollBottom();
@@ -316,7 +323,4 @@
             return false;
         }
     });
-
-    
-    
 });
