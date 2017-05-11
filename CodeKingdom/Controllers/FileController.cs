@@ -20,6 +20,11 @@ namespace CodeKingdom.Controllers
         private FolderRepository folderRepository = new FolderRepository();
         private ProjectRepository projectRepository = new ProjectRepository();
 
+        /// <summary>
+        /// Prepares Viewmodel for creating new file
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public ActionResult Create(int? id)
         {
             if (!id.HasValue)
@@ -43,6 +48,11 @@ namespace CodeKingdom.Controllers
             return View(model);
         }
 
+        /// <summary>
+        ///  Creates new file for project
+        /// </summary>
+        /// <param name="file"></param>
+        /// <returns></returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "ID,ProjectID,FolderID,Name,Type")] FileViewModel file)
@@ -56,6 +66,11 @@ namespace CodeKingdom.Controllers
             return View(file);
         }
 
+        /// <summary>
+        /// Prepares and returns edit view
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -89,9 +104,11 @@ namespace CodeKingdom.Controllers
             return View(model);
         }
 
-        // POST: File/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        /// <summary>
+        /// Edits name and type of file
+        /// </summary>
+        /// <param name="file"></param>
+        /// <returns></returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "ID,Name,Type")] FileViewModel file)
@@ -105,6 +122,11 @@ namespace CodeKingdom.Controllers
             return View(file);
         }
 
+        /// <summary>
+        /// Asks for confirmation before deleting a file
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public ActionResult Delete(int? id)
         {
             if (id == null)
@@ -130,6 +152,11 @@ namespace CodeKingdom.Controllers
             return View(model);
         }
 
+        /// <summary>
+        /// Deletes a file from project
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
@@ -138,6 +165,11 @@ namespace CodeKingdom.Controllers
             return RedirectToAction("Index");
         }
 
+        /// <summary>
+        /// Deletes file with ajax
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpPost]
         public JsonResult DeleteFile(int id)
         {
@@ -157,6 +189,11 @@ namespace CodeKingdom.Controllers
             return Json(new { ProjectID = project.ID, FileIDs = fileIDs, FileNames = fileNames }, JsonRequestBehavior.AllowGet);
         }
 
+        /// <summary>
+        /// Renames file with ajax
+        /// </summary>
+        /// <param name="file"></param>
+        /// <returns></returns>
         [HttpPost]
         public JsonResult RenameFile(FileViewModel file)
         {
@@ -164,6 +201,11 @@ namespace CodeKingdom.Controllers
             return Json(new { Name = newFile.Name, ID = newFile.ID }, JsonRequestBehavior.AllowGet);
         }
 
+        /// <summary>
+        /// Saves file, used with Signal R
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Save(EditorViewModel model)
@@ -177,6 +219,11 @@ namespace CodeKingdom.Controllers
             return RedirectToAction("Index", "Project", null);
         }
 
+        /// <summary>
+        /// Helper function for creating select list for dropdown
+        /// </summary>
+        /// <param name="rootID"></param>
+        /// <returns></returns>
         private List<SelectListItem> GetFolders(int rootID)
         {
             List<Folder> folders = new List<Folder>();
