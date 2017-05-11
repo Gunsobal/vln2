@@ -1,4 +1,5 @@
 ﻿using CodeKingdom.Business;
+using CodeKingdom.Exceptions;
 using CodeKingdom.Models;
 using CodeKingdom.Models.Entities;
 using CodeKingdom.Models.ViewModels;
@@ -40,12 +41,19 @@ namespace CodeKingdom.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            EditorViewModel viewModel = projectStructure.GetEditorViewModel(id.Value, fileId);
-            string userID = User.Identity.GetUserId();
-            ViewBag.leftMenuButton = true;
-            ViewBag.newColorscheme = projectStructure.GetColorscheme(userID);
-            ViewBag.newKeyBinding = projectStructure.GetKeyBinding(userID);
-            return View(viewModel);
+            try
+            {
+                EditorViewModel viewModel = projectStructure.GetEditorViewModel(id.Value, fileId);
+                string userID = User.Identity.GetUserId();
+                ViewBag.leftMenuButton = true;
+                ViewBag.newColorscheme = projectStructure.GetColorscheme(userID);
+                ViewBag.newKeyBinding = projectStructure.GetKeyBinding(userID);
+                return View(viewModel);
+            }
+            catch(ProjectNotFoundException)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.NotFound);
+            }
         }
 
         /// <summary>

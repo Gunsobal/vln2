@@ -18,11 +18,18 @@ namespace CodeKingdom.Repositories
             db = context ?? new ApplicationDbContext();
         }
 
+        /// <summary>
+        /// Returns every chat entry for a specific project
+        /// </summary>
+        /// <param name="id">Project ID</param>
         public List<Chat> GetByProjectId(int id)
         {
             return db.Chats.Where(x => x.ProjectID == id).ToList();
         }
-
+        /// <summary>
+        /// Stores chat entry in database
+        /// </summary>
+        /// <param name="viewModel">Message, date, projectID, userID</param>
         public void Save(ChatViewModel viewModel)
         {
             ApplicationUser user = userRepository.GetByEmail(viewModel.Username);
@@ -37,6 +44,10 @@ namespace CodeKingdom.Repositories
             db.SaveChanges();
         }
 
+        /// <summary>
+        /// Removes every chat entry in a specific project from database
+        /// </summary>
+        /// <param name="id">Project ID</param>
         public void ClearChat(int id)
         {
             var chats = db.Chats.Where(x => x.ProjectID == id);

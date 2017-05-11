@@ -65,7 +65,6 @@
         // Close menu on clicking outside menu
         if (o.closeOnClickOutside) {
             $(document).click(function (e) {
-                console.log(e.target);
                 if (!$(e.target).closest(".menu-list").length) {
                     jPushMenu.close(o);
                 }
