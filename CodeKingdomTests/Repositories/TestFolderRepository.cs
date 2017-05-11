@@ -334,6 +334,19 @@ namespace CodeKingdomTests.Repositories
             Assert.IsTrue(success);
             Assert.AreEqual(0, folders.Count);
         }
+
+        [TestMethod]
+        public void TestDeleteFolderFail()
+        {
+            // Arrange
+            const int ID = 99;
+
+            // Act
+            var success = repo.DeleteById(ID);
+
+            // Assert
+            Assert.IsFalse(success);
+        }
         #endregion
     }
 }

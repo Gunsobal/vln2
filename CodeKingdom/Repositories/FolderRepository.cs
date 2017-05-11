@@ -78,27 +78,22 @@ namespace CodeKingdom.Repositories
 
         public bool DeleteById(int id)
         {
-            Folder folder = GetById(id);
-            if (folder == null)
+            List<Folder> children = GetCascadingChildrenById(id);
+            if (children.Count == 0)
             {
                 return false;
             }
-            if (folder.Folders != null)
+            foreach (var child in children)
             {
-                foreach (Folder fold in folder.Folders)
+                if (child.Files != null)
                 {
-                    DeleteById(fold.ID);
+                    foreach (var file in child.Files)
+                    {
+                        db.Files.Remove(file);
+                    }
                 }
+                db.Folders.Remove(child);
             }
-            if (folder.Files != null)
-            {
-                foreach (File file in folder.Files)
-                {
-                    db.Files.Remove(file);
-                }
-            }
-            
-            db.Folders.Remove(folder);
             db.SaveChanges();
             return true;
         }
