@@ -9,9 +9,9 @@ using System.Web;
 namespace CodeKingdom.Access
 {
     /// <summary>
-    ///     Helper class that determinies roles of user in a project.
-    ///     Could be used to drop request were user does not have permission
-    ///     to change or invite into a project
+    /// Helper class that determinies roles of user in a project.
+    /// Could be used to drop request were user does not have permission
+    /// to change or invite into a project
     /// </summary>
     public class ProjectAccess
     {
