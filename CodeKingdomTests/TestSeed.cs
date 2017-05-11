@@ -140,6 +140,7 @@ namespace CodeKingdomTests
                 Type = "html",
                 Content = "stuff",
                 ApplicationUserID = "dummy",
+                ProjectID = 1
             });
             context.Files.Add(new File
             {
