@@ -13,6 +13,7 @@ using CodeKingdom.Repositories;
 using CodeKingdom.Models.ViewModels;
 using CodeKingdom.Access;
 using CodeKingdom.Business;
+using CodeKingdom.Notify;
 
 namespace CodeKingdom.Controllers
 {
@@ -59,6 +60,16 @@ namespace CodeKingdom.Controllers
 
                 if (collaboratorStructure.Create(collaborator))
                 {
+                    var builder = new UriBuilder(Request.Url.AbsoluteUri)
+                    {
+                        Path = Url.Action("Index", "Project", new { id = collaborator.ProjectID }),
+                        Query = null,
+                    };
+
+                    string url = builder.ToString();
+                    string message = String.Format("You have been added to a new project, go to {0} to view the project", url);
+                    Mailer mail = new Mailer(collaborator.UserName, "Code Kingdom", message);
+                    mail.Send();
                     return RedirectToAction("Index", "Project", new { id = collaborator.ProjectID });
                 }
             }
