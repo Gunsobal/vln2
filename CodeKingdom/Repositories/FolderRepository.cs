@@ -62,6 +62,15 @@ namespace CodeKingdom.Repositories
 
         public Folder Create(Folder folder)
         {
+            List<Folder> foldersInParent = GetChildrenById(folder.FolderID.Value);
+            foreach (Folder f in foldersInParent)
+            {
+                if (f.Name == folder.Name)
+                {
+                    folder.Name += "Copy";
+                    Create(folder);
+                }
+            }
             db.Folders.Add(folder);
             db.SaveChanges();
             return folder;
@@ -69,20 +78,22 @@ namespace CodeKingdom.Repositories
 
         public bool DeleteById(int id)
         {
-            Folder folder = GetById(id);
-            if (folder == null)
+            List<Folder> children = GetCascadingChildrenById(id);
+            if (children.Count == 0)
             {
                 return false;
             }
-            foreach (Folder fold in folder.Folders)
+            foreach (var child in children)
             {
-                DeleteById(fold.ID);
+                if (child.Files != null)
+                {
+                    foreach (var file in child.Files)
+                    {
+                        db.Files.Remove(file);
+                    }
+                }
+                db.Folders.Remove(child);
             }
-            foreach (File file in folder.Files)
-            {
-                db.Files.Remove(file);
-            }
-            db.Folders.Remove(folder);
             db.SaveChanges();
             return true;
         }
