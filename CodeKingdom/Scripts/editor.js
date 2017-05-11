@@ -5,6 +5,7 @@
         file = $.connection.fileHub,
         silent = false,
         selectedFile = fileID,
+        selectedFolder = 0,
         users = [];
 
     editor.setTheme("ace/theme/twilight");
@@ -77,6 +78,12 @@
     file.client.removeFile = function (fileID) {
         $('a[data-id="' + fileID + '"]').parent().remove();
     }
+
+    
+    file.client.deleteFolder = function (folderID) {
+        $("#folder-" + folderID).parent().remove();
+    }
+    
 
     // Updates all remote cursors in the file
     editorHub.client.updateCursor = function (data) {
@@ -191,6 +198,24 @@
             }
             $("#cntnr").hide();
         });
+
+        $('#folder-menu-delete').on('click', function () {
+            var r = confirm("Are you sure you want to delete this folder along with all its subfolders and files?")
+            if (r) {
+                file.server.deleteFolder(projectID, selectedFolder);
+            }
+            $("#folerRightClickMenu").hide();
+        });
+
+        $('#folder-menu-rename').on('click', function () {
+            var element = $('a[data-folderid="' + selectedFolder + '"]')[0];
+            var folderName = element.text;
+            var newFolderName = prompt("Enter a new name for " + folderName, folderName);
+            if (newFolderName != folderName && newFolderName != null) {
+                file.server.renameFolder(projectID, selectedFolder, newFolderName);
+            }
+            $("#cntnr").hide();
+        });
     });
 
     $('.toggle-menu').jPushMenu();
@@ -198,17 +223,27 @@
     // JS for right click context menu
     $(document).on("contextmenu", ".tree-item", function (e) {
         e.preventDefault();
+        $("#folderRightClickMenu").hide();
         var href = $(this).attr('href');
         $('#open-in-tab').attr('href', href);
 
         selectedFile = $(this).data("id");
-        $("#context-menu-delete").attr("file-id", selectedFile);
-        $("#context-menu-rename").attr("file-id", selectedFile);
 
         $("#cntnr").css("left", e.pageX);
         $("#cntnr").css("top", e.pageY);
         // $("#cntnr").hide(100);        
-        $("#cntnr").fadeIn(200, startFocusOut());
+        $("#cntnr").fadeIn(200, startFocusOut("cntnr"));
+    });
+
+    $(document).on("contextmenu", ".folder", function (e) {
+        e.preventDefault();
+        $("#cntnr").hide();
+
+        $("#folderRightClickMenu").css("left", e.pageX);
+        $("#folderRightClickMenu").css("top", e.pageY);
+        $("#folderRightClickMenu").fadeIn(200, startFocusOut("folderRightClickMenu"));
+
+        selectedFolder = $(this).data("folderid");
     });
     
     
@@ -218,9 +253,9 @@
         $(this).addClass("active");
     });
   
-    function startFocusOut() {
+    function startFocusOut(id) {
         $(document).on("click", function () {
-            $("#cntnr").hide();
+            $("#" + id).hide();
             $(document).off("click");
         });
     };

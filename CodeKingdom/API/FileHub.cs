@@ -14,6 +14,7 @@ namespace CodeKingdom.API
     {
         private ProjectStructure business = new ProjectStructure();
         private FileRepository repo = new FileRepository();
+        private FolderRepository folderRepo = new FolderRepository();
 
         public void Get(string fileId, int projectId)
         {
@@ -63,6 +64,23 @@ namespace CodeKingdom.API
             };
             repo.Rename(model);
             Clients.Group(Convert.ToString(id)).RenameFile(fileID, newName);
+        }
+
+        public void DeleteFolder(int projectID, int folderID)
+        {
+            folderRepo.DeleteById(folderID);
+            Clients.Group(Convert.ToString(projectID)).DeleteFolder(folderID);
+        }
+
+        public void RenameFolder(int projectID, int folderID, string newName)
+        {
+            FolderViewModel model = new FolderViewModel
+            {
+                ID = folderID,
+                Name = newName,
+                ProjectID = projectID
+            };
+            folderRepo.Rename(model);
         }
     }
 }
