@@ -2,6 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNet.Identity;
 using Microsoft.Owin.Security;
+using System.Collections;
 
 namespace CodeKingdom.Models
 {
@@ -18,9 +19,8 @@ namespace CodeKingdom.Models
         //public string UsersFullName { get; set; }
         public string UsersEmailAddress { get; set; }
         public string Colorscheme { get; set; }
+        public IEnumerable<System.Web.Mvc.SelectListItem> Themes { get; set; }
         public string Keybinding { get; set; }
-        public string Save { get; set; }
-
     }
 
     public class ManageLoginsViewModel

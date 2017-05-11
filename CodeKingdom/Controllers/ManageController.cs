@@ -8,6 +8,8 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using CodeKingdom.Models;
 using CodeKingdom.Repositories;
+using System.Collections.Generic;
+using CodeKingdom.Models.Entities;
 
 namespace CodeKingdom.Controllers
 {
@@ -16,9 +18,11 @@ namespace CodeKingdom.Controllers
     {
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
+        private UserRepository _userRepo;
 
         public ManageController()
         {
+            _userRepo = new UserRepository();
         }
 
         public ManageController(ApplicationUserManager userManager, ApplicationSignInManager signInManager)
@@ -74,8 +78,8 @@ namespace CodeKingdom.Controllers
                 BrowserRemembered = await AuthenticationManager.TwoFactorBrowserRememberedAsync(userId),
                 //UsersFullName = await UserManager.GetEmailAsync(userId),
                 UsersEmailAddress = UserManager.GetEmail(userId),
-                Colorscheme = "GHG", // UserRepository.Getcolorscheme(userId); 
-                Keybinding = "vim"
+                Colorscheme = _userRepo.GetColorScheme(userId),
+                Keybinding = _userRepo.GetKeyBinding(userId),
             };
             return View(model);
         }
@@ -350,6 +354,8 @@ namespace CodeKingdom.Controllers
             }
         }
 
+        public object ManageViewModels { get; private set; }
+
         private void AddErrors(IdentityResult result)
         {
             foreach (var error in result.Errors)
@@ -406,25 +412,12 @@ namespace CodeKingdom.Controllers
 
             return null;
         }
-        /*
-        Get the selected background color and show what colors are available.
-        */
-        public ActionResult BackgroundColor(int? id)
+       
+        // Saves new user config to db
+        [HttpPost, ActionName("Index")]
+        public ActionResult Save([Bind(Include = "UsersEmailAddress, Colorscheme, Keybinding")] IndexViewModel model)
         {
-            //todo
-            return null;
-        }
-        /*
-        Get what Syntax highlighting scemas are available.
-        */
-        public ActionResult SyntaxHighlighting(int? id)
-        {
-            //todo
-            return null;
-        }
-        [HttpPost, ActionName("Submit")]
-        public ActionResult Save(HttpResponse model)
-        {
+            _userRepo.SetUserConfiguration(model);
 
             return RedirectToAction("Index");
         }
