@@ -5,6 +5,7 @@
         file = $.connection.fileHub,
         silent = false,
         selectedFile = fileID,
+        selectedFolder = 0,
         users = [];
 
     editor.setTheme("ace/theme/twilight");
@@ -78,6 +79,16 @@
         $('a[data-id="' + fileID + '"]').parent().remove();
     }
 
+    
+    file.client.deleteFolder = function (folderID) {
+        $("#folder-" + folderID).parent().remove();
+    }
+
+    file.client.updateFolder = function (folderID, newName) {
+        $($('a[data-folderid="' + folderID + '"]')[0].children[1]).context.textContent = newName;
+    }
+    
+
     // Updates all remote cursors in the file
     editorHub.client.updateCursor = function (data) {
         var found = false;
@@ -127,6 +138,12 @@
         var username = model.Username.split('@');
         $('#discussion').append('<li class="show-time"><i>' + htmlEncode(model.DateAndTime) + '</i></li><li class="show-name-msg"><strong>' + htmlEncode(username[0]) + '</strong>: ' + htmlEncode(model.Message) + '</li>');
         scrollBottom();
+        if ($(".chat-container").is(":hidden")) {
+            $("#chat-bubble").addClass("bubble-Expand").delay(3000).queue(function(next){
+                $(this).removeClass("bubble-Expand");
+                next();
+            });
+        }
     };
     
     // Start the connection.
@@ -191,6 +208,24 @@
             }
             $("#cntnr").hide();
         });
+
+        $('#folder-menu-delete').on('click', function () {
+            var r = confirm("Are you sure you want to delete this folder along with all its subfolders and files?")
+            if (r) {
+                file.server.deleteFolder(projectID, selectedFolder);
+            }
+            $("#folderRightClickMenu").hide();
+        });
+
+        $('#folder-menu-rename').on('click', function () {
+            var element = $($('a[data-folderid="' + selectedFolder + '"]')[0].children[1]);
+            var folderName = element.context.textContent;
+            var newFolderName = prompt("Enter a new name for " + folderName, folderName);
+            if (newFolderName != folderName && newFolderName != null) {
+                file.server.renameFolder(projectID, selectedFolder, newFolderName);
+            }
+            $("folderRightClickMenu").hide();
+        });
     });
 
     $('.toggle-menu').jPushMenu();
@@ -198,17 +233,27 @@
     // JS for right click context menu
     $(document).on("contextmenu", ".tree-item", function (e) {
         e.preventDefault();
+        $("#folderRightClickMenu").hide();
         var href = $(this).attr('href');
         $('#open-in-tab').attr('href', href);
 
         selectedFile = $(this).data("id");
-        $("#context-menu-delete").attr("file-id", selectedFile);
-        $("#context-menu-rename").attr("file-id", selectedFile);
 
         $("#cntnr").css("left", e.pageX);
         $("#cntnr").css("top", e.pageY);
         // $("#cntnr").hide(100);        
-        $("#cntnr").fadeIn(200, startFocusOut());
+        $("#cntnr").fadeIn(200, startFocusOut("cntnr"));
+    });
+
+    $(document).on("contextmenu", ".folder", function (e) {
+        e.preventDefault();
+        $("#cntnr").hide();
+
+        $("#folderRightClickMenu").css("left", e.pageX);
+        $("#folderRightClickMenu").css("top", e.pageY);
+        $("#folderRightClickMenu").fadeIn(200, startFocusOut("folderRightClickMenu"));
+
+        selectedFolder = $(this).data("folderid");
     });
     
     
@@ -218,9 +263,9 @@
         $(this).addClass("active");
     });
   
-    function startFocusOut() {
+    function startFocusOut(id) {
         $(document).on("click", function () {
-            $("#cntnr").hide();
+            $("#" + id).hide();
             $(document).off("click");
         });
     };
@@ -251,6 +296,7 @@
 
     $('#chat-bubble').click(function () {
         var chat = $('.chat-container');
+        $(this).removeClass("bubble-Expand");
         chat.show();
         $(this).hide();
         scrollBottom();
@@ -277,7 +323,4 @@
             return false;
         }
     });
-
-    
-    
 });

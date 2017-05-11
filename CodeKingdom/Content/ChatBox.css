@@ -41,20 +41,6 @@
     background-color: transparent;
 }
 
-/*
-.close-chat {
-    border-color: lightgray;
-    border-style: solid;
-    background-color: #dd0db0;
-    background-image: url('/Content/Images/quit.png');
-    color: white;
-    font-family: Arial, Helvetica, sans-serif;
-    font-weight: bold;
-    font-size: 8px;
-    text-transform: uppercase;
-    width: 20%;
-}
-*/
 .chat-content {
     height: 73%;
     overflow-y: scroll;

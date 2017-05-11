@@ -8,12 +8,13 @@
 @Styles.Render("~/Content/jPushMenu.css")
 @Styles.Render("~/Content/ChatBox.css")
 
+
 @helper createFolders(CodeKingdom.Models.Entities.Folder folder, int position)
 {
     <li>
-        <a data-toggle="collapse" class="folder" href="#folder-@folder.ID">
-            <i class="fa @(position == 1 ? Html.Raw("fa-minus"):Html.Raw("fa-plus"))"></i> 
-            @folder.Name
+        <a data-toggle="collapse" class="@(folder.ID == Model.Root.ID ? Html.Raw("root"): Html.Raw("folder"))" href="#folder-@folder.ID" data-folderid="@folder.ID">
+            <i class="fa @(position == 1 ? Html.Raw("fa-minus"):Html.Raw("fa-plus"))"></i>
+            <span>@Html.Raw(folder.Name)</span>
         </a>
         <ul id="folder-@folder.ID" class="@(position == 1 ? @Html.Raw("") : @Html.Raw("collapse"))">
             @foreach (var file in folder.Files)
@@ -37,7 +38,7 @@
     <!-- Project Folder/File overview on the left -->
     <nav class="cbp-spmenu cbp-spmenu-vertical cbp-spmenu-left">
         <div id="new-folder-file">
-            @Html.ActionLink("New Folder", "Create", "Folder", new { id = Model.ProjectID }, new { })
+            @Html.ActionLink("New Folder", "Create", "Folder", new { id = Model.ProjectID }, null)
             @Html.ActionLink("New File", "Create", "File", new { id = Model.ProjectID }, null)
             <span class="project-name">@Html.DisplayFor(model => model.Name) </span>
         </div>
@@ -56,6 +57,14 @@
             <li class="menu-item"><a id="context-menu-rename">Rename</a></li>
             <li class="menu-item"><a id="context-menu-delete">Delete</a></li>
             <li class="menu-item"><a id="download" href="#">Download</a></li>
+        </ul>
+    </div>
+
+    <div id="folderRightClickMenu">
+        <ul class="right-click-items">
+
+            <li class="menu-item"><a id="folder-menu-rename">Rename</a></li>
+            <li class="menu-item"><a id="folder-menu-delete">Delete</a></li>
         </ul>
     </div>
 
