@@ -88,7 +88,8 @@ namespace CodeKingdom.Repositories
             db.Projects.Add(project);
             db.Collaborators.Add(collaborator);
             db.SaveChanges();
-
+            file.ProjectID = project.ID;
+            db.SaveChanges();
             return true;
         }
 

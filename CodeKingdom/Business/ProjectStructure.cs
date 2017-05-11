@@ -120,6 +120,7 @@ namespace CodeKingdom.Business
                     Content = "",
                     Type = "Javascript",
                     ApplicationUserID = GetUserId(),
+                    ProjectID = projectId,
                 };
 
                 file = fileRepository.Create(fileViewModel);
