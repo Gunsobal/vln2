@@ -24,15 +24,9 @@ namespace CodeKingdom.API
 
             var type = "";
             if (file != null)
-                {
-                if (file.Type == "js")
-                {
-                    type = "javascript";
-                }
-                else
-                {
-                    type = file.Type;
-                }
+            {
+                type = file.Type;
+            
                 Clients.Caller.ReturnFile(file.ID, file.Content, file.Type);
             }
         }
@@ -72,10 +66,8 @@ namespace CodeKingdom.API
             Clients.Group(Convert.ToString(projectID)).DeleteFolder(folderID);
         }
 
-
         public void RenameFolder(int projectID, int folderID, string newName)
         {
-            
             folderRepo.Update(new Folder { Name = newName, ID = folderID});
             Clients.Group(Convert.ToString(projectID)).UpdateFolder(folderID, newName);
         }

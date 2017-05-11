@@ -33,7 +33,7 @@
                         <th>
                             @if (Model.Role == "Owner")
                             {
-                                @Html.DisplayNameFor(model => model.Collaborators) @Html.ActionLink("Add another collaborator", "Create", "Collaborator", new { id = Model.ID }, null)
+                                @Html.DisplayNameFor(model => model.Collaborators) @Html.ActionLink("Add another collaborator", "Create", "Collaborator", new { id = Model.ID }, new { @class="ml15"})
                             }
                         </th>
                         <th>Role</th>
@@ -72,8 +72,6 @@
 }
 
 <div>
-    @Html.ActionLink("Back to editor", "Details", new { id = Model.ID})
-    <br />
     @Html.ActionLink("Back to List", "Index")
 </div>
 

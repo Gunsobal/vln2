@@ -1,4 +1,5 @@
 ﻿$(function () {
+
     var editor = ace.edit("editor"),
         chat = $.connection.chatHub,
         editorHub = $.connection.editorHub,
@@ -14,7 +15,7 @@
     {
         editor.setKeyboardHandler("ace/keyboard/" + keyBinding);
     }
-    editor.getSession().setMode("ace/mode/javascript");
+    editor.getSession().setMode("ace/mode/"+type);
 
     /* Source: http://stackoverflow.com/questions/24807066/multiple-cursors-in-ace-editor */
     var marker = {}
@@ -133,6 +134,7 @@
         fileID = id;
         editorHub.server.joinFile(fileID);
         editor.getSession().setMode("ace/mode/" + type);
+        console.log(type);
         editor.setValue(content);
         silent = false;
     }
@@ -245,9 +247,15 @@
         selectedFile = $(this).data("id");
 
         $("#cntnr").css("left", e.pageX);
-        $("#cntnr").css("top", e.pageY);
+        if (e.pageY + 150 >= $("html").height()) {
+            $("#cntnr").css("top", e.pageY-150);
+        } else {
+            $("#cntnr").css("top", e.pageY);
+        }
+        
         // $("#cntnr").hide(100);        
         $("#cntnr").fadeIn(200, startFocusOut("cntnr"));
+        
     });
 
     $(document).on("contextmenu", ".folder", function (e) {

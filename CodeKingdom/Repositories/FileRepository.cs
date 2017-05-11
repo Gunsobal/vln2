@@ -75,7 +75,7 @@ namespace CodeKingdom.Repositories
             return true;
         }
 
-        public bool deleteByProjectId(int projectID)
+        public bool DeleteByProjectId(int projectID)
         {
             List<File> files = db.Files.Where(x => x.ProjectID == projectID).ToList();
             if (files.Count == 0)
@@ -139,5 +139,6 @@ namespace CodeKingdom.Repositories
 
             return file;
         }
+        
     }
 }

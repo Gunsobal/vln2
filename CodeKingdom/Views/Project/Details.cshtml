@@ -12,8 +12,11 @@
 @helper createFolders(CodeKingdom.Models.Entities.Folder folder, int position)
 {
     <li>
-        <a data-toggle="collapse" class="@(folder.ID == Model.Root.ID ? Html.Raw("root"): Html.Raw("folder"))" href="#folder-@folder.ID" data-folderid="@folder.ID">
-            <i class="fa @(position == 1 ? Html.Raw("fa-minus"):Html.Raw("fa-plus"))"></i>
+        <a data-toggle="collapse" class="@(folder.ID == Model.Root.ID ? Html.Raw("root"): Html.Raw("folder"))" href="#" data-target="#folder-@folder.ID" data-folderid="@folder.ID">
+            @if (folder.ID != Model.Root.ID)
+            {
+                <i class="fa @(position == 1 ? Html.Raw("fa-minus") : Html.Raw("fa-plus"))"></i>
+            }
             <span>@Html.Raw(folder.Name)</span>
         </a>
         <ul id="folder-@folder.ID" class="@(position == 1 ? @Html.Raw("") : @Html.Raw("collapse"))">
@@ -46,21 +49,18 @@
 
         </ul>
 
-        <!-- Right Click menu -->
-        
     </nav>
+    <!-- Right Click Context Menu -->
     <div id="cntnr">
         <ul class="right-click-items">
             <li class="menu-item"><a href="#" id="open-in-tab" class="new-tab" target="_blank">Open in new tab</a></li>
             <li class="menu-item"><a id="context-menu-rename">Rename</a></li>
             <li class="menu-item"><a id="context-menu-delete">Delete</a></li>
-            <li class="menu-item"><a id="download" href="#">Download</a></li>
         </ul>
     </div>
 
     <div id="folderRightClickMenu">
         <ul class="right-click-items">
-
             <li class="menu-item"><a id="folder-menu-rename">Rename</a></li>
             <li class="menu-item"><a id="folder-menu-delete">Delete</a></li>
         </ul>
@@ -94,7 +94,7 @@
                         @{ var username = chat.Username.Split('@');}
                         <strong>  @username[0] </strong>@chat.Message
                     </li>
-                            }
+                }
             </ul>
         </div>
         <div class="chat-input">
@@ -119,6 +119,7 @@
         var projectID = @Model.ProjectID;
         var colorscheme = '@(ViewBag.newColorscheme)';
         var keyBinding = '@(ViewBag.newKeyBinding)';
+        var type = '@Model.Type';
         $(document).ready(function() {
             var $navbar = $(".navbar-fixed-top");
             $(window).unbind('scroll');
