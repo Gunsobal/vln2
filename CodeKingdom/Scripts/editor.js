@@ -265,7 +265,9 @@
     $(document).on("contextmenu", ".folder", function (e) {
         e.preventDefault();
         $("#cntnr").hide();
-
+        if ($(this).hasClass("root")) {
+            return;
+        }
         $("#folderRightClickMenu").css("left", e.pageX);
         $("#folderRightClickMenu").css("top", e.pageY);
         $("#folderRightClickMenu").fadeIn(200, startFocusOut("folderRightClickMenu"));

@@ -12,7 +12,7 @@
 @helper createFolders(CodeKingdom.Models.Entities.Folder folder, int position)
 {
     <li>
-        <a data-toggle="collapse" class="@(folder.ID == Model.Root.ID ? Html.Raw("root"): Html.Raw("folder"))" href="#folder-@folder.ID" data-folderid="@folder.ID">
+        <a data-toggle="collapse" class="@(folder.ID == Model.Root.ID ? Html.Raw("folder root"): Html.Raw("folder"))" href="#folder-@folder.ID" data-folderid="@folder.ID">
             <i class="fa @(position == 1 ? Html.Raw("fa-minus"):Html.Raw("fa-plus"))"></i>
             <span>@Html.Raw(folder.Name)</span>
         </a>
