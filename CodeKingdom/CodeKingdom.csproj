@@ -244,6 +244,10 @@
     <Compile Include="Migrations\201705101024210_ProjectIDInFile.Designer.cs">
       <DependentUpon>201705101024210_ProjectIDInFile.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201705111644429_DataAnnotation.cs" />
+    <Compile Include="Migrations\201705111644429_DataAnnotation.Designer.cs">
+      <DependentUpon>201705111644429_DataAnnotation.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Entities\Chat.cs" />
     <Compile Include="Models\Entities\Collaborator.cs" />
@@ -392,6 +396,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201705101024210_ProjectIDInFile.resx">
       <DependentUpon>201705101024210_ProjectIDInFile.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201705111644429_DataAnnotation.resx">
+      <DependentUpon>201705111644429_DataAnnotation.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
