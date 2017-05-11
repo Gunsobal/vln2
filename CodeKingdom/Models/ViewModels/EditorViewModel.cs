@@ -16,6 +16,7 @@ namespace CodeKingdom.Models.ViewModels
         public List<Folder> Folders { get; set; }
         public List<File> Files { get; set; }
         public List<ChatViewModel> Chats { get; set; }
+        public Folder Root { get; set; }
     }   
 
 

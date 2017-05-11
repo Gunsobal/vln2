@@ -13,21 +13,21 @@
                 @Html.AntiForgeryToken()
                 @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                 <div class="form-group">
-                    @Html.LabelFor(m => m.Email, new { @class = "col-md-4 control-label" })
-                    <div class="col-md-8">
+                    @Html.LabelFor(m => m.Email, new { @class = "col-xs-4 col-md-4 control-label" })
+                    <div class="col-xs-8 col-md-8">
                         @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
                         @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
                     </div>
                 </div>
                 <div class="form-group">
-                    @Html.LabelFor(m => m.Password, new { @class = "col-md-4 control-label" })
-                    <div class="col-md-8">
+                    @Html.LabelFor(m => m.Password, new { @class = "col-xs-4 col-md-4 control-label" })
+                    <div class="col-xs-8 col-md-8">
                         @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
                         @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
                     </div>
                 </div>
                 <div class="form-group">
-                    <div class="col-md-offset-4 col-md-8">
+                    <div class="col-xs-offset-4 col-xs-8 col-md-offset-4 col-md-8">
                         <div class="checkbox">
                             <div class="">
                                 @Html.CheckBoxFor(m => m.RememberMe)
@@ -39,9 +39,9 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <div class="col-md-offset-4 col-md-8">
-                        @Html.ActionLink("Register", "Register", new { }, new { @class = "btn btn-default" })
-                        <input type="submit" value="Log in" class="btn btn-default" />
+                    <div class="col-xs-offset-4 col-xs-8 col-md-offset-4 col-md-8">
+                        @Html.ActionLink("Register", "Register", new { }, new { @class = "btn btn-default f-left" })
+                        <input type="submit" value="Log in" class="btn btn-default f-left ml15" />
                     </div>
                 </div>
                

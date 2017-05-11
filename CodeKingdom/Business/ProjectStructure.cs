@@ -139,12 +139,14 @@ namespace CodeKingdom.Business
 
             // List<File> files = new List<File>();
             List<File> files = new List<File>();
-            List<Folder> folders = folderRepository.GetCascadingChildrenById(folderID);
-            foreach (Folder folder in folders)
+            Folder root = folderRepository.GetById(folderID);
+          /*  root.Folders = folderRepository.GetCascadingChildrenById(root.FolderID.Value);*/
+         //   List<Folder> folders = folderRepository.GetCascadingChildrenById(folderID);
+          /*  foreach (Folder folder in folders)
             {
                 files.AddRange(fileRepository.GetByFolderId(folder.ID));
             }
-
+            */
             EditorViewModel viewModel = new EditorViewModel
             {
                 Name = project.Name,
@@ -152,8 +154,7 @@ namespace CodeKingdom.Business
                 FileID = file.ID,
                 Content = file.Content,
                 Collaborators = project.Collaborators,
-                Folders = folders,
-                Files = files,
+                Root = root,
                 Chats = chatViewModels
             };
 
