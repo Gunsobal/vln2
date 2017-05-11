@@ -32,7 +32,6 @@
 
                 var screenPos = session.documentToScreenPosition(pos)
                 var user = users.find(function (user) {
-                    console.log(user, cursors[i]);
                     if (user.ID == cursors[i].id) {
                         return true;
                     }
@@ -131,6 +130,7 @@
         silent = true;
         editorHub.server.leaveFile(fileID);
         fileID = id;
+        window.history.pushState({}, "", "/Project/Details/" + projectID + "/" + fileID);
         editorHub.server.joinFile(fileID);
         editor.getSession().setMode("ace/mode/" + type);
         editor.setValue(content);
