@@ -32,7 +32,6 @@
 
                 var screenPos = session.documentToScreenPosition(pos)
                 var user = users.find(function (user) {
-                    console.log(user, cursors[i]);
                     if (user.ID == cursors[i].id) {
                         return true;
                     }
@@ -131,6 +130,7 @@
         silent = true;
         editorHub.server.leaveFile(fileID);
         fileID = id;
+        window.history.pushState({}, "", "/Project/Details/" + projectID + "/" + fileID);
         editorHub.server.joinFile(fileID);
         editor.getSession().setMode("ace/mode/" + type);
         editor.setValue(content);
@@ -144,8 +144,20 @@
         $('#discussion').append('<li class="show-time"><i>' + htmlEncode(model.DateAndTime) + '</i></li><li class="show-name-msg"><strong>' + htmlEncode(username[0]) + '</strong>: ' + htmlEncode(model.Message) + '</li>');
         scrollBottom();
         if ($(".chat-container").is(":hidden")) {
-            $("#chat-bubble").addClass("bubble-Expand").delay(3000).queue(function(next){
-                $(this).removeClass("bubble-Expand");
+            $.notify({
+                icon: 'glyphicon glyphicon-comment',
+                title: username[0] + ": ",
+                message: model.Message,
+            }, {
+                type: "info",
+                timer: 5000,
+                animate: {
+                    enter: 'animated fadeInDown',
+                    exit: 'animated fadeOutUp'
+                },
+            });
+            $("#chat-bubble").addClass("bubble-expand").delay(3000).queue(function(next){
+                $(this).removeClass("bubble-expand");
                 next();
             });
         }

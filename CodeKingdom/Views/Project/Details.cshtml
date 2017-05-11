@@ -19,7 +19,7 @@
         <ul id="folder-@folder.ID" class="@(position == 1 ? @Html.Raw("") : @Html.Raw("collapse"))">
             @foreach (var file in folder.Files)
             {
-                <li><a href="/Project/Details/@Model.ProjectID?fileID=@file.ID" data-id="@file.ID" class="tree-item @(Model.FileID == file.ID ? @Html.Raw("active"):@Html.Raw("")) ">@file.Name</a></li>
+                <li><a href="/Project/Details/@Model.ProjectID/@file.ID" data-id="@file.ID" class="tree-item @(Model.FileID == file.ID ? @Html.Raw("active"):@Html.Raw("")) ">@file.Name</a></li>
             }
             @if (folder.Folders.Count > 0)
             {
