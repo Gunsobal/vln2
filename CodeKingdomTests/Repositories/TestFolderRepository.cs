@@ -9,6 +9,7 @@ namespace CodeKingdomTests.Repositories
     public class TestFolderRepository
     {
         private FolderRepository repo;
+        private FileRepository fileRepo;
 
         #region Initialize
         [TestInitialize]
@@ -17,6 +18,7 @@ namespace CodeKingdomTests.Repositories
             var mockDb = new MockDataContext();
             TestSeed.Folders(mockDb);
             repo = new FolderRepository(mockDb);
+            fileRepo = new FileRepository(mockDb);
         }
         #endregion
 
@@ -239,8 +241,82 @@ namespace CodeKingdomTests.Repositories
         }
         #endregion
 
-        //TODO Test create
-        //TODO Test delete
-        //TODO Test update
+        #region Test create method
+        [TestMethod]
+        public void TestCreateNewFolder()
+        {
+            // Arrange
+            const int parent = 1;
+            const string newName = "FolderTest";
+
+            // Act
+            var result = repo.Create(new Folder { Name = newName, FolderID = parent });
+
+            // Assert
+            Assert.AreEqual(newName, result.Name);
+        }
+
+        [TestMethod]
+        public void TestCreateDuplicateFolder()
+        {
+            // Arrange
+            const int parent = 1;
+            const string newName = "css";
+
+            // Act
+            var result = repo.Create(new Folder { Name = newName, FolderID = parent });
+
+            // Assert
+            Assert.AreNotEqual(newName, result.Name);
+        }
+        #endregion
+
+        #region Test delete method
+        [TestMethod]
+        public void TestDeleteFolder()
+        {
+            // Arrange
+            const int ID = 5;
+
+            // Act
+            var success = repo.DeleteById(ID);
+            var result = repo.GetById(ID);
+
+            // Assert
+            Assert.IsTrue(success);
+            Assert.IsNull(result);
+        }
+
+        [TestMethod]
+        public void TestDeleteFolderWithFiles()
+        {
+            // Arrange
+            const int ID = 5;
+            const int FileID = 3;
+
+            // Act
+            var success = repo.DeleteById(ID);
+            var nullFile = fileRepo.GetById(FileID);
+
+            // Assert
+            Assert.IsTrue(success);
+            Assert.IsNull(nullFile);
+        }
+
+        [TestMethod]
+        public void TestDeleteFolderWithFolders()
+        {
+            // Arrange 
+            const int ID = 2;
+
+            // Act
+            var success = repo.DeleteById(ID);
+            var folders = repo.GetChildrenById(ID);
+
+            // Assert
+            Assert.IsTrue(success);
+            Assert.AreEqual(0, folders.Count);
+        }
+        #endregion
     }
 }
