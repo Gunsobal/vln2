@@ -85,12 +85,10 @@ namespace CodeKingdom.Repositories
             }
             foreach (var child in children)
             {
-                if (child.Files != null)
+                List<File> files = db.Files.Where(x => x.FolderID == child.ID).ToList();
+                foreach (var file in files)
                 {
-                    foreach (var file in child.Files)
-                    {
-                        db.Files.Remove(file);
-                    }
+                    db.Files.Remove(file);
                 }
                 db.Folders.Remove(child);
             }

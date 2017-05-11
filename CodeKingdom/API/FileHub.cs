@@ -72,6 +72,7 @@ namespace CodeKingdom.API
             Clients.Group(Convert.ToString(projectID)).DeleteFolder(folderID);
         }
 
+
         public void RenameFolder(int projectID, int folderID, string newName)
         {
             FolderViewModel model = new FolderViewModel
@@ -82,5 +83,6 @@ namespace CodeKingdom.API
             };
             folderRepo.Rename(model);
         }
+
     }
 }
