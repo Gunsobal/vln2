@@ -8,29 +8,57 @@
 @Styles.Render("~/Content/jPushMenu.css")
 @Styles.Render("~/Content/ChatBox.css")
 
+@helper createFolders(CodeKingdom.Models.Entities.Folder folder, int position)
+{
+    <li>
+        <a data-toggle="collapse" class="folder" href="#folder-@folder.ID">
+            <i class="fa @(position == 1 ? Html.Raw("fa-minus"):Html.Raw("fa-plus"))"></i> 
+            @folder.Name
+        </a>
+        <ul id="folder-@folder.ID" class="@(position == 1 ? @Html.Raw("") : @Html.Raw("collapse"))">
+            @foreach (var file in folder.Files)
+            {
+                <li><a href="/Project/Details/@Model.ProjectID?fileID=@file.ID" data-id="@file.ID" class="tree-item @(Model.FileID == file.ID ? @Html.Raw("active"):@Html.Raw("")) ">@file.Name</a></li>
+            }
+            @if (folder.Folders.Count > 0)
+            {
+                foreach (var singleFolder in folder.Folders)
+                {
+                    @createFolders(singleFolder, position + 1)
+                }
+            }
+
+        </ul>
+    </li>
+
+}
+
 <div>
-    <!-- Project Folder/File overview on the left -->   
+    <!-- Project Folder/File overview on the left -->
     <nav class="cbp-spmenu cbp-spmenu-vertical cbp-spmenu-left">
         <div id="new-folder-file">
             @Html.ActionLink("New Folder", "Create", "Folder", new { id = Model.ProjectID }, new { })
             @Html.ActionLink("New File", "Create", "File", new { id = Model.ProjectID }, null)
-            <span>@Html.DisplayFor(model => model.Name) </span>
+            <span class="project-name">@Html.DisplayFor(model => model.Name) </span>
         </div>
         <ul class="menu-list" id="editormenu">
+
+            @createFolders(Model.Root, 1)
 
         </ul>
 
         <!-- Right Click menu -->
-        <div id="cntnr">
-            <ul class="right-click-items">
-                <li class="menu-item" ><a href="#" id="open-in-tab" class="new-tab" target="_blank">Open in new tab</a></li>
-                <li class="menu-item" ><a id="context-menu-rename">Rename</a></li>
-                <li class="menu-item" ><a id="context-menu-delete">Delete</a></li>
-                <li class="menu-item" ><a id="download" href="#">Download</a></li>
-            </ul>
-        </div>
+        
     </nav>
-    
+    <div id="cntnr">
+        <ul class="right-click-items">
+            <li class="menu-item"><a href="#" id="open-in-tab" class="new-tab" target="_blank">Open in new tab</a></li>
+            <li class="menu-item"><a id="context-menu-rename">Rename</a></li>
+            <li class="menu-item"><a id="context-menu-delete">Delete</a></li>
+            <li class="menu-item"><a id="download" href="#">Download</a></li>
+        </ul>
+    </div>
+
     <!--Editor-->
     <div id="editor">@Html.Raw(Model.Content)</div>
     @using (Html.BeginForm("Save", "File", FormMethod.Post))
@@ -42,14 +70,13 @@
     }
 
     <!-- Chat Window -->
-    <h2>Chat</h2>
     <div class="chat-container">
         <div class="chat-bar">
             <div></div>
-            <input type="button" class="close-chat" value=" "/>
+            <input type="button" class="close-chat" value=" " />
         </div>
         <div class="chat-content">
-            <input type="hidden" id="displayname"/>
+            <input type="hidden" id="displayname" />
             <ul id="discussion">
                 @foreach (var chat in Model.Chats)
                 {
@@ -60,15 +87,15 @@
                         @{ var username = chat.Username.Split('@');}
                         <strong>  @username[0] </strong>@chat.Message
                     </li>
-                }
+                            }
             </ul>
         </div>
         <div class="chat-input">
-            <textarea name="textbox" id="message" placeholder="Your message here..."></textarea> 
+            <textarea name="textbox" id="message" placeholder="Your message here..."></textarea>
         </div>
     </div>
     <input type="hidden" id="sendmessage" value="Send" />
-    <img src="/Content/Images/chat-bubble.png" id="chat-bubble"/>
+    <img src="/Content/Images/chat-bubble.png" id="chat-bubble" />
     <div class="active-users">
     </div>
 </div>
@@ -89,60 +116,5 @@
             $navbar.addClass("top-nav-collapse");
         })
     </script>
-    <script>
-        function File(id, name, folderID){
-            this.ID = id;
-            this.Name = name;
-            this.FolderID = folderID;
-        };
 
-        function Folder(id, name, parentID){
-            this.ID = id;
-            this.Name = name;
-            this.ParentID = parentID;
-        };
-
-        var files = [];
-        var folders = [];
-
-        @foreach (var file in Model.Files)
-        {
-            @:files.push(new File(@file.ID, "@file.Name", @file.FolderID));
-        }
-
-        @foreach (var folder in Model.Folders)
-        {
-            @:folders.push(new Folder(@folder.ID, "@folder.Name", @folder.FolderID)); 
-        }
-
-        function CreateFolderNode(folders, files, folder){
-            var html = '';
-            folders.forEach(function(element){
-                if (element.ParentID == folder.ID){
-                    html += '<li class="folderItem">' + element.Name + '<ul class="folderList">';
-                    html += CreateFolderNode(folders, files, element);
-                    html += '</ul>';
-                }
-            });
-            html += "</li>";
-            files.forEach(function(file){
-                if (file.FolderID == folder.ID){
-                    html += '<li class="fileItem"><a class="tree-item" data-id="' + file.ID
-                        + '" href="/Project/Details/' + projectID + '?fileID=' + file.ID
-                        + '">' + file.Name + '</a></li>';
-                }
-            });
-            return html;
-        }
-
-        function populateEditorMenu(files, folders){
-            var menu = $("#editormenu");
-            var tree = CreateFolderNode(folders, files, folders[0]);
-            menu.html(tree);
-        }
-
-        $(function(){
-            populateEditorMenu(files, folders);
-        })
-    </script>
 }    

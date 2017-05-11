@@ -62,12 +62,29 @@ namespace CodeKingdom.Repositories
 
         public Folder Create(Folder folder)
         {
-            return new Folder();
+            db.Folders.Add(folder);
+            db.SaveChanges();
+            return folder;
         }
 
         public bool DeleteById(int id)
         {
-            return false;
+            Folder folder = GetById(id);
+            if (folder == null)
+            {
+                return false;
+            }
+            foreach (Folder fold in folder.Folders)
+            {
+                DeleteById(fold.ID);
+            }
+            foreach (File file in folder.Files)
+            {
+                db.Files.Remove(file);
+            }
+            db.Folders.Remove(folder);
+            db.SaveChanges();
+            return true;
         }
 
         public Folder Update(Folder folder)

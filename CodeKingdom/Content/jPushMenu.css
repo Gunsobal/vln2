@@ -4,6 +4,7 @@
     background: #0E0B16;
     color: #999999;
     position: fixed;
+    height: calc(100% + 50px);
 }
 
 .cbp-spmenu a {
@@ -33,10 +34,10 @@
 /* Orientation-dependent styles for the content of the menu */
 .cbp-spmenu-vertical {
     width: 240px;
-    height: 100%;
+    height: calc(100% + 50px);
     top: 0;
     z-index: 1000;
-    overflow-y: scroll;
+    overflow: auto;
 }
 
 .cbp-spmenu-vertical a {

@@ -157,6 +157,15 @@
             file.server.get($(this).data("id"), projectID);
         });
 
+        $('.folder').click(function () {
+            if ($(this).find(".fa").hasClass("fa-minus")) {
+                $(this).find(".fa").removeClass("fa-minus").addClass("fa-plus");
+            } else {
+                $(this).find(".fa").removeClass("fa-plus").addClass("fa-minus");
+            }
+            
+        })
+
         // Chat Box send message
         $('#sendmessage').click(function () {
             // Call the Send method on the hub. 
@@ -201,6 +210,7 @@
         // $("#cntnr").hide(100);        
         $("#cntnr").fadeIn(200, startFocusOut());
     });
+    
     
     $(".tree-item").click(function () {
         var id = $(this).data("id");
