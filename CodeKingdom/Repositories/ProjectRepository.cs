@@ -102,6 +102,12 @@ namespace CodeKingdom.Repositories
                 return false;
             }
 
+            List<File> files = db.Files.Where(x => x.ProjectID == id).ToList();
+            foreach (var file in files)
+            {
+                db.Files.Remove(file);
+            }
+
             db.Projects.Remove(project);
             db.SaveChanges();
 

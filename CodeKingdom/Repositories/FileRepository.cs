@@ -75,6 +75,21 @@ namespace CodeKingdom.Repositories
             return true;
         }
 
+        public bool deleteByProjectId(int projectID)
+        {
+            List<File> files = db.Files.Where(x => x.ProjectID == projectID).ToList();
+            if (files.Count == 0)
+            {
+                return false;
+            }
+            foreach (var file in files)
+            {
+                db.Files.Remove(file);
+            }
+            db.SaveChanges();
+            return true;
+        }
+
         public File UpdateContent(FileViewModel model)
         {
             
