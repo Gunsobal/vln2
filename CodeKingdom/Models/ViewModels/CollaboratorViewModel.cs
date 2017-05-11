@@ -16,7 +16,6 @@ namespace CodeKingdom.Models.ViewModels
         [StringLength(50, ErrorMessage = "Project name cannot be longer than 50 characters.")]
         public string UserName { get; set; }
 
-        [Required]
         [Display(Name = "Role Name")]
         public string RoleName { get; set; }
 
