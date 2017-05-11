@@ -17,6 +17,7 @@ namespace CodeKingdom.Business
         private FileRepository fileRepository;
         private CollaboratorRepository collaboratorRepository;
         private ChatRepository chatRepository;
+        private UserRepository userRepository;
 
         public ProjectStructure()
         {
@@ -25,6 +26,7 @@ namespace CodeKingdom.Business
             fileRepository = new FileRepository();
             collaboratorRepository = new CollaboratorRepository();
             chatRepository = new ChatRepository();
+            userRepository = new UserRepository();
         }
 
         public string GetUserId()
@@ -208,6 +210,16 @@ namespace CodeKingdom.Business
         public void ClearChatForProject(int id)
         {
             chatRepository.ClearChat(id);
+        }
+
+        public string GetColorscheme(string id)
+        {
+            return userRepository.GetColorScheme(id);
+        }
+
+        public string GetKeyBinding(string id)
+        {
+            return userRepository.GetKeyBinding(id);
         }
     }
 }

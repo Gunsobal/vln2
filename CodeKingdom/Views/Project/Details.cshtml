@@ -28,10 +28,8 @@
                     @createFolders(singleFolder, position + 1)
                 }
             }
-
         </ul>
     </li>
-
 }
 
 <div>
@@ -119,6 +117,8 @@
     <script>
         var fileID = @Model.FileID;
         var projectID = @Model.ProjectID;
+        var colorscheme = '@(ViewBag.newColorscheme)';
+        var keyBinding = '@(ViewBag.newKeyBinding)';
         $(document).ready(function() {
             var $navbar = $(".navbar-fixed-top");
             $(window).unbind('scroll');

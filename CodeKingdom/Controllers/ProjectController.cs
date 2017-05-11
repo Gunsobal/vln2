@@ -2,6 +2,7 @@
 using CodeKingdom.Models;
 using CodeKingdom.Models.Entities;
 using CodeKingdom.Models.ViewModels;
+using Microsoft.AspNet.Identity;
 using System;
 using System.Collections.Generic;
 using System.Net;
@@ -31,9 +32,10 @@ namespace CodeKingdom.Controllers
             }
 
             EditorViewModel viewModel = projectStructure.GetEditorViewModel(id.Value, fileId);
-
+            string userID = User.Identity.GetUserId();
             ViewBag.leftMenuButton = true;
-
+            ViewBag.newColorscheme = projectStructure.GetColorscheme(userID);
+            ViewBag.newKeyBinding = projectStructure.GetKeyBinding(userID);
             return View(viewModel);
         }
 

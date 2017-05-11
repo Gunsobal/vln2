@@ -6,53 +6,73 @@
 <h2>@ViewBag.Title.</h2>
 
 <p class="text-success">@ViewBag.StatusMessage</p>
-<div>
-    <hr />
-    <dl class="dl-horizontal">
-        
-        <dt>E-mail:</dt>
-        <dd>
-            @Html.TextBoxFor(model => model.UsersEmailAddress)
-        </dd>
-        <br />
-        <dt>Colorscheme:</dt>
-        <dd>
-            @Html.DropDownListFor(model => model.Colorscheme,
-                            new SelectList(Enum.GetValues(typeof(ConsoleColor))),
-                            "Dark")
-        </dd>
-        <br />
-        <dt>Editor key-binding:</dt>
-        <dd>
-            @Html.DropDownListFor(model => model.Keybinding,
-                            new SelectList(Enum.GetValues(typeof(ConsoleColor))),
-                            "Monokio")
-        </dd>
-        <br />
-        <dt>Password:</dt>
-        <dd>
-            [
-            @if (Model.HasPassword)
-            {
-                @Html.ActionLink("Change your password", "ChangePassword")
-            }
-            else
-            {
-                @Html.ActionLink("Create", "SetPassword")
-            }
-            ]
-        </dd>
-        </dd>
-        <br />
-        <br />
-        <dt></dt>
-        <div class="col-md-offset-2 col-md-10">
-            <input type="submit" value="Save" class="btn btn-default" />
+
+@{
+    List<SelectListItem> themeList = new List<SelectListItem>();
+    themeList.Add(new SelectListItem { Value = "chrome", Text = "Chrome" });
+    themeList.Add(new SelectListItem { Value = "xcode", Text = "XCode" });
+    themeList.Add(new SelectListItem { Value = "monokai", Text = "Monokai" });
+    themeList.Add(new SelectListItem { Value = "idle fingers", Text = "Idle Fingers" });
+    themeList.Add(new SelectListItem { Value = "cobalt", Text = "Cobalt" });
+}
+
+@{
+    List<SelectListItem> keyBindingList = new List<SelectListItem>();
+    keyBindingList.Add(new SelectListItem { Value = "ace", Text = "Ace" });
+    keyBindingList.Add(new SelectListItem { Value = "emacs", Text = "Emacs" });
+    keyBindingList.Add(new SelectListItem { Value = "vim", Text = "Vim" });
+
+}
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    <div>
+        <hr />
+        <div class="form-horizontal">
+
+            @Html.HiddenFor(model => model.UsersEmailAddress)
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Colorscheme, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.DropDownListFor(model => model.Colorscheme, themeList, new { @class = "form-control" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Keybinding, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.DropDownListFor(model => model.Keybinding, keyBindingList, new { @class = "form-control" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.ActionLink("Change your password", "ChangePassword", null, new { @class = "col-md-2" })
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Save" class="btn btn-default" id="user-config-save" />
+                </div>
+            </div>
+
         </div>
-    </dl>
-</div>
+    </div>
+    <div>
+        @Html.ActionLink("Back to Projects", "Index", "Project")
+    </div>
 
-<div>
-    @Html.ActionLink("Back to Projects", "Index", "Project")
-</div>
+    <script>
+        $(function () {
+            $("#user-config-save").on("click", function() {
+                $(this).history.back();
+                return false;
 
+            })
+        }
+    </script>
+
+
+
+}

@@ -8,7 +8,12 @@
         selectedFolder = 0,
         users = [];
 
-    editor.setTheme("ace/theme/twilight");
+    editor.setTheme("ace/theme/" + colorscheme);
+
+    if (keyBinding != "ace")
+    {
+        editor.setKeyboardHandler("ace/keyboard/" + keyBinding);
+    }
     editor.getSession().setMode("ace/mode/javascript");
 
     /* Source: http://stackoverflow.com/questions/24807066/multiple-cursors-in-ace-editor */
