@@ -21,9 +21,13 @@ namespace CodeKingdom.Controllers
     public class CollaboratorController : Controller
     {
         private CollaboratorStructure collaboratorStructure = new CollaboratorStructure();
-        // todo: delete
         private CollaboratorRepository repository = new CollaboratorRepository();
 
+        /// <summary>
+        /// Returns a view for adding a collaborator to a project
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>CollaboratorViewModel</returns>
         public ActionResult Create(int? id)
         {
             if (!id.HasValue)
@@ -37,8 +41,6 @@ namespace CodeKingdom.Controllers
                 Roles = collaboratorStructure.CreateRoleSelectListForViewModel(),
             };
 
-            // collaboratorStructure.CreateCollaboratorViewModelFromProjectAndUserID(id.Value, HttpContext.User.Identity.GetUserId());
-
             if (!isOwner(viewModel))
             {
                 return new HttpStatusCodeResult(HttpStatusCode.Forbidden);
@@ -47,6 +49,11 @@ namespace CodeKingdom.Controllers
             return View(viewModel);
         }
 
+        /// <summary>
+        /// Adds a new collaborator to a project
+        /// </summary>
+        /// <param name="collaborator"></param>
+        /// <returns></returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "ID,UserName,RoleID,ProjectID")] CollaboratorViewModel collaborator)
@@ -70,7 +77,7 @@ namespace CodeKingdom.Controllers
                     string message = String.Format("You have been added to a new project, go to {0} to view the project", url);
                     Mailer mail = new Mailer(collaborator.UserName, "Code Kingdom", message);
                     mail.Send();
-                    return RedirectToAction("Index", "Project", new { id = collaborator.ProjectID });
+                    return RedirectToAction("Edit", "Project", new { id = collaborator.ProjectID });
                 }
             }
 
@@ -79,6 +86,11 @@ namespace CodeKingdom.Controllers
             return View(collaborator);
         }
 
+        /// <summary>
+        /// Returns view model to change role for collaborator
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public ActionResult Edit(int? id)
         {
             if (!id.HasValue)
@@ -101,7 +113,12 @@ namespace CodeKingdom.Controllers
             CollaboratorViewModel viewModel = collaboratorStructure.CreateCollaboratorViewModelFromID(collaborator.ID);
             return View(viewModel);
         }
-        // ////////////////////////////////////
+
+        /// <summary>
+        /// Updates collaborator role
+        /// </summary>
+        /// <param name="collaborator"></param>
+        /// <returns></returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "ID,UserName,RoleID,ProjectID")] CollaboratorViewModel collaborator)
@@ -119,6 +136,11 @@ namespace CodeKingdom.Controllers
             return View(collaborator);
         }
 
+        /// <summary>
+        /// Ask's for confirmation befor removing collaborator from project
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public ActionResult Delete(int? id)
         {
             if (!id.HasValue)
@@ -140,6 +162,11 @@ namespace CodeKingdom.Controllers
             return View(collaborator);
         }
 
+        /// <summary>
+        /// Removes collaborator from project
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
@@ -150,10 +177,14 @@ namespace CodeKingdom.Controllers
             }
 
             collaboratorStructure.Delete(id);
-            //return RedirectToAction("Index");
             return RedirectToAction("Index", "Project");
         }
 
+        /// <summary>
+        /// Checks if user is a owner fo the project.
+        /// </summary>
+        /// <param name="collaborator"></param>
+        /// <returns></returns>
         protected bool isOwner(Collaborator collaborator)
         {
             string userID = User.Identity.GetUserId();
@@ -167,6 +198,11 @@ namespace CodeKingdom.Controllers
             return true;
         }
 
+        /// <summary>
+        /// Checks if user is a owner fo the project.
+        /// </summary>
+        /// <param name="collaborator"></param>
+        /// <returns></returns>
         protected bool isOwner(CollaboratorViewModel collaborator)
         {
             string userID = User.Identity.GetUserId();
