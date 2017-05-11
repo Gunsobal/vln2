@@ -269,6 +269,23 @@ namespace CodeKingdomTests.Repositories
             // Assert
             Assert.AreNotEqual(newName, result.Name);
         }
+
+        [TestMethod]
+        public void TestCreateMultipleDuplicateFolders()
+        {
+            // Arrange
+            const int parent = 1;
+            const string newName = "css";
+
+            // Act
+            var result1 = repo.Create(new Folder { Name = newName, FolderID = parent });
+            var result2 = repo.Create(new Folder { Name = newName, FolderID = parent });
+
+            // Assert
+            Assert.AreNotEqual(newName, result1.Name);
+            Assert.AreNotEqual(newName, result2.Name);
+            Assert.AreNotEqual(result1.Name, result2.Name);
+        }
         #endregion
 
         #region Test delete method
@@ -316,6 +333,19 @@ namespace CodeKingdomTests.Repositories
             // Assert
             Assert.IsTrue(success);
             Assert.AreEqual(0, folders.Count);
+        }
+
+        [TestMethod]
+        public void TestDeleteFolderFail()
+        {
+            // Arrange
+            const int ID = 99;
+
+            // Act
+            var success = repo.DeleteById(ID);
+
+            // Assert
+            Assert.IsFalse(success);
         }
         #endregion
     }
