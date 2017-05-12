@@ -9,7 +9,7 @@ using CodeKingdom.Models.Entities;
 namespace CodeKingdomTests
 {
     /// <summary>
-    /// Test Seed class to seet the Mock Database with data
+    /// Test Seed class to seed the Mock Database with data
     /// </summary>
     static class TestSeed
     {
@@ -168,6 +168,7 @@ namespace CodeKingdomTests
                 Type = "jpg",
                 Content = "pic-of-birds",
                 ApplicationUserID = "dummy",
+                ProjectID = 1
             });
             context.Files.Add(new File
             {

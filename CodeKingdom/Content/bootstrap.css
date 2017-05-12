@@ -4085,7 +4085,7 @@ textarea.input-group-sm > .input-group-btn > .btn {
   }
 }
 
-.navbar-collapse {
+.navbar-main-collapse {
   max-height: 340px;
   padding-right: 15px;
   padding-left: 15px;
@@ -4095,65 +4095,65 @@ textarea.input-group-sm > .input-group-btn > .btn {
   -webkit-overflow-scrolling: touch;
 }
 
-.navbar-collapse:before,
-.navbar-collapse:after {
+.navbar-main-collapse:before,
+.navbar-main-collapse:after {
   display: table;
   content: " ";
 }
 
-.navbar-collapse:after {
+.navbar-main-collapse:after {
   clear: both;
 }
 
-.navbar-collapse:before,
-.navbar-collapse:after {
+.navbar-main-collapse:before,
+.navbar-main-collapse:after {
   display: table;
   content: " ";
 }
 
-.navbar-collapse:after {
+.navbar-main-collapse:after {
   clear: both;
 }
 
-.navbar-collapse.in {
+.navbar-main-collapse.in {
   overflow-y: auto;
 }
 
 @media (min-width: 992px) {
-  .navbar-collapse {
+  .navbar-main-collapse {
     width: auto;
     border-top: 0;
     box-shadow: none;
   }
-  .navbar-collapse.collapse {
+  .navbar-main-collapse.collapse {
     display: block !important;
     height: auto !important;
     padding-bottom: 0;
     overflow: visible !important;
   }
-  .navbar-collapse.in {
+  .navbar-main-collapse.in {
     overflow-y: visible;
   }
-  .navbar-collapse .navbar-nav.navbar-left:first-child {
+  .navbar-main-collapse .navbar-nav.navbar-left:first-child {
     margin-left: -15px;
   }
-  .navbar-collapse .navbar-nav.navbar-right:last-child {
+  .navbar-main-collapse .navbar-nav.navbar-right:last-child {
     margin-right: -15px;
   }
-  .navbar-collapse .navbar-text:last-child {
+  .navbar-main-collapse .navbar-text:last-child {
     margin-right: 0;
   }
 }
 
 .container > .navbar-header,
-.container > .navbar-collapse {
+.container > .navbar-main-collapse {
   margin-right: -15px;
   margin-left: -15px;
 }
 
 @media (min-width: 992px) {
   .container > .navbar-header,
-  .container > .navbar-collapse {
+  .container > .navbar-main-collapse {
     margin-right: 0;
     margin-left: 0;
   }
@@ -4442,7 +4442,7 @@ textarea.input-group-sm > .input-group-btn > .btn {
   background-color: #cccccc;
 }
 
-.navbar-default .navbar-collapse,
+.navbar-default .navbar-main-collapse,
 .navbar-default .navbar-form {
   border-color: #e6e6e6;
 }
@@ -4559,7 +4559,7 @@ textarea.input-group-sm > .input-group-btn > .btn {
   background-color: #ffffff;
 }
 
-.navbar-inverse .navbar-collapse,
+.navbar-inverse .navbar-main-collapse,
 .navbar-inverse .navbar-form {
   border-color: #101010;
 }

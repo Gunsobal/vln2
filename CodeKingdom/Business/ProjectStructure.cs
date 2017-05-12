@@ -7,6 +7,7 @@ using Microsoft.AspNet.Identity;
 using CodeKingdom.Models.ViewModels;
 using CodeKingdom.Models.Entities;
 using System.Web.Mvc;
+using CodeKingdom.Exceptions;
 
 namespace CodeKingdom.Business
 {
@@ -96,6 +97,12 @@ namespace CodeKingdom.Business
         public EditorViewModel GetEditorViewModel(int projectId, int? fileId = null)
         {
             Project project = GetProject(projectId);
+
+            if (project == null)
+            {
+                throw new ProjectNotFoundException();
+            }
+
             int folderID = project.FolderID;
             File file = null;
 
@@ -155,6 +162,7 @@ namespace CodeKingdom.Business
                 Name = project.Name,
                 ProjectID = project.ID,
                 FileID = file.ID,
+                Type = file.Type,
                 Content = file.Content,
                 Collaborators = project.Collaborators,
                 Root = root,
@@ -196,7 +204,7 @@ namespace CodeKingdom.Business
             if (project != null)
             {
                 int root = project.ID;
-                fileRepository.deleteByProjectId(id);
+
                 projectRepository.DeleteById(id);
                 folderRepository.DeleteById(root);
             }

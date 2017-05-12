@@ -18,7 +18,11 @@ namespace CodeKingdom.Controllers
         ProjectRepository projectRepository = new ProjectRepository();
         FolderRepository folderRepository = new FolderRepository();
        
-        // GET: Folder/Create
+        /// <summary>
+        /// Prepares viewmodel and returns view for creating new folder
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public ActionResult Create(int? id)
         {
             if (!id.HasValue)
@@ -53,9 +57,11 @@ namespace CodeKingdom.Controllers
             return View(viewModel);
         }
 
-        // POST: Folder/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+        /// <summary>
+        /// Creates new folder
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "ProjectID,FolderID,Name")] FolderViewModel model)

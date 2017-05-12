@@ -18,16 +18,28 @@ namespace CodeKingdom.Repositories
             db = new ApplicationDbContext();
         }
 
+        /// <summary>
+        /// Returns null or single user
+        /// </summary>
+        /// <param name="id">User ID</param>
         public ApplicationUser GetById(string id)
         {
             return db.Users.Where(u => u.Id == id).FirstOrDefault();
         }
 
+        /// <summary>
+        /// Returns null or single user by email
+        /// </summary>
+        /// <param name="email">Email</param>
         public ApplicationUser GetByEmail(string email)
         {
             return db.Users.Where(u => u.Email == email).FirstOrDefault();
         }
 
+        /// <summary>
+        /// Returns null or single user by user name
+        /// </summary>
+        /// <param name="userName">Username</param>
         public ApplicationUser GetByUserName(string userName)
         {
             return db.Users.Where(u => u.UserName == userName).FirstOrDefault();

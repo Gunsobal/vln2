@@ -16,16 +16,28 @@ namespace CodeKingdom.Repositories
             db = context ?? new ApplicationDbContext();
         }
 
+        /// <summary>
+        /// Returns null or single instance of folder
+        /// </summary>
+        /// <param name="id">Folder ID</param>
         public Folder GetById(int id)
         {
             return db.Folders.Where(x => x.ID == id).FirstOrDefault();
         }
 
+        /// <summary>
+        /// Returns list of folders within a folder. Returns empty list if no subfolders are found
+        /// </summary>
+        /// <param name="id">Folder ID</param>
         public List<Folder> GetChildrenById(int id)
         {
             return db.Folders.Where(x => x.FolderID == id).ToList();
         }
 
+        /// <summary>
+        /// Returns a list of a folder with a given id and every subfolder within that folder and every subsequent subfolder within those subfolders until no subfolders are found. Returns empty list if folder with given id isn't found. 
+        /// </summary>
+        /// <param name="id">Folder ID</param>
         public List<Folder> GetCascadingChildrenById(int id)
         {
             List<Folder> folders = getCascadingChildrenRecursive(id);
@@ -37,6 +49,10 @@ namespace CodeKingdom.Repositories
             return folders;
         }
 
+        /// <summary>
+        /// Returns null or single instance of folder by folder parent id.
+        /// </summary>
+        /// <param name="id">Folder ID</param>
         public Folder GetParent(int id)
         {
             Folder folder = GetById(id);
@@ -47,6 +63,10 @@ namespace CodeKingdom.Repositories
             return GetById(folder.FolderID.Value);
         }
 
+        /// <summary>
+        /// Returns null or a single instance of a folder with no parent folder (or a root folder)
+        /// </summary>
+        /// <param name="id">Folder ID</param>
         public Folder GetRoot(int id)
         {
             Folder parent = GetParent(id);
@@ -60,15 +80,21 @@ namespace CodeKingdom.Repositories
             }
         }
 
+        /// <summary>
+        /// Stores a single instance of a folder in database and ensures a unique name within folder directory, returns created folder
+        /// </summary>
+        /// <param name="folder">Folder ID, Name</param>
         public Folder Create(Folder folder)
         {
             List<Folder> foldersInParent = GetChildrenById(folder.FolderID.Value);
+
+            // Check for duplicate names
             foreach (Folder f in foldersInParent)
             {
                 if (f.Name == folder.Name)
                 {
                     folder.Name += "Copy";
-                    Create(folder);
+                    return Create(folder);
                 }
             }
             db.Folders.Add(folder);
@@ -76,6 +102,10 @@ namespace CodeKingdom.Repositories
             return folder;
         }
 
+        /// <summary>
+        /// Deletes a folder from database and every subfolder/file within that folder and every subfolder/file within those subfolders until no subfolders are found.
+        /// </summary>
+        /// <param name="id">Folder ID</param>
         public bool DeleteById(int id)
         {
             List<Folder> children = GetCascadingChildrenById(id);
@@ -83,6 +113,8 @@ namespace CodeKingdom.Repositories
             {
                 return false;
             }
+
+            // Remove all subfolders and files
             foreach (var child in children)
             {
                 List<File> files = db.Files.Where(x => x.FolderID == child.ID).ToList();
@@ -96,6 +128,10 @@ namespace CodeKingdom.Repositories
             return true;
         }
 
+        /// <summary>
+        /// Updates folder name, returns false if no folder is found, true otherwise
+        /// </summary>
+        /// <param name="folder">Folder ID, Name</param>
         public bool Update(Folder folder)
         {
             Folder existing = GetById(folder.ID);
@@ -117,6 +153,10 @@ namespace CodeKingdom.Repositories
             return true;
         }
 
+        /// <summary>
+        /// Recursively build a list of all subfolders from a given starting id
+        /// </summary>
+        /// <param name="id">Folder ID</param>
         private List<Folder> getCascadingChildrenRecursive(int id)
         {
             List<Folder> children = GetChildrenById(id);

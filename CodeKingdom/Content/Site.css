@@ -65,7 +65,7 @@ textarea {
     position: fixed;
     border: 1px solid #B2B2B2;
     width: 150px;
-    height: 180px;
+    height: 150px;
     background: #F9F9F9;
     box-shadow: 3px 3px 2px #E9E9E9;
     border-radius: 5px;
@@ -81,6 +81,11 @@ textarea {
 }
 #cntnr a:hover, #folderRightClickMenu a:hover{
     color:#333;
+}
+
+#cntnr
+{
+    
 }
 
 #right-menu-line { 
@@ -151,8 +156,12 @@ a.push-menu {
     padding: 3px 10px;
 }
 
-.ace-twilight .ace_print-margin{
+html .ace_print-margin{
     display: none;
+}
+.navbar-custom .navbar-toggle{
+    margin-top: 6px;
+    margin-bottom: 6px;
 }
 .project-name {
     display: inline-block;

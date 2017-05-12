@@ -197,7 +197,7 @@ namespace CodeKingdomTests.Repositories
         }
         #endregion
 
-        // TODO test create
+        #region Test create method
         [TestMethod]
         public void TestCreateCollaborator()
         {
@@ -239,6 +239,7 @@ namespace CodeKingdomTests.Repositories
             // Assert
             Assert.IsFalse(success);
         }
+        #endregion
 
         #region Test update method
         [TestMethod]

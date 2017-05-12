@@ -17,6 +17,10 @@ namespace CodeKingdom.Repositories
             db = context ?? new ApplicationDbContext();
         }
 
+        /// <summary>
+        /// Returns null or single instance of project
+        /// </summary>
+        /// <param name="ID">Project ID</param>
         public Project getById(int ID)
         {
             var result = (from project in db.Projects
@@ -26,11 +30,19 @@ namespace CodeKingdom.Repositories
             return result;
         }
 
+        /// <summary>
+        /// Returns null or single instance of project by folder root ID
+        /// </summary>
+        /// <param name="ID">Folder ID</param>
         public Project GetByRootId(int ID)
         {
             return db.Projects.Where(x => x.FolderID == ID).FirstOrDefault();
         }
 
+        /// <summary>
+        /// Returns list of projects by user, returns empty list if no projects are found
+        /// </summary>
+        /// <param name="userID">User ID</param>
         public List<Project> getByUserId(string userID)
         {
 
@@ -43,14 +55,17 @@ namespace CodeKingdom.Repositories
             return ret.ToList();
         }
 
+        /// <summary>
+        /// Creates a project in database and ensures unique name, creates user as collaborator with role as owner, a root folder for project and default index file
+        /// </summary>
+        /// <param name="model">User ID, Name</param>
         public bool Create(ProjectViewModel model)
         {
             // Check for duplicate names
             if (getByUserId(model.ApplicationUserID).Where(x => x.Name == model.Name).ToList().Count != 0)
             {
                 model.Name += "Copy";
-                Create(model);
-                return true;
+                return Create(model);
             }
 
             CollaboratorRole role = db.CollaboratorRoles.Where(cr => cr.Name == "Owner").FirstOrDefault();
@@ -93,6 +108,10 @@ namespace CodeKingdom.Repositories
             return true;
         }
 
+        /// <summary>
+        /// Removes a single project from database and all files associated with it --NOT FOLDERS!
+        /// </summary>
+        /// <param name="id">Project ID</param>
         public bool DeleteById(int id)
         {
             Project project = getById(id);
@@ -114,6 +133,10 @@ namespace CodeKingdom.Repositories
             return true;
         }
 
+        /// <summary>
+        /// Updates project name and ensures it's unique for user. Returns false if project doesn't exist, true otherwise.
+        /// </summary>
+        /// <param name="model">User ID, Name</param>
         public bool Update(ProjectViewModel model)
         {
             Project project = getById(model.ID);
@@ -127,8 +150,7 @@ namespace CodeKingdom.Repositories
             if (getByUserId(model.ApplicationUserID).Where(x => x.Name == model.Name).ToList().Count != 0)
             {
                 model.Name += "Copy";
-                Update(model);
-                return true;
+                return Update(model);
             }
 
             project.Name = model.Name;

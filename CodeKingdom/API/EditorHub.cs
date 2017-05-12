@@ -10,76 +10,72 @@ using CodeKingdom.Models;
 
 namespace CodeKingdom.API
 {
+    /// <summary>
+    /// Signal R hub that is responsible for receiving and sending out changes that happens in the 
+    /// online editor. 
+    /// </summary>
     public class EditorHub : Hub
     {
         private FileRepository fileRepository = new FileRepository();
-        private static List<User> users = new List<User>();
-        private static List<KeyValuePair<bool, string>> colors = new List<KeyValuePair<bool, string>>
-        {
-            new KeyValuePair<bool, string>(false, "AntiqueWhite"),
-            new KeyValuePair<bool, string>(false, "Aqua"),
-            new KeyValuePair<bool, string>(false, "Aquamarine"),
-            new KeyValuePair<bool, string>(false, "Azure"),
-            new KeyValuePair<bool, string>(false, "Beige"),
-            new KeyValuePair<bool, string>(false, "Bisque"),
-            new KeyValuePair<bool, string>(false, "Blue"),
-            new KeyValuePair<bool, string>(false, "BlueViolet"),
-            new KeyValuePair<bool, string>(false, "Brown"),
-            new KeyValuePair<bool, string>(false, "CadetBlue"),
-            new KeyValuePair<bool, string>(false, "Chartreuse"),
-            new KeyValuePair<bool, string>(false, "Chocolate"),
-            new KeyValuePair<bool, string>(false, "Coral"),
-            new KeyValuePair<bool, string>(false, "CornflowerBlue"),
-            new KeyValuePair<bool, string>(false, "Crimson"),
-            new KeyValuePair<bool, string>(false, "DarkGoldenRod"),
-            new KeyValuePair<bool, string>(false, "DarkGreen"),
-            new KeyValuePair<bool, string>(false, "DarkMagenta"),
-            new KeyValuePair<bool, string>(false, "DeepPink"),
-            new KeyValuePair<bool, string>(false, "DarkViolet"),
-        };
+        private static List<EditorUser> users = new List<EditorUser>();
 
+        /// <summary>
+        /// When user joins files he will receive changes and notifications about that file.
+        /// </summary>
+        /// <param name="fileID"></param>
         public void JoinFile(int fileID)
         {
             string id = Context.ConnectionId;
             string username = Context.User.Identity.Name;
-            string color = null;
 
-            foreach (var c in colors)
+            EditorUser user = users.Where(u => u.Username == username).FirstOrDefault();
+            if (user == null)
             {
-                if (c.Key)
-                {
-                    continue;
-                }
-                color = c.Value;
-                int index = colors.IndexOf(c);
-                colors[index] = new KeyValuePair<bool, string>(true, c.Value);
-                break;
+                user = new EditorUser(id, username);
+                users.Add(user);
             }
 
-            User user = new User(id, username, color);
             user.Groups.Add(Convert.ToString(fileID));
-            users.Add(user);
-
             Groups.Add(Context.ConnectionId, Convert.ToString(fileID));
             Clients.Group(Convert.ToString(fileID)).UserList(users);
         }
 
+        /// <summary>
+        /// Sombody changed a file. Let's brodcast that to the rest of the group
+        /// </summary>
+        /// <param name="data"></param>
+        /// <param name="fileID"></param>
         public void OnChange(object data, int fileID)
         {
             Clients.Group(Convert.ToString(fileID), Context.ConnectionId).OnChange(data);
         }
 
+        /// <summary>
+        /// When user moves his position in the file everyone in that file should know about it. 
+        /// </summary>
+        /// <param name="data"></param>
+        /// <param name="fileID"></param>
         public void UpdateCursor(object data, int fileID)
         {
             Clients.Group(Convert.ToString(fileID), Context.ConnectionId).UpdateCursor(data);
         }
 
+        /// <summary>
+        /// Sombody want's a updated list of the connected users. Let's give him that.
+        /// </summary>
+        /// <param name="fileID"></param>
         public void GetUsers(int fileID)
         {
-            List<User> groupUsers = users.Where(u => u.Groups.Contains(Convert.ToString(fileID))).ToList();
+            List<EditorUser> groupUsers = users.Where(u => u.Groups.Contains(Convert.ToString(fileID))).ToList();
             Clients.Caller.userList(groupUsers);
         }
 
+        /// <summary>
+        /// File has changed and's needs to be saved
+        /// </summary>
+        /// <param name="content"></param>
+        /// <param name="fileID"></param>
+        /// <param name="projectID"></param>
         public void Save(string content, int fileID, int projectID)
         {
             FileViewModel viewModel = new FileViewModel
@@ -92,11 +88,17 @@ namespace CodeKingdom.API
             fileRepository.UpdateContent(viewModel);
         }
 
+        /// <summary>
+        /// Sombody disconnected. He needs to be removed and rest of the group should know about it so 
+        /// they can remove his cursor and remove his username from the list of connected users.
+        /// </summary>
+        /// <param name="stopCalled"></param>
+        /// <returns></returns>
         public override Task OnDisconnected(bool stopCalled)
         {
             string id = Context.ConnectionId;
 
-            User user = users.Where(u => u.ID == id).FirstOrDefault();
+            EditorUser user = users.Where(u => u.ID == id).FirstOrDefault();
 
             if (user != null)
             {
@@ -109,58 +111,24 @@ namespace CodeKingdom.API
                     }
                 }
 
-                foreach (var color in colors)
-                {
-                    if (color.Value == user.Color)
-                    {
-                        int index = colors.IndexOf(color);
-                        colors[index] = new KeyValuePair<bool, string>(false, color.Value);
-                        break;
-                    }
-                }
+                EditorUser.ClearColor(user.Color);
             }
-
 
             return base.OnDisconnected(stopCalled);
         }
 
-
+        /// <summary>
+        /// User are leaving some file with id = fileID. He needs to be unsubscribed from changes in that file.
+        /// </summary>
+        /// <param name="fileID"></param>
         public void LeaveFile(int fileID)
         {
             string id = Context.ConnectionId;
-
-            User user = users.Where(u => u.ID == id).FirstOrDefault();
-
             string groupName = Convert.ToString(fileID);
+            EditorUser user = users.Where(u => u.ID == id).FirstOrDefault();
+            user.Groups.Remove(groupName);
             Clients.Group(groupName).RemoveCursor(Context.ConnectionId);
             Clients.Group(groupName).userList(users);
-            users.Remove(user);
-
-            foreach (var color in colors)
-            {
-                if (color.Value == user.Color)
-                {
-                    int index = colors.IndexOf(color);
-                    colors[index] = new KeyValuePair<bool, string>(false, color.Value);
-                    break;
-                }
-            }
-        }
-    }
-
-    class User
-    {
-        public string ID { get; set; }
-        public string Username { get; set; }
-        public List<string> Groups { get; set; }
-        public string Color { get; set; }
-
-        public User (string id, string username, string color)
-        {
-            this.ID = id;
-            this.Username = username;
-            this.Groups = new List<string>();
-            this.Color = color;
-        }
+        }        
     }
 } 

@@ -1,4 +1,5 @@
 ﻿$(function () {
+
     var editor = ace.edit("editor"),
         chat = $.connection.chatHub,
         editorHub = $.connection.editorHub,
@@ -14,7 +15,7 @@
     {
         editor.setKeyboardHandler("ace/keyboard/" + keyBinding);
     }
-    editor.getSession().setMode("ace/mode/javascript");
+    editor.getSession().setMode("ace/mode/"+type);
 
     /* Source: http://stackoverflow.com/questions/24807066/multiple-cursors-in-ace-editor */
     var marker = {}
@@ -32,7 +33,6 @@
 
                 var screenPos = session.documentToScreenPosition(pos)
                 var user = users.find(function (user) {
-                    console.log(user, cursors[i]);
                     if (user.ID == cursors[i].id) {
                         return true;
                     }
@@ -131,8 +131,10 @@
         silent = true;
         editorHub.server.leaveFile(fileID);
         fileID = id;
+        window.history.pushState({}, "", "/Project/Details/" + projectID + "/" + fileID);
         editorHub.server.joinFile(fileID);
         editor.getSession().setMode("ace/mode/" + type);
+        console.log(type);
         editor.setValue(content);
         silent = false;
     }
@@ -144,8 +146,20 @@
         $('#discussion').append('<li class="show-time"><i>' + htmlEncode(model.DateAndTime) + '</i></li><li class="show-name-msg"><strong>' + htmlEncode(username[0]) + '</strong>: ' + htmlEncode(model.Message) + '</li>');
         scrollBottom();
         if ($(".chat-container").is(":hidden")) {
-            $("#chat-bubble").addClass("bubble-Expand").delay(3000).queue(function(next){
-                $(this).removeClass("bubble-Expand");
+            $.notify({
+                icon: 'glyphicon glyphicon-comment',
+                title: username[0] + ": ",
+                message: model.Message,
+            }, {
+                type: "info",
+                timer: 5000,
+                animate: {
+                    enter: 'animated fadeInDown',
+                    exit: 'animated fadeOutUp'
+                },
+            });
+            $("#chat-bubble").addClass("bubble-expand").delay(3000).queue(function(next){
+                $(this).removeClass("bubble-expand");
                 next();
             });
         }
@@ -245,15 +259,23 @@
         selectedFile = $(this).data("id");
 
         $("#cntnr").css("left", e.pageX);
-        $("#cntnr").css("top", e.pageY);
+        if (e.pageY + 150 >= $("html").height()) {
+            $("#cntnr").css("top", e.pageY-150);
+        } else {
+            $("#cntnr").css("top", e.pageY);
+        }
+        
         // $("#cntnr").hide(100);        
         $("#cntnr").fadeIn(200, startFocusOut("cntnr"));
+        
     });
 
     $(document).on("contextmenu", ".folder", function (e) {
         e.preventDefault();
         $("#cntnr").hide();
-
+        if ($(this).hasClass("root")) {
+            return;
+        }
         $("#folderRightClickMenu").css("left", e.pageX);
         $("#folderRightClickMenu").css("top", e.pageY);
         $("#folderRightClickMenu").fadeIn(200, startFocusOut("folderRightClickMenu"));
