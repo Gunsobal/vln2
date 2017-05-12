@@ -198,7 +198,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="API\ChatHub.cs" />
     <Compile Include="API\EditorHub.cs" />
     <Compile Include="API\ProjectHub.cs" />
     <Compile Include="App_Start\Startup.SignalR.cs" />
@@ -366,10 +365,6 @@
     <Content Include="Views\File\Edit.cshtml" />
     <Content Include="Views\Project\Chat.cshtml" />
     <Content Include="Views\Folder\Create.cshtml" />
-    <Content Include="Views\Folder\Delete.cshtml" />
-    <Content Include="Views\Folder\Details.cshtml" />
-    <Content Include="Views\Folder\Edit.cshtml" />
-    <Content Include="Views\Folder\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
