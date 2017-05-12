@@ -21,7 +21,7 @@ namespace CodeKingdom.Repositories
         /// Returns null or single instance of project
         /// </summary>
         /// <param name="ID">Project ID</param>
-        public Project getById(int ID)
+        public Project GetById(int ID)
         {
             var result = (from project in db.Projects
                           where project.ID == ID
@@ -43,7 +43,7 @@ namespace CodeKingdom.Repositories
         /// Returns list of projects by user, returns empty list if no projects are found
         /// </summary>
         /// <param name="userID">User ID</param>
-        public List<Project> getByUserId(string userID)
+        public List<Project> GetByUserId(string userID)
         {
 
             var ret = from project in db.Projects
@@ -62,7 +62,7 @@ namespace CodeKingdom.Repositories
         public bool Create(ProjectViewModel model)
         {
             // Check for duplicate names
-            if (getByUserId(model.ApplicationUserID).Where(x => x.Name == model.Name).ToList().Count != 0)
+            if (GetByUserId(model.ApplicationUserID).Where(x => x.Name == model.Name).ToList().Count != 0)
             {
                 model.Name += "Copy";
                 return Create(model);
@@ -114,7 +114,7 @@ namespace CodeKingdom.Repositories
         /// <param name="id">Project ID</param>
         public bool DeleteById(int id)
         {
-            Project project = getById(id);
+            Project project = GetById(id);
 
             if (project == null)
             {
@@ -139,7 +139,7 @@ namespace CodeKingdom.Repositories
         /// <param name="model">User ID, Name</param>
         public bool Update(ProjectViewModel model)
         {
-            Project project = getById(model.ID);
+            Project project = GetById(model.ID);
             
             if (project == null)
             {
@@ -147,7 +147,7 @@ namespace CodeKingdom.Repositories
             }
 
             // Check for duplicate name
-            if (getByUserId(model.ApplicationUserID).Where(x => x.Name == model.Name).ToList().Count != 0)
+            if (GetByUserId(model.ApplicationUserID).Where(x => x.Name == model.Name).ToList().Count != 0)
             {
                 model.Name += "Copy";
                 return Update(model);

@@ -30,21 +30,35 @@ namespace CodeKingdom.Business
             userRepository = new UserRepository();
         }
 
+        /// <summary>
+        /// Helper function to get user ID string
+        /// </summary>
         public string GetUserId()
         {
             return HttpContext.Current.User.Identity.GetUserId();
         }
 
+        /// <summary>
+        /// Returns project from project repository by id
+        /// </summary>
+        /// <param name="id">Project ID</param>
         public Project GetProject(int id)
         {
-            return projectRepository.getById(id);
+            return projectRepository.GetById(id);
         }
 
+        /// <summary>
+        /// Returns list of projects by current user ID
+        /// </summary>
         public List<Project> GetListOfProjects()
         {
-            return projectRepository.getByUserId(GetUserId());
+            return projectRepository.GetByUserId(GetUserId());
         }
         
+        /// <summary>
+        /// Returns list of a collaborator view models for a specific project
+        /// </summary>
+        /// <param name="project">Project</param>
         public List<CollaboratorViewModel> GetListOfCollaboratorViewModels(Project project)
         {
             List<CollaboratorViewModel> collabViewModels = new List<CollaboratorViewModel>();
@@ -72,6 +86,10 @@ namespace CodeKingdom.Business
             return collabViewModels;
         }
 
+        /// <summary>
+        /// Convert list of projects to list of project view models
+        /// </summary>
+        /// <param name="projects">Project list</param>
         public List<ProjectViewModel> GetListOfProjectViewModels(List<Project> projects)
         {
             List<ProjectViewModel> viewModels = new List<ProjectViewModel>();
@@ -94,6 +112,11 @@ namespace CodeKingdom.Business
             return viewModels;
         }
 
+        /// <summary>
+        /// Build editor view model from project ID and optional file ID
+        /// </summary>
+        /// <param name="projectId">Project ID</param>
+        /// <param name="fileId">File ID</param>
         public EditorViewModel GetEditorViewModel(int projectId, int? fileId = null)
         {
             Project project = GetProject(projectId);
@@ -106,17 +129,19 @@ namespace CodeKingdom.Business
             int folderID = project.FolderID;
             File file = null;
 
+            // If file id is specified, find the specific file
             if (fileId.HasValue)
             {
-                //file = project.Root.Files.Where(f => f.ID == fileId).FirstOrDefault();
                 file = fileRepository.GetByFileInProject(fileId.Value, projectId);
             }
             
-            if ((fileId.HasValue && file == null) || !fileId.HasValue)
+            // If file was not found or not specified, find default root file for project
+            if (file == null || !fileId.HasValue)
             {
                 file = project.Root.Files.FirstOrDefault();
             }
 
+            // If root file was missing
             if (file == null)
             {
                 // Project does not contain any files in the root of the project. 
@@ -147,16 +172,8 @@ namespace CodeKingdom.Business
                 });
             }
 
-            // List<File> files = new List<File>();
-            List<File> files = new List<File>();
             Folder root = folderRepository.GetById(folderID);
-          /*  root.Folders = folderRepository.GetCascadingChildrenById(root.FolderID.Value);*/
-         //   List<Folder> folders = folderRepository.GetCascadingChildrenById(folderID);
-          /*  foreach (Folder folder in folders)
-            {
-                files.AddRange(fileRepository.GetByFolderId(folder.ID));
-            }
-            */
+
             EditorViewModel viewModel = new EditorViewModel
             {
                 Name = project.Name,
@@ -172,12 +189,20 @@ namespace CodeKingdom.Business
             return viewModel;
         }
 
+        /// <summary>
+        /// Create project from project view model
+        /// </summary>
+        /// <param name="viewModel">Project View Model</param>
         public void CreateProject(ProjectViewModel viewModel)
         {
             viewModel.ApplicationUserID = GetUserId();
             projectRepository.Create(viewModel);
         }
         
+        /// <summary>
+        /// Create project view model from project
+        /// </summary>
+        /// <param name="project">Project</param>
         public ProjectViewModel CreateProjectViewModel(Project project)
         {
             List<CollaboratorViewModel> collaborators = GetListOfCollaboratorViewModels(project);
@@ -192,15 +217,23 @@ namespace CodeKingdom.Business
             return viewModel;
         }
 
+        /// <summary>
+        /// Update project by project view model
+        /// </summary>
+        /// <param name="viewModel">Project View Model</param>
         public void Update(ProjectViewModel viewModel)
         {
             viewModel.ApplicationUserID = GetUserId();
             projectRepository.Update(viewModel);
         }
 
+        /// <summary>
+        /// Delete project and project root folder
+        /// </summary>
+        /// <param name="id">Project ID</param>
         public void DeleteById(int id)
         {
-            Project project = projectRepository.getById(id);
+            Project project = projectRepository.GetById(id);
             if (project != null)
             {
                 int root = project.ID;
@@ -210,21 +243,38 @@ namespace CodeKingdom.Business
             }
         }
        
+        /// <summary>
+        /// Returns file by file and project ID
+        /// </summary>
+        /// <param name="id">File ID</param>
+        /// <param name="projectId">Project ID</param>
         public File GetFileByID(int id, int projectId)
         {
             return fileRepository.GetByFileInProject(id, projectId);
         }
 
+        /// <summary>
+        /// Clears chat entries for a specific project
+        /// </summary>
+        /// <param name="id">Project ID</param>
         public void ClearChatForProject(int id)
         {
             chatRepository.ClearChat(id);
         }
 
+        /// <summary>
+        /// Returns color scheme configuration for a specific user
+        /// </summary>
+        /// <param name="id">User ID</param>
         public string GetColorscheme(string id)
         {
             return userRepository.GetColorScheme(id);
         }
 
+        /// <summary>
+        /// Returns key binding configuration for a specific user
+        /// </summary>
+        /// <param name="id">User ID</param>
         public string GetKeyBinding(string id)
         {
             return userRepository.GetKeyBinding(id);

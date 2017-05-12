@@ -32,7 +32,7 @@ namespace CodeKingdomTests.Repositories
             const string expectedName = "SpaceX";
 
             // Act
-            var success = repo.getById(ID);
+            var success = repo.GetById(ID);
 
             // Assert
             Assert.IsNotNull(success);
@@ -46,7 +46,7 @@ namespace CodeKingdomTests.Repositories
             const int ID = 5;
 
             // Act
-            var result = repo.getById(ID);
+            var result = repo.GetById(ID);
 
             // Assert
             Assert.IsNull(result);
@@ -60,7 +60,7 @@ namespace CodeKingdomTests.Repositories
             const int expectedCount = 3;
 
             // Act
-            var result = repo.getByUserId(userID);
+            var result = repo.GetByUserId(userID);
 
             // Assert
             Assert.AreEqual(expectedCount, result.Count);
@@ -73,7 +73,7 @@ namespace CodeKingdomTests.Repositories
             const string userID = "fail";
 
             // Act
-            var result = repo.getByUserId(userID);
+            var result = repo.GetByUserId(userID);
 
             // Assert
             Assert.IsNotNull(result);
@@ -125,7 +125,7 @@ namespace CodeKingdomTests.Repositories
 
             // Act
             var result = repo.Create(newProject);
-            var project = repo.getById(0);
+            var project = repo.GetById(0);
 
             // Assert
             Assert.IsTrue(result);
@@ -147,8 +147,8 @@ namespace CodeKingdomTests.Repositories
 
             // Act
             var result = repo.Create(duplicateProject);
-            var existing = repo.getById(existingProjectID);
-            var duplicate = repo.getById(0);
+            var existing = repo.GetById(existingProjectID);
+            var duplicate = repo.GetById(0);
 
             // Assert
             Assert.IsTrue(result);
@@ -172,7 +172,7 @@ namespace CodeKingdomTests.Repositories
             // Act
             var result1 = repo.Create(duplicateProject);
             var result2 = repo.Create(duplicateProject);
-            var projects = repo.getByUserId(userID).Where(x => x.Name == duplicateName).ToList();
+            var projects = repo.GetByUserId(userID).Where(x => x.Name == duplicateName).ToList();
             
             // Assert
             Assert.IsTrue(result1);
@@ -190,7 +190,7 @@ namespace CodeKingdomTests.Repositories
 
             // Act
             var success = repo.DeleteById(ID);
-            var project = repo.getById(ID);
+            var project = repo.GetById(ID);
 
             // Assert
             Assert.IsTrue(success);
@@ -227,7 +227,7 @@ namespace CodeKingdomTests.Repositories
 
             // Act
             var success = repo.Update(targetProject);
-            var result = repo.getById(projectID);
+            var result = repo.GetById(projectID);
 
             // Assert
             Assert.IsTrue(success);
@@ -250,7 +250,7 @@ namespace CodeKingdomTests.Repositories
 
             // Act
             var success = repo.Update(targetProject);
-            var result = repo.getById(projectID);
+            var result = repo.GetById(projectID);
 
             // Assert
             Assert.IsTrue(success);
@@ -282,8 +282,8 @@ namespace CodeKingdomTests.Repositories
             // Act
             var success1 = repo.Update(duplicate1);
             var success2 = repo.Update(duplicate2);
-            var result1 = repo.getById(firstID);
-            var result2 = repo.getById(secondID);
+            var result1 = repo.GetById(firstID);
+            var result2 = repo.GetById(secondID);
 
             // Assert
             Assert.IsTrue(success1);
