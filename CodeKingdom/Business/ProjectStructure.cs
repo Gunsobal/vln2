@@ -126,6 +126,11 @@ namespace CodeKingdom.Business
                 throw new ProjectNotFoundException();
             }
 
+            if (!collaboratorRepository.IsInProject(GetUserId(), projectId))
+            {
+                throw new ProjectAccessDeniedException();
+            }
+
             int folderID = project.FolderID;
             File file = null;
 
