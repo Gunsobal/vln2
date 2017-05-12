@@ -129,15 +129,15 @@ namespace CodeKingdom.Repositories
         }
 
         /// <summary>
-        /// Updates folder name, returns false if no folder is found, true otherwise
+        /// Updates folder name, returns folder if updated, else null
         /// </summary>
         /// <param name="folder">Folder ID, Name</param>
-        public bool Update(Folder folder)
+        public Folder Update(Folder folder)
         {
             Folder existing = GetById(folder.ID);
-            if (existing == null || existing.Name == folder.Name)
+            if (existing == null || existing.Name == folder.Name || string.IsNullOrEmpty(folder.Name))
             {
-                return false;
+                return null;
             }
             List<Folder> folders = GetChildrenById(existing.ID);
             foreach (var f in folders)
@@ -150,7 +150,7 @@ namespace CodeKingdom.Repositories
             }
             existing.Name = folder.Name;
             db.SaveChanges();
-            return true;
+            return existing;
         }
 
         /// <summary>

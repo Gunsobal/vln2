@@ -214,7 +214,7 @@
             var element = $('a[data-id="' + selectedFile + '"]')[0];
             var filename = element.text;
             var newFilename = prompt("Enter a new name for " + filename, filename);
-            if (newFilename != filename && newFilename != null){
+            if (newFilename != filename && newFilename){
                 file.server.renameFile(projectID, selectedFile, newFilename);
             }
             $("#cntnr").hide();
@@ -240,7 +240,7 @@
             var element = $($('a[data-folderid="' + selectedFolder + '"]')[0].children[1]);
             var folderName = element.context.textContent;
             var newFolderName = prompt("Enter a new name for " + folderName, folderName);
-            if (newFolderName != folderName && newFolderName != null) {
+            if (newFolderName != folderName && newFolderName) {
                 file.server.renameFolder(projectID, selectedFolder, newFolderName);
             }
             $("folderRightClickMenu").hide();

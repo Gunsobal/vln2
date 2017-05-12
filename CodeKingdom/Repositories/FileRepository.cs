@@ -147,7 +147,7 @@ namespace CodeKingdom.Repositories
         {
             File file = GetByFileInProject(model.ID, model.ProjectID);
 
-            if (file == null)
+            if (file == null || string.IsNullOrEmpty(model.Name))
             {
                 return null;
             }
