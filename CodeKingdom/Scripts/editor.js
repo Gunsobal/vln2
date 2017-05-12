@@ -17,17 +17,17 @@
     editor.getSession().setMode("ace/mode/"+type);
 
     /* Source: http://stackoverflow.com/questions/24807066/multiple-cursors-in-ace-editor */
-    var marker = {}
-    marker.cursors = []
+    var marker = {};
+    marker.cursors = [];
     marker.update = function (html, markerLayer, session, config) {
         var start = config.firstRow, end = config.lastRow;
-        var cursors = this.cursors
+        var cursors = this.cursors;
         for (var i = 0; i < cursors.length; i++) {
             var pos = this.cursors[i];
             if (pos.row < start) {
-                continue
+                continue;
             } else if (pos.row > end) {
-                break
+                break;
             } else {
 
                 var screenPos = session.documentToScreenPosition(pos)
@@ -47,12 +47,12 @@
                     "<div class='remote-cursor' style='",
                     "height:", height, "px;",
                     "top:", top, "px;",
-                    "border-color: ", user.Color,";",
+                    "border-color: ", user.Color, ";",
                     "left:", left, "px; width:", width, "px'></div>"
                 );
             }
         }
-    }
+    };
     marker.redraw = function () {
         this.session._signal("changeFrontMarker");
     }
@@ -88,12 +88,12 @@
             marker.cursors.push(data);
         }
         marker.redraw();
-    }
+    };
 
     editorHub.client.userList = function (userList) {
         users = userList;
         renderActiveUsers(users);
-    }
+    };
 
     editorHub.client.removeCursor = function (id) {
         marker.cursors = marker.cursors.filter(function (cursor) {
@@ -102,32 +102,31 @@
             }
             return true;
         });
-    }
+    };
     
     editorHub.client.onChange = function (data) {
         silent = true;
         editor.getSession().getDocument().applyDelta(data);
         silent = false;
-    }
+    };
 
     /* Talking to ProjectHub */
 
     projectHub.client.renameFile = function (fileID, newName) {
         $('a[data-id="' + fileID + '"]')[0].text = newName;
-    }
+    };
 
     projectHub.client.removeFile = function (fileID) {
         $('a[data-id="' + fileID + '"]').parent().remove();
-    }
-
+    };
     
     projectHub.client.deleteFolder = function (folderID) {
         $("#folder-" + folderID).parent().remove();
-    }
+    };
 
     projectHub.client.updateFolder = function (folderID, newName) {
         $($('a[data-folderid="' + folderID + '"]')[0].children[1]).context.textContent = newName;
-    }
+    };
 
     // Change file
     projectHub.client.ReturnFile = function (id, content, type) {
@@ -140,7 +139,7 @@
         console.log(type);
         editor.setValue(content);
         silent = false;
-    }
+    };
     
     // Function for the hub to call to add a new message to the chat
     projectHub.client.addNewMessageToPage = function (model) {
