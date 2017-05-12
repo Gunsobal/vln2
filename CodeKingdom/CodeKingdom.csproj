@@ -366,6 +366,10 @@
     <Content Include="Views\File\Edit.cshtml" />
     <Content Include="Views\Project\Chat.cshtml" />
     <Content Include="Views\Folder\Create.cshtml" />
+    <Content Include="Views\Folder\Delete.cshtml" />
+    <Content Include="Views\Folder\Details.cshtml" />
+    <Content Include="Views\Folder\Edit.cshtml" />
+    <Content Include="Views\Folder\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -382,6 +386,7 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201705021049269_InitialCreate.resx">
       <DependentUpon>201705021049269_InitialCreate.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201705021112305_EntityClasses.resx">
       <DependentUpon>201705021112305_EntityClasses.cs</DependentUpon>
