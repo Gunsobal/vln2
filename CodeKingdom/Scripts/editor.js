@@ -240,7 +240,6 @@
 
     /* Functions and Event handlers */
     
-    // JS for right click context menu
     $(document).on("contextmenu", ".tree-item", function (e) {
         e.preventDefault();
         $("#folderRightClickMenu").hide();

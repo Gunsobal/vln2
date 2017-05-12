@@ -18,11 +18,11 @@ namespace CodeKingdom.Controllers
     {
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
-        private UserRepository _userRepo;
+        private UserRepository userRepository;
 
         public ManageController()
         {
-            _userRepo = new UserRepository();
+            userRepository = new UserRepository();
         }
 
         public ManageController(ApplicationUserManager userManager, ApplicationSignInManager signInManager)
@@ -78,8 +78,8 @@ namespace CodeKingdom.Controllers
                 BrowserRemembered = await AuthenticationManager.TwoFactorBrowserRememberedAsync(userId),
                 //UsersFullName = await UserManager.GetEmailAsync(userId),
                 UsersEmailAddress = UserManager.GetEmail(userId),
-                Colorscheme = _userRepo.GetColorScheme(userId),
-                Keybinding = _userRepo.GetKeyBinding(userId),
+                Colorscheme = userRepository.GetColorScheme(userId),
+                Keybinding = userRepository.GetKeyBinding(userId),
             };
             return View(model);
         }
@@ -396,28 +396,16 @@ namespace CodeKingdom.Controllers
         }
 
         #endregion
-        /*
-        UsersFullName functions are to get and set currently loged on users
-        full name
-        */
-
-        public ActionResult UsersFullName(int? id)
-        {
-            //ViewBag.Name = new SelectList(db.Users, "Name");
-            return null;
-        }
-        public ActionResult UsersEmailAddress(int? id)
-        {
-            System.Console.WriteLine("ghg test");
-
-            return null;
-        }
        
-        // Saves new user config to db
+        /// <summary>
+        /// Sets user configurations for editor.
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
         [HttpPost, ActionName("Index")]
         public ActionResult Save([Bind(Include = "UsersEmailAddress, Colorscheme, Keybinding")] IndexViewModel model)
         {
-            _userRepo.SetUserConfiguration(model);
+            userRepository.SetUserConfiguration(model);
 
             return RedirectToAction("Index", "Project");
         }
