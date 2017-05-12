@@ -27,7 +27,7 @@ namespace CodeKingdom.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            Project project = projectRepository.getById(id.Value);
+            Project project = projectRepository.GetById(id.Value);
 
             if (project == null)
             {
@@ -70,7 +70,7 @@ namespace CodeKingdom.Controllers
                 return HttpNotFound();
             }
 
-            Project project = projectRepository.getById(id.Value);
+            Project project = projectRepository.GetById(id.Value);
 
             if (project == null)
             {
