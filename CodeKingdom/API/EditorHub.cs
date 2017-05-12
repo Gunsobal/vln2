@@ -67,7 +67,7 @@ namespace CodeKingdom.API
         public void GetUsers(int fileID)
         {
             List<EditorUser> groupUsers = users.Where(u => u.Groups.Contains(Convert.ToString(fileID))).ToList();
-            Clients.Caller.userList(groupUsers);
+            Clients.Group(Convert.ToString(fileID)).userList(groupUsers);
         }
 
         /// <summary>
@@ -128,7 +128,7 @@ namespace CodeKingdom.API
             EditorUser user = users.Where(u => u.ID == id).FirstOrDefault();
             user.Groups.Remove(groupName);
             Clients.Group(groupName).RemoveCursor(Context.ConnectionId);
-            Clients.Group(groupName).userList(users);
+            GetUsers(fileID);
         }        
     }
 } 
