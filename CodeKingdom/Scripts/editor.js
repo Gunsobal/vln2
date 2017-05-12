@@ -1,9 +1,8 @@
 ﻿$(function () {
 
     var editor = ace.edit("editor"),
-        chat = $.connection.chatHub,
         editorHub = $.connection.editorHub,
-        file = $.connection.fileHub,
+        projectHub = $.connection.projectHub,
         silent = false,
         selectedFile = fileID,
         selectedFolder = 0,
@@ -60,39 +59,17 @@
     marker.session = editor.session;
     marker.session.addDynamicMarker(marker, true)
 
+    $('.toggle-menu').jPushMenu();
 
     $("form").submit(function () {
         $("#hidden_editor").val(editor.getSession().getValue());
     });
 
-
     $('.push-body').on("click", function(e) {
         e.preventDefault();
     })
-    
-    editorHub.client.onChange = function (data) {
-        silent = true;
-        editor.getSession().getDocument().applyDelta(data);
-        silent = false;
-    }
 
-    file.client.renameFile = function (fileID, newName) {
-        $('a[data-id="' + fileID + '"]')[0].text = newName;
-    }
-
-    file.client.removeFile = function (fileID) {
-        $('a[data-id="' + fileID + '"]').parent().remove();
-    }
-
-    
-    file.client.deleteFolder = function (folderID) {
-        $("#folder-" + folderID).parent().remove();
-    }
-
-    file.client.updateFolder = function (folderID, newName) {
-        $($('a[data-folderid="' + folderID + '"]')[0].children[1]).context.textContent = newName;
-    }
-    
+    /* Talking to EditorHub */
 
     // Updates all remote cursors in the file
     editorHub.client.updateCursor = function (data) {
@@ -125,9 +102,34 @@
             return true;
         });
     }
+    
+    editorHub.client.onChange = function (data) {
+        silent = true;
+        editor.getSession().getDocument().applyDelta(data);
+        silent = false;
+    }
+
+    /* Talking to ProjectHub */
+
+    projectHub.client.renameFile = function (fileID, newName) {
+        $('a[data-id="' + fileID + '"]')[0].text = newName;
+    }
+
+    projectHub.client.removeFile = function (fileID) {
+        $('a[data-id="' + fileID + '"]').parent().remove();
+    }
+
+    
+    projectHub.client.deleteFolder = function (folderID) {
+        $("#folder-" + folderID).parent().remove();
+    }
+
+    projectHub.client.updateFolder = function (folderID, newName) {
+        $($('a[data-folderid="' + folderID + '"]')[0].children[1]).context.textContent = newName;
+    }
 
     // Change file
-    file.client.ReturnFile = function (id, content, type) {
+    projectHub.client.ReturnFile = function (id, content, type) {
         silent = true;
         editorHub.server.leaveFile(fileID);
         fileID = id;
@@ -139,9 +141,8 @@
         silent = false;
     }
     
-    // Create a function that the hub can call back to display messages.
-    chat.client.addNewMessageToPage = function (model) {
-        // Add the message to the page.
+    // Function for the hub to call to add a new message to the chat
+    projectHub.client.addNewMessageToPage = function (model) {
         var username = model.Username.split('@');
         $('#discussion').append('<li class="show-time"><i>' + htmlEncode(model.DateAndTime) + '</i></li><li class="show-name-msg"><strong>' + htmlEncode(username[0]) + '</strong>: ' + htmlEncode(model.Message) + '</li>');
         scrollBottom();
@@ -167,10 +168,9 @@
     
     // Start the connection.
     $.connection.hub.start().done(function() {
-        chat.server.joinChat(projectID);
         editorHub.server.joinFile(fileID);
         editorHub.server.getUsers(fileID);
-        file.server.joinProject(projectID);
+        projectHub.server.joinProject(projectID);
 
         editor.on("change", function (obj) {
             if (silent) {
@@ -190,23 +190,12 @@
         
         $('.tree-item').click(function (e) {
             e.preventDefault();
-            file.server.get($(this).data("id"), projectID);
+            projectHub.server.get($(this).data("id"), projectID);
         });
 
-        $('.folder').click(function () {
-            if ($(this).find(".fa").hasClass("fa-minus")) {
-                $(this).find(".fa").removeClass("fa-minus").addClass("fa-plus");
-            } else {
-                $(this).find(".fa").removeClass("fa-plus").addClass("fa-minus");
-            }
-            
-        })
-
-        // Chat Box send message
+        // Event that updates the chat box and sends the messages to the hub
         $('#sendmessage').click(function () {
-            // Call the Send method on the hub. 
-            chat.server.send(projectID, $('#message').val());
-            // Clear text box and reset focus for next comment.
+            projectHub.server.send(projectID, $('#message').val());
             $('#message').val('').focus();
         });
 
@@ -215,7 +204,7 @@
             var filename = element.text;
             var newFilename = prompt("Enter a new name for " + filename, filename);
             if (newFilename != filename && newFilename){
-                file.server.renameFile(projectID, selectedFile, newFilename);
+                projectHub.server.renameFile(projectID, selectedFile, newFilename);
             }
             $("#cntnr").hide();
         });
@@ -223,7 +212,7 @@
         $("#context-menu-delete").on('click', function () {
             var r = confirm("Are you sure you want to delete this file?");
             if (r){
-                file.server.deleteFile(projectID, selectedFile);
+                projectHub.server.deleteFile(projectID, selectedFile);
             }
             $("#cntnr").hide();
         });
@@ -231,7 +220,7 @@
         $('#folder-menu-delete').on('click', function () {
             var r = confirm("Are you sure you want to delete this folder along with all its subfolders and files?")
             if (r) {
-                file.server.deleteFolder(projectID, selectedFolder);
+                projectHub.server.deleteFolder(projectID, selectedFolder);
             }
             $("#folderRightClickMenu").hide();
         });
@@ -241,14 +230,14 @@
             var folderName = element.context.textContent;
             var newFolderName = prompt("Enter a new name for " + folderName, folderName);
             if (newFolderName != folderName && newFolderName) {
-                file.server.renameFolder(projectID, selectedFolder, newFolderName);
+                projectHub.server.renameFolder(projectID, selectedFolder, newFolderName);
             }
             $("folderRightClickMenu").hide();
         });
     });
 
-    $('.toggle-menu').jPushMenu();
-
+    /* Functions and Event handlers */
+    
     // JS for right click context menu
     $(document).on("contextmenu", ".tree-item", function (e) {
         e.preventDefault();
@@ -263,11 +252,16 @@
             $("#cntnr").css("top", e.pageY-150);
         } else {
             $("#cntnr").css("top", e.pageY);
-        }
-        
-        // $("#cntnr").hide(100);        
+        }     
         $("#cntnr").fadeIn(200, startFocusOut("cntnr"));
-        
+    });
+
+    $('.folder').click(function () {
+        if ($(this).find(".fa").hasClass("fa-minus")) {
+            $(this).find(".fa").removeClass("fa-minus").addClass("fa-plus");
+        } else {
+            $(this).find(".fa").removeClass("fa-plus").addClass("fa-minus");
+        }
     });
 
     $(document).on("contextmenu", ".folder", function (e) {
@@ -282,7 +276,6 @@
 
         selectedFolder = $(this).data("folderid");
     });
-    
     
     $(".tree-item").click(function () {
         var id = $(this).data("id");
@@ -311,10 +304,9 @@
             $markup.css({ borderRight: "5px solid " + user.Color });
             $users.append($markup);
         });
-        
     }
 
-    // Positions the user at the bottom of the chat content window
+    // Positions chat-content div at the bottom so that new messages are always shown first.
     function scrollBottom() {
         var divScroll = $('.chat-content');
         var height = divScroll[0].scrollHeight;

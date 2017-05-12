@@ -10,11 +10,12 @@ using CodeKingdom.Models.ViewModels;
 
 namespace CodeKingdom.API
 {
-    public class FileHub : Hub
+    public class ProjectHub : Hub
     {
         private ProjectStructure business = new ProjectStructure();
         private FileRepository repo = new FileRepository();
         private FolderRepository folderRepo = new FolderRepository();
+        private ChatRepository chatRepo = new ChatRepository();
 
         /// <summary>
         /// Returns file for user
@@ -104,6 +105,28 @@ namespace CodeKingdom.API
         {
             folderRepo.Update(new Folder { Name = newName, ID = folderID});
             Clients.Group(Convert.ToString(projectID)).UpdateFolder(folderID, newName);
+        }
+
+        /// <summary>
+        /// Sends message to the chat and updates the database 
+        /// </summary>
+        /// <param name="projectID"></param>
+        /// <param name="message"></param>
+        public void Send(int projectID, string message)
+        {
+            string username = Context.User.Identity.Name;
+
+            ChatViewModel viewModel = new ChatViewModel
+            {
+                Message = message,
+                Username = username,
+                DateTime = DateTime.Now,
+                ProjectID = projectID
+            };
+            viewModel.DateAndTime = viewModel.DateTime.ToString("dd MMM HH:mm");
+
+            Clients.Group(Convert.ToString(projectID)).addNewMessageToPage(viewModel);
+            chatRepo.Save(viewModel);
         }
     }
 }
