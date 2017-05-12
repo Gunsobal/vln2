@@ -59,7 +59,7 @@
     marker.session = editor.session;
     marker.session.addDynamicMarker(marker, true)
 
-    $('.toggle-menu').jPushMenu();
+
 
     $("form").submit(function () {
         $("#hidden_editor").val(editor.getSession().getValue());
@@ -235,6 +235,8 @@
             $("folderRightClickMenu").hide();
         });
     });
+
+    $('.toggle-menu').jPushMenu();
 
     /* Functions and Event handlers */
     
