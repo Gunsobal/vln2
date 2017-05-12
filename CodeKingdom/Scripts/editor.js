@@ -136,7 +136,6 @@
         window.history.pushState({}, "", "/Project/Details/" + projectID + "/" + fileID);
         editorHub.server.joinFile(fileID);
         editor.getSession().setMode("ace/mode/" + type);
-        console.log(type);
         editor.setValue(content);
         silent = false;
     };
