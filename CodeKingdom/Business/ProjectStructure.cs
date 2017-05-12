@@ -121,7 +121,7 @@ namespace CodeKingdom.Business
         {
             Project project = GetProject(projectId);
 
-            if (project == null)
+            if (project == null || !collaboratorRepository.IsInProject(GetUserId(), projectId))
             {
                 throw new ProjectNotFoundException();
             }
