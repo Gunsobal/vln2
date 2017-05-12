@@ -20,7 +20,7 @@ namespace CodeKingdom.API
         private static List<EditorUser> users = new List<EditorUser>();
 
         /// <summary>
-        /// When user joins files he will receive changes and notifications about that file.
+        /// When user joins files he will receive changes and notifications about that file by fileID.
         /// </summary>
         /// <param name="fileID"></param>
         public void JoinFile(int fileID)
@@ -41,10 +41,10 @@ namespace CodeKingdom.API
         }
 
         /// <summary>
-        /// Sombody changed a file. Let's brodcast that to the rest of the group
+        /// Sombody changed a file. Let's brodcast that to the rest of the group.
         /// </summary>
-        /// <param name="data"></param>
-        /// <param name="fileID"></param>
+        /// <param name="data">Content of the file being changed</param>
+        /// <param name="fileID">ID of file being changed</param>
         public void OnChange(object data, int fileID)
         {
             Clients.Group(Convert.ToString(fileID), Context.ConnectionId).OnChange(data);
@@ -53,8 +53,8 @@ namespace CodeKingdom.API
         /// <summary>
         /// When user moves his position in the file everyone in that file should know about it. 
         /// </summary>
-        /// <param name="data"></param>
-        /// <param name="fileID"></param>
+        /// <param name="data">Content of the file being changed</param>
+        /// <param name="fileID">ID of file being changed</param>
         public void UpdateCursor(object data, int fileID)
         {
             Clients.Group(Convert.ToString(fileID), Context.ConnectionId).UpdateCursor(data);
@@ -63,7 +63,7 @@ namespace CodeKingdom.API
         /// <summary>
         /// Sombody want's a updated list of the connected users. Let's give him that.
         /// </summary>
-        /// <param name="fileID"></param>
+        /// <param name="fileID">ID of open file</param>
         public void GetUsers(int fileID)
         {
             List<EditorUser> groupUsers = users.Where(u => u.Groups.Contains(Convert.ToString(fileID))).ToList();
@@ -71,11 +71,11 @@ namespace CodeKingdom.API
         }
 
         /// <summary>
-        /// File has changed and's needs to be saved
+        /// File has changed and needs to be saved
         /// </summary>
-        /// <param name="content"></param>
-        /// <param name="fileID"></param>
-        /// <param name="projectID"></param>
+        /// <param name="content">Content of file being changed</param>
+        /// <param name="fileID">ID of file being changed</param>
+        /// <param name="projectID">ID of open project</param>
         public void Save(string content, int fileID, int projectID)
         {
             FileViewModel viewModel = new FileViewModel
@@ -120,7 +120,7 @@ namespace CodeKingdom.API
         /// <summary>
         /// User are leaving some file with id = fileID. He needs to be unsubscribed from changes in that file.
         /// </summary>
-        /// <param name="fileID"></param>
+        /// <param name="fileID">File ID</param>
         public void LeaveFile(int fileID)
         {
             string id = Context.ConnectionId;

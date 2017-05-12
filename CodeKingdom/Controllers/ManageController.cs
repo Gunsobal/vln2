@@ -400,7 +400,7 @@ namespace CodeKingdom.Controllers
         /// <summary>
         /// Sets user configurations for editor.
         /// </summary>
-        /// <param name="model"></param>
+        /// <param name="model">Users email address, colorscheme and keybinding</param>
         /// <returns></returns>
         [HttpPost, ActionName("Index")]
         public ActionResult Save([Bind(Include = "UsersEmailAddress, Colorscheme, Keybinding")] IndexViewModel model)

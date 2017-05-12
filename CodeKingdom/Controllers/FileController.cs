@@ -20,6 +20,11 @@ namespace CodeKingdom.Controllers
         private FolderRepository folderRepository = new FolderRepository();
         private ProjectRepository projectRepository = new ProjectRepository();
 
+        /// <summary>
+        /// Prepares viewmodel and returns view for creating a new file
+        /// </summary>
+        /// <param name="id">Project ID</param>
+        /// <returns></returns>
         public ActionResult Create(int? id)
         {
             if (!id.HasValue)
@@ -56,6 +61,11 @@ namespace CodeKingdom.Controllers
             return View(file);
         }
 
+        /// <summary>
+        /// Finds file by id to edit it. Returns updated view model.
+        /// </summary>
+        /// <param name="id">File ID</param>
+        /// <returns></returns>
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -104,7 +114,11 @@ namespace CodeKingdom.Controllers
             
             return View(file);
         }
-
+        /// <summary>
+        /// Finds file by ID and removes it from db
+        /// </summary>
+        /// <param name="id">File ID</param>
+        /// <returns></returns>
         public ActionResult Delete(int? id)
         {
             if (id == null)
@@ -138,6 +152,12 @@ namespace CodeKingdom.Controllers
             return RedirectToAction("Index");
         }
 
+
+        /// <summary>
+        /// Removes file from db by file id. Updates the file list and returns it in Json string.
+        /// </summary>
+        /// <param name="id">File ID</param>
+        /// <returns>Json string</returns>
         [HttpPost]
         public JsonResult DeleteFile(int id)
         {

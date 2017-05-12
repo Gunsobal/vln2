@@ -26,7 +26,7 @@ namespace CodeKingdom.Controllers
         /// <summary>
         /// Returns a view for adding a collaborator to a project
         /// </summary>
-        /// <param name="id"></param>
+        /// <param name="id">Project ID</param>
         /// <returns>CollaboratorViewModel</returns>
         public ActionResult Create(int? id)
         {
@@ -52,7 +52,7 @@ namespace CodeKingdom.Controllers
         /// <summary>
         /// Adds a new collaborator to a project
         /// </summary>
-        /// <param name="collaborator"></param>
+        /// <param name="collaborator">Collaborator object</param>
         /// <returns></returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -89,7 +89,7 @@ namespace CodeKingdom.Controllers
         /// <summary>
         /// Returns view model to change role for collaborator
         /// </summary>
-        /// <param name="id"></param>
+        /// <param name="id">Collaborator ID</param>
         /// <returns></returns>
         public ActionResult Edit(int? id)
         {
@@ -117,7 +117,7 @@ namespace CodeKingdom.Controllers
         /// <summary>
         /// Updates collaborator role
         /// </summary>
-        /// <param name="collaborator"></param>
+        /// <param name="collaborator">Collaborator object</param>
         /// <returns></returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -139,7 +139,7 @@ namespace CodeKingdom.Controllers
         /// <summary>
         /// Ask's for confirmation befor removing collaborator from project
         /// </summary>
-        /// <param name="id"></param>
+        /// <param name="id">Collaborator ID</param>
         /// <returns></returns>
         public ActionResult Delete(int? id)
         {
@@ -165,7 +165,7 @@ namespace CodeKingdom.Controllers
         /// <summary>
         /// Removes collaborator from project
         /// </summary>
-        /// <param name="id"></param>
+        /// <param name="id">Collaborator id</param>
         /// <returns></returns>
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
@@ -183,8 +183,8 @@ namespace CodeKingdom.Controllers
         /// <summary>
         /// Checks if user is a owner fo the project.
         /// </summary>
-        /// <param name="collaborator"></param>
-        /// <returns></returns>
+        /// <param name="collaborator">Collaborator object</param>
+        /// <returns>True if owner, false otherwise</returns>
         protected bool isOwner(Collaborator collaborator)
         {
             string userID = User.Identity.GetUserId();
@@ -199,10 +199,10 @@ namespace CodeKingdom.Controllers
         }
 
         /// <summary>
-        /// Checks if user is a owner fo the project.
+        /// Checks if user is a owner for the project by collaborator view model
         /// </summary>
-        /// <param name="collaborator"></param>
-        /// <returns></returns>
+        /// <param name="collaborator">Collaborator object</param>
+        /// <returns>True if owner, false otherwise</returns>
         protected bool isOwner(CollaboratorViewModel collaborator)
         {
             string userID = User.Identity.GetUserId();

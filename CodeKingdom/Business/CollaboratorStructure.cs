@@ -68,7 +68,7 @@ namespace CodeKingdom.Business
         }
 
         /// <summary>
-        /// Returns null or single instance collaborator
+        /// Returns null or single instance collaborator by collaborator id
         /// </summary>
         /// <param name="id">Collaborator ID</param>
         public Collaborator GetCollaboratorById(int id)

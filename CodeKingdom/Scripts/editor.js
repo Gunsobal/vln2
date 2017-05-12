@@ -67,6 +67,7 @@
 
     $('.push-body').on("click", function(e) {
         e.preventDefault();
+        $("#")
     })
 
     /* Talking to EditorHub */
@@ -265,6 +266,7 @@
         }
     });
 
+
     $(document).on("contextmenu", ".folder", function (e) {
         e.preventDefault();
         $("#cntnr").hide();
@@ -287,7 +289,7 @@
     function startFocusOut(id) {
         $(document).on("click", function () {
             $("#" + id).hide();
-            $(document).off("click");
+            //$(document).off("click");
         });
     };
 

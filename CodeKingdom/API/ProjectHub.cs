@@ -71,7 +71,7 @@ namespace CodeKingdom.API
         /// </summary>
         /// <param name="id">Project ID</param>
         /// <param name="fileID">File ID</param>
-        /// <param name="newName">Name</param>
+        /// <param name="newName">New Name</param>
         public void RenameFile(int id, int fileID, string newName)
         {
             FileViewModel model = new FileViewModel
@@ -110,8 +110,8 @@ namespace CodeKingdom.API
         /// <summary>
         /// Sends message to the chat and updates the database 
         /// </summary>
-        /// <param name="projectID"></param>
-        /// <param name="message"></param>
+        /// <param name="projectID">Project ID</param>
+        /// <param name="message">Message being sent</param>
         public void Send(int projectID, string message)
         {
             string username = Context.User.Identity.Name;

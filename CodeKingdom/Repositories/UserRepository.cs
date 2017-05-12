@@ -19,7 +19,7 @@ namespace CodeKingdom.Repositories
         }
 
         /// <summary>
-        /// Returns null or single user
+        /// Returns null or single user by user ID
         /// </summary>
         /// <param name="id">User ID</param>
         public ApplicationUser GetById(string id)
@@ -28,7 +28,7 @@ namespace CodeKingdom.Repositories
         }
 
         /// <summary>
-        /// Returns null or single user by email
+        /// Returns null or single user by user email
         /// </summary>
         /// <param name="email">Email</param>
         public ApplicationUser GetByEmail(string email)
@@ -112,7 +112,8 @@ namespace CodeKingdom.Repositories
         }
 
         /// <summary>
-        /// Default configurations for users. Returns UserConfigurations object.
+        /// Sets default configurations for users ny user email. 
+        /// Returns new UserConfigurations object.
         /// </summary>
         /// <param name="emailAddress"></param>
         /// <returns></returns>

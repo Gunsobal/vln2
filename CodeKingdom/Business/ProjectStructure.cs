@@ -152,7 +152,7 @@ namespace CodeKingdom.Business
                     Name = "index.js",
                     FolderID = folderID,
                     Content = "",
-                    Type = "Javascript",
+                    Type = "javascript",
                     ApplicationUserID = GetUserId(),
                     ProjectID = projectId,
                 };

@@ -21,8 +21,7 @@ namespace CodeKingdom.Controllers
         /// <summary>
         /// Prepares viewmodel and returns view for creating new folder
         /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
+        /// <param name="id">Project ID</param>
         public ActionResult Create(int? id)
         {
             if (!id.HasValue)
@@ -60,7 +59,7 @@ namespace CodeKingdom.Controllers
         /// <summary>
         /// Creates new folder
         /// </summary>
-        /// <param name="model"></param>
+        /// <param name="model">F</param>
         /// <returns></returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
