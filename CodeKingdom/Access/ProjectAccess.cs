@@ -21,7 +21,7 @@ namespace CodeKingdom.Access
 
         public ProjectAccess(int projectID)
         {
-            project = projectRepository.getById(projectID);
+            project = projectRepository.GetById(projectID);
         }
 
         public bool IsOwner(string userID)
