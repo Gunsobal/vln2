@@ -68,13 +68,7 @@
 
     <!--Editor-->
     <div id="editor">@Html.Raw(Model.Content)</div>
-    @using (Html.BeginForm("Save", "File", FormMethod.Post))
-    {
-        @Html.HiddenFor(model => model.Content, new { @id = "hidden_editor" })
-        @Html.HiddenFor(model => model.FileID)
-        @Html.AntiForgeryToken()
-        <input type="submit" class="btn btn-save" value="Save" />
-    }
+
 
     <!-- Chat Window -->
     <div class="chat-container">
