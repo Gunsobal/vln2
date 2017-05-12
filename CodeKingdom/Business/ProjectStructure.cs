@@ -121,9 +121,14 @@ namespace CodeKingdom.Business
         {
             Project project = GetProject(projectId);
 
-            if (project == null || !collaboratorRepository.IsInProject(GetUserId(), projectId))
+            if (project == null)
             {
                 throw new ProjectNotFoundException();
+            }
+
+            if (!collaboratorRepository.IsInProject(GetUserId(), projectId))
+            {
+                throw new ProjectAccessDeniedException();
             }
 
             int folderID = project.FolderID;

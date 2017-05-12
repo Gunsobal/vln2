@@ -54,6 +54,10 @@ namespace CodeKingdom.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.NotFound);
             }
+            catch (ProjectAccessDeniedException)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.Forbidden);
+            }
         }
 
         /// <summary>
