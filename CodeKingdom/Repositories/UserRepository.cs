@@ -45,6 +45,11 @@ namespace CodeKingdom.Repositories
             return db.Users.Where(u => u.UserName == userName).FirstOrDefault();
         }
 
+        /// <summary>
+        /// Returns current theme for editor by user ID
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public string GetColorScheme(string id)
         {
             UserConfiguration userConfig = db.UserConfigurations.Where(u => u.AppicationUserID == id).FirstOrDefault();
@@ -61,6 +66,12 @@ namespace CodeKingdom.Repositories
             return userConfig.ColorScheme;
 
         }
+
+        /// <summary>
+        /// Returns current key binding for editor by user ID
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public string GetKeyBinding(string id)
         {
             UserConfiguration userConfig = db.UserConfigurations.Where(u => u.AppicationUserID == id).FirstOrDefault();
@@ -76,6 +87,12 @@ namespace CodeKingdom.Repositories
             return userConfig.KeyBinding;
         }
 
+        /// <summary>
+        /// Sets configuration for user by IndexViewModel. 
+        /// If the user does not have specified configuration, default configurations are set. 
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
         public bool SetUserConfiguration(IndexViewModel model)
         {
             UserConfiguration userConfig = db.UserConfigurations.Where(u => u.User.Email == model.UsersEmailAddress).FirstOrDefault();
@@ -94,6 +111,11 @@ namespace CodeKingdom.Repositories
             return true;
         }
 
+        /// <summary>
+        /// Default configurations for users. Returns UserConfigurations object.
+        /// </summary>
+        /// <param name="emailAddress"></param>
+        /// <returns></returns>
         private UserConfiguration SetInitialUserConfig(string emailAddress)
         {
             ApplicationUser appUser = db.Users.Where(u => u.Email == emailAddress).FirstOrDefault();
